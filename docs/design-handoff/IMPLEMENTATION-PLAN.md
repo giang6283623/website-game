@@ -1,6 +1,6 @@
 # Kế hoạch triển khai
 
-Tệp này là kế hoạch để một phiên làm việc sau này bắt đầu code ngay, không phải hỏi lại những điều đã có trong thiết kế. Phiên hiện tại chỉ làm thiết kế và tài liệu. Chưa có dòng code nào của website.
+Tệp này là kế hoạch để một phiên làm việc sau này bắt đầu code ngay, không phải hỏi lại những điều đã có trong thiết kế. Phần giao diện đã được code theo kế hoạch này và chạy bằng API giả. Chưa có máy chủ API thật (hạng mục E6).
 
 Chủ dự án đã chọn công nghệ giao diện ngày 29/10/2026: Bun, React, TypeScript, Zod, Axios và build tĩnh (D-11). Phần máy chủ API (D-12) và các chi tiết kỹ thuật tạm do trợ lý chọn (D-13) còn chờ chủ dự án xem lại ở mục 11. Mọi thứ khác trong tệp là **đề xuất**.
 

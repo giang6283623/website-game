@@ -16,11 +16,11 @@ One word, one meaning: when several words name the same thing, keep one as the t
 
 Where the important things live, so agents jump straight to them.
 
-- Entry point(s): chưa có code. Thiết kế nằm trong Figma, tệp `FIGMA_FILE_KEY`.
-- Core domain logic: chưa có.
+- Entry point(s): `src/main.tsx` (trình duyệt), `scripts/build.ts` (dựng gói tĩnh), `scripts/serve.ts` (máy chủ thử cục bộ). Thiết kế nằm trong Figma, tệp `FIGMA_FILE_KEY`.
+- Core domain logic: `src/api/` (kết nối API, API giả ở `src/api/mock/`), `src/content/` (chữ và dữ liệu cố định), `src/pages/` và `src/components/` (giao diện).
 - Configuration: cấu hình dự án.
-- Tests: chưa có.
-- Build/deploy: chưa có.
+- Tests: `tests/`, chạy bằng `bun test`. Kiểm tra đầy đủ bằng `bun run validate`.
+- Build/deploy: `bun run build` dựng ra `out/`, `bun run build:prod` dựng bản công khai. Chưa có nơi triển khai.
 
 ## Conventions in use
 
