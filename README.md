@@ -10,7 +10,7 @@ Mã nguồn dùng giấy phép MIT (xem `LICENSE`). Giấy phép này chỉ áp 
 
 Một số hình ảnh vật phẩm và tài sản của game chỉ mang tính tham khảo. Chúng thuộc về bên thứ ba. Dự án không sở hữu chúng và không cấp quyền dùng chúng.
 
-- Kho này không chứa các hình đó. Thư mục `public/assets/game/` nằm ngoài git.
+- Kho này không chứa các hình đó. Thư mục `public/assets/game/` nằm ngoài git. Có một ngoại lệ: `public/favicon.webp` là một hình lấy từ game, dùng làm biểu tượng tab. Hình này cũng thuộc về bên thứ ba và chịu cùng lời cảnh báo ở trên.
 - Tên, mã và chỉ số vật phẩm trong `docs/design-handoff/sample-data.json` lấy từ dữ liệu của game. Chúng cũng thuộc về bên thứ ba.
 - Tên game, nhãn hiệu và logo thuộc về chủ sở hữu của chúng. Dự án không tuyên bố liên kết hay được bảo trợ bởi chủ sở hữu game gốc.
 - Hãy cân nhắc kỹ trước khi dùng lại hoặc phát hành các hình và tài sản này. Bạn cần tự xin phép chủ sở hữu.

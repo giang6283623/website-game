@@ -8,6 +8,7 @@ import { renderApp } from "../src/entry-server.tsx";
 import { matchRoute, NOT_FOUND_ROUTE, prerenderPaths, SITE_NAME } from "../src/routes.ts";
 import { buildHead, escapeText, headToHtml } from "../src/seo.ts";
 import { PRELOAD } from "./lib/font-preload.ts";
+import { ICON_TAGS } from "./lib/icons.ts";
 import { buildRobotsTxt } from "./lib/robots.ts";
 
 const root = resolve(import.meta.dir, "..");
@@ -34,7 +35,7 @@ const FONT_TAGS = [
       `<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/${file}" crossorigin>`,
   ),
   '<link rel="stylesheet" href="/assets/fonts/fonts.css">',
-  '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+  ...ICON_TAGS,
 ].join("\n    ");
 
 function page(headHtml: string, appHtml: string): string {

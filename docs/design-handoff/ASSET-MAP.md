@@ -150,3 +150,7 @@ Cột "Nhóm lọc Kho đồ" khớp với số lượng trong thiết kế: VŨ
 Bảng trên chỉ liệt kê 60 hình thiết kế. Thêm 114 hình vật phẩm lấy từ thư mục hình cửa hàng của client game, được ghi ở `scripts/data/game-item-images.json` (mỗi dòng: `gameItemId`, `source`, `web`, `width`, `height`). Lệnh `bun run build:images` đọc cả hai nguồn, chuyển sang WebP vào `public/assets/game/items/` (thư mục này không đưa vào git) và sinh `src/content/image-sizes.ts`. Nhiều món có thể dùng chung một hình, ví dụ bốn món Công thức.
 
 Không dùng hình: ba món có hình nhân vật của bên thứ ba hoặc gương mặt người thật (xem C-80), mười mẫu nhân vật mà client game không có hình trong `Data/Weapons/StoreIcons`, và ba mã không có trong `itemsDB.xml`. Tổng cộng 16 dòng giữ `imageKey` rỗng.
+
+### Ngoại lệ duy nhất: biểu tượng tab (phiên 13)
+
+Mọi hình game nằm ngoài git (D-09). Có một ngoại lệ do chủ dự án duyệt: `public/favicon.webp`, bản chép của `public/assets/game/skills/skill2.webp` (WebP 128 x 128). Tệp này nằm trong git. `scripts/prerender.tsx` gắn nó vào thẻ `<link rel="icon">` cùng với `favicon.svg` (thẻ nằm ở `scripts/lib/icons.ts`). Quyền dùng hình lấy từ client game chưa được xác nhận. Nếu quyền bị từ chối, xóa `public/favicon.webp` và thẻ link tương ứng. Không chép thêm hình nào khác vào git.
