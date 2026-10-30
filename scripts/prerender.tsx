@@ -7,6 +7,7 @@ import { dirname, resolve } from "node:path";
 import { renderApp } from "../src/entry-server.tsx";
 import { matchRoute, NOT_FOUND_ROUTE, prerenderPaths, SITE_NAME } from "../src/routes.ts";
 import { buildHead, escapeText, headToHtml } from "../src/seo.ts";
+import { BROKEN_IMAGE_TAG } from "./lib/broken-image-script.ts";
 import { PRELOAD } from "./lib/font-preload.ts";
 import { ICON_TAGS } from "./lib/icons.ts";
 import { buildRobotsTxt } from "./lib/robots.ts";
@@ -39,8 +40,9 @@ const FONT_TAGS = [
 ].join("\n    ");
 
 function page(headHtml: string, appHtml: string): string {
+  // Script ẩn hình hỏng đứng trước mọi stylesheet (đứng sau thì phải chờ CSS tải xong) và trước mọi thẻ img.
   return template
-    .replace("<!--head-tags-->", `${headHtml}\n    ${FONT_TAGS}`)
+    .replace("<!--head-tags-->", `${BROKEN_IMAGE_TAG}\n    ${headHtml}\n    ${FONT_TAGS}`)
     .replace("<!--app-html-->", appHtml)
     .replace("<!--noscript-html-->", NOSCRIPT);
 }

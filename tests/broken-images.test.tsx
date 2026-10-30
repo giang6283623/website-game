@@ -1,7 +1,9 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { resolve } from "node:path";
 import { act, render } from "@testing-library/react";
+import { Window } from "happy-dom";
 import { MemoryRouter } from "react-router";
+import { BROKEN_IMAGE_SOURCE, BROKEN_IMAGE_TAG } from "../scripts/lib/broken-image-script.ts";
 import { App } from "../src/App.tsx";
 import { resetMockSession } from "../src/api/mock/adapter.ts";
 import { setMockConfig } from "../src/api/mock/config.ts";
@@ -108,6 +110,54 @@ describe("ẩn hình game hỏng", () => {
     off();
     image.dispatchEvent(new Event("error"));
     expect(image.hasAttribute(BROKEN_ATTRIBUTE)).toBe(false);
+  });
+});
+
+describe("script nhúng đầu trang", () => {
+  /** Chạy script trong một tài liệu riêng, vì bộ nghe của script không gỡ được. Trả về hàm báo lỗi tải cho một thẻ. */
+  function runScript() {
+    const window = new Window();
+    new Function("document", BROKEN_IMAGE_SOURCE)(window.document);
+    return (tag: string, src?: string) => {
+      const element = window.document.createElement(tag);
+      if (src !== undefined) element.setAttribute("src", src);
+      window.document.body.appendChild(element);
+      element.dispatchEvent(new window.Event("error"));
+      return element;
+    };
+  }
+
+  test("hình game báo lỗi thì có dấu, dù sự kiện lỗi không nổi lên cha", () => {
+    const fail = runScript();
+    expect(fail("img", GAME_SRC).hasAttribute(BROKEN_ATTRIBUTE)).toBe(true);
+  });
+
+  test("hình không phải hình game không bị đụng (hình tải lên, hình ngoài, không có src)", () => {
+    const fail = runScript();
+    expect(fail("img", "/uploads/cover.webp").hasAttribute(BROKEN_ATTRIBUTE)).toBe(false);
+    const outside = fail("img", "https://example.com/assets/game/x.webp");
+    expect(outside.hasAttribute(BROKEN_ATTRIBUTE)).toBe(false);
+    expect(fail("img").hasAttribute(BROKEN_ATTRIBUTE)).toBe(false);
+  });
+
+  test("lỗi của thẻ khác không bị đánh dấu", () => {
+    const fail = runScript();
+    expect(fail("script", GAME_SRC).hasAttribute(BROKEN_ATTRIBUTE)).toBe(false);
+  });
+
+  test("script ngắn và an toàn khi đi qua String.replace và HTML", () => {
+    expect(BROKEN_IMAGE_TAG).toBe(`<script>${BROKEN_IMAGE_SOURCE}</script>`);
+    expect(BROKEN_IMAGE_SOURCE).not.toContain("$");
+    expect(BROKEN_IMAGE_SOURCE).not.toContain("</script");
+    expect(BROKEN_IMAGE_SOURCE).not.toContain("<!--");
+    expect(BROKEN_IMAGE_TAG.length).toBeLessThan(300);
+  });
+
+  test("bước dựng sẵn đặt script trước mọi stylesheet", async () => {
+    const prerender = await Bun.file(resolve(import.meta.dir, "../scripts/prerender.tsx")).text();
+    expect(prerender).toMatch(/BROKEN_IMAGE_TAG\}.*headHtml\}.*FONT_TAGS\}/);
+    const template = await Bun.file(resolve(import.meta.dir, "../src/index.html")).text();
+    expect(template.indexOf("<!--head-tags-->")).toBeLessThan(template.indexOf('rel="stylesheet"'));
   });
 });
 
