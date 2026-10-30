@@ -1,6 +1,6 @@
 # Bộ tài liệu bàn giao thiết kế ISSVN
 
-Đây là bộ tài liệu để lập trình viên (hoặc một phiên làm việc sau) dựng website game ISSVN từ bản thiết kế "Tần số sinh tồn" mà không cần hỏi lại. Thiết kế Figma đã xong ngày 29/10/2026 (vòng 3). **Chưa có dòng code nào.**
+Đây là bộ tài liệu để lập trình viên (hoặc một phiên làm việc sau) dựng website game ISSVN từ bản thiết kế "Tần số sinh tồn" mà không cần hỏi lại. Thiết kế Figma đã xong ngày 29/10/2026 (vòng 3). Mã giao diện đã được dựng theo thiết kế này và chạy bằng API giả. Chưa có máy chủ API thật.
 
 Website là máy chủ Infestation bản tiếng Việt. Có trang chủ, tin tức, kho đồ, xếp hạng, tải game, quy tắc cộng đồng, đăng nhập, đăng ký, quên và đổi mật khẩu, hồ sơ người chơi, tạo nhân vật và khu quản trị (bài viết, vật phẩm, banner, người dùng, nhật ký). Mục tiêu chính (PRD): người mới hiểu game và tải được trong vài phút, không cần đăng nhập để xem tin và hướng dẫn.
 
@@ -57,7 +57,7 @@ Kết quả kiểm tra thiết kế: chữ nhỏ nhất 16 px, mọi cặp màu 
 
 ## 4. Những gì chưa có (nói thẳng)
 
-- **Chưa có code.** Chỉ có thiết kế và tài liệu.
+- **Chưa có máy chủ API thật.** Giao diện đã có mã và chạy bằng API giả. Nối API thật là hạng mục E6 trong `IMPLEMENTATION-PLAN.md`.
 - Phiên 5 đã vẽ và code các trạng thái Hover, Focus, Disabled còn thiếu (G-10, G-24). Bảng tham chiếu cho NavDial, TabBar và AccountMenu là `184:363`. Phiên 3 đã vẽ dải Banner công khai (G-26), form vật phẩm (G-23) và biến thể "MÁY CHỦ NGOẠI TUYẾN" (G-25). Phiên 4 đã vẽ chi tiết người dùng trong quản trị (G-23, `171:2870` và `172:1027`). Trang ngoại tuyến không làm vì website không phải PWA.
 - Chưa có nguyên mẫu tương tác trong Figma (rê chuột, thanh dưới cố định, chip cuộn ngang chỉ có ở dạng tĩnh).
 - Khung nút, ô nhập của game gốc nằm trong tệp Flash (`.swf`) nên website dùng khung phẳng riêng, không sao chép giao diện trong game.
