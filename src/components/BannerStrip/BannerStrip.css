@@ -1,0 +1,81 @@
+/* Dải Banner công khai (Figma 155:385). Điện thoại: chữ xuống dòng, liên kết nằm dưới. Máy tính: một hàng, căn giữa. */
+.banner-strip {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--page-pad-x);
+  background: var(--color-accent-default);
+  border-bottom: var(--border-hairline) solid var(--color-accent-pressed);
+  color: var(--color-text-on-accent);
+}
+
+.banner-strip__side {
+  display: none;
+}
+
+.banner-strip__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-2) 0;
+}
+
+.banner-strip__message {
+  overflow-wrap: anywhere;
+}
+
+.banner-strip__link {
+  align-self: flex-start;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.banner-strip__close {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-touch-min);
+  height: var(--size-touch-min);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+.banner-strip__link:focus-visible,
+.banner-strip__close:focus-visible {
+  outline: 2px solid var(--color-text-on-accent);
+  outline-offset: 2px;
+}
+
+@media (min-width: 1200px) {
+  .banner-strip {
+    padding: var(--space-1) var(--page-pad-x);
+  }
+
+  .banner-strip__side {
+    display: block;
+    flex: none;
+    width: var(--size-touch-min);
+    height: var(--size-touch-min);
+  }
+
+  .banner-strip__body {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: 0;
+  }
+
+  .banner-strip__link {
+    align-self: auto;
+  }
+}

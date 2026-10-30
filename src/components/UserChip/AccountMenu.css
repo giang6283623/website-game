@@ -1,0 +1,79 @@
+.account-control {
+  display: inline-flex;
+}
+
+/* Menu tựa vào đầu trang (Header và HeaderMobile có position: relative), cách đáy đầu trang 8 và căn mép phải theo lề. */
+.account-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: var(--page-pad-x);
+  z-index: var(--z-overlay);
+  box-sizing: border-box;
+  width: 280px;
+  max-width: calc(100% - 2 * var(--page-pad-x));
+  background: var(--color-bg-panel);
+  border: var(--border-control) solid var(--color-border-bold);
+}
+
+.account-menu__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 20px var(--space-5) var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--color-border-strong);
+}
+
+.account-menu__summary p {
+  margin: 0;
+}
+
+.account-menu__name {
+  color: var(--color-text-primary);
+}
+
+.account-menu__email {
+  color: var(--color-text-muted);
+}
+
+.account-menu__rank {
+  margin-top: 2px;
+  color: var(--color-text-accent);
+}
+
+.account-menu__item,
+.account-menu__logout {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--size-touch-min);
+  margin: 0;
+  padding: 0 var(--space-5);
+  background: none;
+  border: 0;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+}
+
+.account-menu__item--admin {
+  color: var(--color-text-accent);
+}
+
+/* Hover và Focus (G-24): mục thường đổi chữ sang text/primary. ĐĂNG XUẤT giữ màu text/danger. */
+.account-menu__item:hover,
+.account-menu__item:focus-visible {
+  color: var(--color-text-primary);
+}
+
+.account-menu__item:hover,
+.account-menu__logout:hover {
+  background: var(--color-bg-hover);
+}
+
+.account-menu__logout {
+  height: 60px;
+  border-top: var(--border-hairline) solid var(--color-border-strong);
+  color: var(--color-text-danger);
+}

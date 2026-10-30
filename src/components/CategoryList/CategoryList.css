@@ -1,0 +1,102 @@
+.category-list__label {
+  display: none;
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
+}
+
+/* Điện thoại: hàng chip cuộn ngang, tràn ra mép màn hình. */
+.category-list__list {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 calc(var(--page-pad-x) * -1);
+  padding: 0 var(--page-pad-x);
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.category-list__list::-webkit-scrollbar {
+  display: none;
+}
+
+.category-list__item {
+  flex: none;
+}
+
+.category {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: var(--size-chip);
+  padding: 11px var(--space-4);
+  border: var(--border-hairline) solid var(--color-border-control);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard);
+}
+
+.category:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-bold);
+  color: var(--color-text-primary);
+}
+
+.category--selected,
+.category--selected:hover {
+  background: var(--color-accent-default);
+  border-color: var(--color-accent-default);
+  color: var(--color-text-on-accent);
+}
+
+.category__count {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .category-list__label {
+    display: block;
+  }
+
+  .category-list__list {
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* Cột bên: hàng 288 x 48, vạch dưới mảnh, mục chọn có nền nổi và vạch cam bên trái. */
+  .category {
+    justify-content: space-between;
+    height: 48px;
+    padding: 12px var(--space-4);
+    border: 0;
+    border-bottom: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .category:hover {
+    background: var(--color-bg-hover);
+    border-color: var(--color-border-soft);
+  }
+
+  .category--selected,
+  .category--selected:hover {
+    background: var(--color-bg-raised);
+    border-color: var(--color-border-soft);
+    box-shadow: inset 3px 0 0 var(--color-border-accent);
+    color: var(--color-text-primary);
+  }
+
+  .category__count {
+    display: inline;
+    color: var(--color-text-muted);
+  }
+
+  .category--selected .category__count {
+    color: var(--color-text-accent);
+  }
+}

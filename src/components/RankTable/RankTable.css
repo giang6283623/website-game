@@ -1,0 +1,195 @@
+.rank-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.rank-table th,
+.rank-table td {
+  padding: 10px 6px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.rank-table th:first-child,
+.rank-table td:first-child {
+  padding-left: 12px;
+}
+
+.rank-table th:last-child,
+.rank-table td:last-child {
+  padding-right: 12px;
+}
+
+.rank-table thead th {
+  padding-block: var(--space-2);
+  border-bottom: var(--border-hairline) solid var(--color-border-strong);
+  color: var(--color-text-muted);
+  font-weight: inherit;
+}
+
+.rank-table tbody tr {
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.rank-table tbody tr.is-top {
+  background: var(--color-bg-raised);
+}
+
+.rank-table__rank {
+  width: 54px;
+  color: var(--color-text-muted);
+}
+
+.is-top .rank-table__rank {
+  color: var(--color-text-accent);
+}
+
+.rank-table__badge {
+  width: 48px;
+}
+
+.rank-table__badge img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.rank-table__player {
+  min-width: 0;
+}
+
+.rank-table__name,
+.rank-table__clan {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.rank-table__name {
+  color: var(--color-text-primary);
+}
+
+.rank-table__clan {
+  color: var(--color-text-muted);
+}
+
+.rank-table .rank-table__num {
+  width: 112px;
+  padding-right: 12px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Bản di động trong bản vẽ: dòng tiêu đề cao hơn và không có vạch dưới. */
+@media (max-width: 1199px) {
+  .rank-table thead th {
+    padding-block: 11px 22px;
+    border-bottom-color: transparent;
+  }
+
+  .rank-table--page thead th {
+    padding-block: 11px;
+  }
+}
+
+.rank-table td.rank-table__num {
+  color: var(--color-text-primary);
+}
+
+/* Điện thoại: chỉ một cột số (GameDollar, hoặc XP ở bảng XP). Tiêu đề khác thu về không kích thước nhưng vẫn là ô của bảng. */
+.rank-table__xp {
+  display: none;
+}
+
+@media (max-width: 1199px) {
+  .rank-table[data-board="xp"] .rank-table__gd {
+    display: none;
+  }
+
+  .rank-table[data-board="xp"] .rank-table__xp {
+    display: table-cell;
+  }
+}
+
+/* Dòng ghim "của tôi": nằm trong khung riêng của trang, không vạch dưới. */
+.rank-table--me tbody tr {
+  border-bottom: 0;
+}
+
+.rank-table tbody tr.is-me {
+  background: var(--color-bg-panel);
+  outline: var(--border-hairline) solid var(--color-border-accent);
+  outline-offset: -1px;
+}
+
+.rank-table--me .rank-table__rank {
+  color: var(--color-text-accent);
+}
+
+.rank-table__sr {
+  padding-block: 0;
+  border-bottom-color: transparent;
+  font-size: 0;
+  line-height: 0;
+}
+
+@media (min-width: 1200px) {
+  .rank-table th,
+  .rank-table td {
+    padding: var(--space-2) var(--space-2);
+  }
+
+  .rank-table th:first-child,
+  .rank-table td:first-child {
+    padding-left: var(--space-4);
+  }
+
+  .rank-table th:last-child,
+  .rank-table td:last-child {
+    padding-right: var(--space-4);
+  }
+
+  .rank-table__rank {
+    width: 96px;
+  }
+
+  .rank-table__badge {
+    width: 52px;
+  }
+
+  .rank-table .rank-table__num {
+    width: 136px;
+    padding-right: var(--space-2);
+  }
+
+  .rank-table td.rank-table__xp {
+    color: var(--color-text-secondary);
+  }
+
+  .rank-table .rank-table__xp {
+    display: table-cell;
+    width: 128px;
+    padding-right: var(--space-4);
+  }
+
+  .rank-table__sr {
+    padding-block: var(--space-2);
+    border-bottom-color: var(--color-border-strong);
+    font-size: inherit;
+    line-height: inherit;
+  }
+}
+
+/* Dòng ghim: hàng tiêu đề thu về cao 0 (không dùng position: absolute để các cột giữ đúng độ rộng). */
+.rank-table--me thead th {
+  height: 0;
+  padding-block: 0;
+  overflow: hidden;
+  border-bottom: 0;
+  font-size: 0;
+  line-height: 0;
+}

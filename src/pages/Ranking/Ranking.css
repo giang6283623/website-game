@@ -1,0 +1,156 @@
+/* Điện thoại: một cột. Tab, ô tìm, dòng của tôi, dòng đếm, bảng, phân trang. */
+.rank-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: 0 var(--page-pad-x) var(--space-section-y-mobile);
+}
+
+.rank-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.rank-tabs {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.rank-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.rank-tabs > * {
+  flex: none;
+}
+
+/* Ô tìm: nhãn, ô nhập, gợi ý, rồi nút. Máy tính xếp nút cạnh ô nhập. */
+.rank-search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.rank-search__submit {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.rank-me {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rank-me .overline__bar {
+  display: none;
+}
+
+.rank-me__jump {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: none;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.rank-me__jump:hover {
+  text-decoration: underline;
+}
+
+.rank-me__row {
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-accent);
+}
+
+.rank-results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.rank-results__table + .pagination {
+  margin-top: var(--space-4);
+}
+
+.rank-count {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.rank-results__table {
+  scroll-margin-top: var(--space-5);
+}
+
+@media (min-width: 1200px) {
+  .rank-page {
+    gap: var(--space-6);
+    padding: var(--space-7) var(--page-pad-x) var(--space-9);
+  }
+
+  .rank-controls {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  /* Hàng chip căn giữa với ô nhập (nhãn 20 và khoảng 8 ở trên ô nhập, ô nhập cao 52, chip cao 46). */
+  .rank-tabs {
+    align-self: flex-start;
+    margin-top: 31px;
+  }
+
+  .rank-search {
+    display: grid;
+    grid-template-columns: 360px auto;
+    column-gap: var(--space-4);
+    row-gap: var(--space-2);
+    flex: none;
+  }
+
+  /* Nhãn, ô nhập và gợi ý của Field trở thành ô của lưới để nút nằm cạnh ô nhập. */
+  .rank-search .field {
+    display: contents;
+  }
+
+  .rank-search .field__label,
+  .rank-search .field__hint {
+    grid-column: 1 / -1;
+  }
+
+  .rank-search .field__box {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .rank-search__submit {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    width: auto;
+    margin-top: 0;
+  }
+
+  .rank-me .overline__bar {
+    display: block;
+  }
+
+  .rank-results {
+    gap: var(--space-6);
+  }
+
+  .rank-results__table + .pagination {
+    margin-top: 0;
+  }
+}

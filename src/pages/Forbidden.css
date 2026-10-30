@@ -1,0 +1,9 @@
+.forbidden {
+  padding-block: var(--space-section-y-mobile);
+}
+
+@media (min-width: 1200px) {
+  .forbidden {
+    padding-block: var(--layout-desktop-section-y);
+  }
+}

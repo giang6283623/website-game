@@ -1,0 +1,108 @@
+/* Cột đọc (COMPONENTS.md, Reading). Khoảng cách giữa các khối do `gap`, không dùng lề của thẻ. */
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gutter-mobile);
+  min-width: 0;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.prose > * {
+  margin: 0;
+}
+
+.prose p,
+.prose li {
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-line);
+}
+
+.prose h2 {
+  margin-bottom: 10px;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: var(--text-heading-h2-size);
+  font-weight: 600;
+  line-height: var(--text-heading-h2-line);
+  letter-spacing: var(--text-heading-h2-spacing);
+  text-transform: uppercase;
+}
+
+.prose h3 {
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: var(--text-heading-h3-size);
+  font-weight: 600;
+  line-height: var(--text-heading-h3-line);
+  letter-spacing: var(--text-heading-h3-spacing);
+  text-transform: uppercase;
+}
+
+.prose strong {
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+.prose a {
+  color: var(--color-text-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  color: var(--color-text-primary);
+}
+
+.prose ul,
+.prose ol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.prose li {
+  position: relative;
+  padding-left: var(--space-gutter-mobile);
+}
+
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--color-border-accent);
+}
+
+.prose ol {
+  counter-reset: prose-item;
+}
+
+.prose ol > li {
+  counter-increment: prose-item;
+}
+
+.prose ol > li::before {
+  content: counter(prose-item) ".";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--color-text-accent);
+}
+
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (min-width: 1200px) {
+  .prose > p {
+    font-size: var(--text-body-l-size);
+    line-height: var(--text-body-l-line);
+  }
+}

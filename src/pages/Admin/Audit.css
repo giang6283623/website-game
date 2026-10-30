@@ -1,0 +1,72 @@
+/* Nhật ký. Điện thoại: thời gian và hành động, đối tượng, rồi người làm (chữ mờ). */
+.audit-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "time action"
+    "target target"
+    "actor actor";
+  align-items: center;
+  row-gap: var(--space-2);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.audit-row__time {
+  grid-area: time;
+  color: var(--color-text-secondary);
+}
+
+.audit-row__action {
+  grid-area: action;
+  color: var(--color-text-accent);
+}
+
+.audit-table .audit-row__target {
+  grid-area: target;
+  margin-top: var(--space-1);
+  color: var(--color-text-primary);
+}
+
+.audit-row__actor {
+  grid-area: actor;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+@media (min-width: 1200px) {
+  .audit-table {
+    --admin-row: 53px;
+    table-layout: fixed;
+  }
+
+  .audit-table th:nth-child(1),
+  .audit-table td:nth-child(1) {
+    width: 132px;
+  }
+
+  .audit-table th:nth-child(2),
+  .audit-table td:nth-child(2) {
+    width: 118px;
+  }
+
+  .audit-table th:nth-child(3),
+  .audit-table td:nth-child(3) {
+    width: 132px;
+  }
+
+  .audit-row {
+    display: table-row;
+    padding: 0;
+  }
+
+  .audit-row__actor {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .audit-table .audit-row__target {
+    margin-top: 0;
+    color: var(--color-text-secondary);
+  }
+}

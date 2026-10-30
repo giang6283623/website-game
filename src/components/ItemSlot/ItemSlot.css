@@ -1,0 +1,121 @@
+.item-slot {
+  position: relative;
+  min-width: 0;
+  padding: 2px;
+  background: var(--color-bg-panel);
+  outline: var(--border-hairline) solid var(--color-border-soft);
+  outline-offset: calc(var(--border-hairline) * -1);
+}
+
+.item-slot:hover {
+  background: var(--color-bg-hover);
+  outline-color: var(--color-border-strong);
+}
+
+.item-slot.is-selected,
+.item-slot.is-selected:hover {
+  outline: var(--border-control) solid var(--color-border-accent);
+  outline-offset: calc(var(--border-control) * -1);
+}
+
+.item-slot__link {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Khay hình: nền nổi, hình vừa khít, dấu góc ở hai góc. */
+.item-slot__plate {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 112px;
+  padding: var(--space-2);
+  background-color: var(--color-bg-raised);
+  background-size: 96px 96px;
+}
+
+.item-slot__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.item-slot__badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  padding: 4px var(--space-3);
+  background: var(--color-accent-default);
+  color: var(--color-text-on-accent);
+}
+
+.item-slot__info {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3);
+}
+
+.item-slot__type {
+  color: var(--color-text-muted);
+}
+
+.item-slot__name {
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.item-slot__stat {
+  display: none;
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 1200px) {
+  .item-slot__badge {
+    display: block;
+  }
+
+  /* Thẻ đang chọn: nhãn ĐANG XEM thay chỗ dấu góc trên trái. */
+  .item-slot.is-selected .corner-marks__tl {
+    display: none;
+  }
+
+  .item-slot {
+    padding: var(--border-hairline);
+  }
+
+  .item-slot__plate {
+    height: var(--size-item-slot-plate);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .item-slot__info {
+    gap: var(--space-1);
+    padding: var(--space-4);
+  }
+
+  .item-slot__stat {
+    display: block;
+  }
+}
+
+/* Khóa (Figma State=Disabled): giữ nền và viền mặc định, hình mờ 40 phần trăm, chữ text/disabled. Rê chuột không đổi gì. */
+.item-slot.is-disabled,
+.item-slot.is-disabled:hover {
+  background: var(--color-bg-panel);
+  outline-color: var(--color-border-soft);
+  cursor: not-allowed;
+}
+
+.item-slot.is-disabled .item-slot__image {
+  opacity: 0.4;
+}
+
+.item-slot.is-disabled .item-slot__type,
+.item-slot.is-disabled .item-slot__name,
+.item-slot.is-disabled .item-slot__stat {
+  color: var(--color-text-disabled);
+}

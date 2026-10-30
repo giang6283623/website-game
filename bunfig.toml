@@ -1,0 +1,8 @@
+[install]
+# Không chạy script cài đặt của gói ngoài. Không dùng trustedDependencies.
+exact = true
+
+[test]
+preload = ["./tests/setup.ts"]
+# Không bật coverage (thư mục coverage/ nằm trong danh sách đường dẫn được bảo vệ).
+coverage = false

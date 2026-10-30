@@ -1,0 +1,158 @@
+@import "./theme.css";
+
+/* Lề ngang của trang theo dải màn hình (DESIGN-SPEC mục 5.2).
+   Dưới 1200 dùng bố cục điện thoại: nội dung tối đa 720 và căn giữa. Từ 1440 nội dung tối đa 1312 và căn giữa. */
+:root {
+  --page-pad-x: 20px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-pad-x: max(32px, calc((100% - 720px) / 2));
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --page-pad-x: 48px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --page-pad-x: max(64px, calc((100% - 1312px) / 2));
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-line);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+
+/* Tiêu đề cân dòng, đoạn văn tránh dòng cuối chỉ có một chữ (DESIGN-SPEC mục 3.4) */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+/* Vòng lấy nét 3 px vẽ vào trong, không làm đổi kích thước (DESIGN-SPEC mục 7) */
+:focus-visible {
+  outline: var(--border-focus) solid var(--color-border-focus);
+  outline-offset: calc(var(--border-focus) * -1);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Họa tiết trang trí. Luôn đặt aria-hidden và không chặn thao tác chạm (DESIGN-SPEC mục 6) */
+.pattern-cross {
+  background-image: var(--pattern-cross);
+  background-size: 96px 96px;
+}
+
+.pattern-cross--large {
+  /* Họa tiết tỉ lệ 1 cho Hero (dấu cộng 21 px trên ô 192 px). Không phóng to bản 96 để dấu không bị đậm quá. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' viewBox='0 0 192 192'%3E%3Crect x='85.5' y='95' width='21' height='2' fill='%23a29e8e' fill-opacity='0.22'/%3E%3Crect x='95' y='85.5' width='2' height='21' fill='%23a29e8e' fill-opacity='0.22'/%3E%3Crect x='94' y='94' width='4' height='4' fill='%23a29e8e' fill-opacity='0.39'/%3E%3C/svg%3E");
+  background-size: 192px 192px;
+}
+
+.pattern-ruler {
+  height: 14px;
+  background-image: var(--pattern-ruler);
+  background-repeat: repeat-x;
+  background-size: 40px 14px;
+}
+
+.pattern-decor {
+  pointer-events: none;
+}
+
+/* Nội dung khác nhau giữa điện thoại và máy tính. Mốc 1200 giống mốc đổi bố cục (DESIGN-SPEC mục 5.2) */
+.only-desktop {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .only-desktop {
+    display: revert;
+  }
+
+  .only-mobile {
+    display: none;
+  }
+}
+
+/* Vùng nội dung có lề ngang theo dải màn hình */
+.container {
+  padding-inline: var(--page-pad-x);
+}
+
+noscript .noscript-note {
+  display: block;
+  padding: var(--space-4) var(--page-pad-x);
+  background: var(--color-bg-panel);
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,274 @@
+/* Phần dùng chung của các trang quản trị: đầu trang, bộ lọc, ô tìm, bảng, chữ trạng thái, hộp xác nhận. */
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.admin-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.admin-head__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.admin-head__action {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* Điện thoại: nút hành động chính giãn hết chiều ngang */
+.admin-head__action > .btn {
+  flex: 1;
+  height: var(--size-button-l);
+}
+
+/* Bộ lọc: hàng chip và ô tìm */
+.admin-filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  margin-bottom: calc(var(--space-2) * -1);
+}
+
+.admin-filters__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-search {
+  min-width: 0;
+}
+
+.admin-search .field {
+  width: 100%;
+}
+
+/* Khối nhấn */
+.admin-callout {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-2) 0 var(--space-2) var(--space-3);
+  border-left: 3px solid var(--color-border-accent);
+}
+
+.admin-callout__title {
+  margin: 0;
+  color: var(--color-text-accent);
+}
+
+.admin-callout__text {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+/* Bảng: máy tính là bảng thật, điện thoại mỗi dòng là một lưới nhỏ */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--color-text-primary);
+}
+
+.admin-table thead {
+  display: none;
+}
+
+.admin-table tbody {
+  display: block;
+}
+
+.admin-table td {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-min);
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-text-accent);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.admin-action:hover {
+  color: var(--color-accent-hover);
+}
+
+.admin-action:disabled,
+.admin-action[aria-disabled="true"] {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.admin-actions {
+  display: flex;
+  gap: var(--space-6);
+}
+
+/* Chữ trạng thái: màu và chữ cùng báo, màu không là kênh duy nhất */
+.admin-state {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.admin-state--ok {
+  color: var(--color-text-online);
+}
+
+.admin-state--bad {
+  color: var(--color-text-danger);
+}
+
+.admin-state--accent {
+  color: var(--color-text-accent);
+}
+
+.admin-state--strong {
+  color: var(--color-text-secondary);
+}
+
+.admin-table__meta {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.admin-pagination {
+  margin-top: var(--space-2);
+}
+
+/* Hộp xác nhận */
+.admin-confirm {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--page-pad-x);
+  background: rgb(12 13 11 / 80%);
+}
+
+.admin-confirm__box {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-5);
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-strong);
+}
+
+.admin-confirm__title,
+.admin-confirm__text,
+.admin-confirm__error {
+  margin: 0;
+}
+
+.admin-confirm__text {
+  color: var(--color-text-secondary);
+}
+
+.admin-confirm__error {
+  color: var(--color-text-danger);
+}
+
+.admin-confirm__actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 1200px) {
+  .admin-page {
+    gap: var(--space-6);
+  }
+
+  .admin-head {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+  }
+
+  .admin-head__action > .btn {
+    flex: none;
+    height: var(--size-button-m);
+  }
+
+  .admin-head__action > .only-desktop {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .admin-filters {
+    margin-bottom: 0;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .admin-search {
+    flex: none;
+    width: 360px;
+  }
+
+  /* Hàng chip ngang tầm ô nhập: bỏ nhãn (20) và khoảng cách (8), rồi cách thêm 5 cho cân với ô cao 52 */
+  .admin-filters__chips-wrap {
+    margin-top: 33px;
+  }
+
+  .admin-table {
+    border: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .admin-table thead {
+    display: table-header-group;
+  }
+
+  .admin-table tbody {
+    display: table-row-group;
+  }
+
+  .admin-table td,
+  .admin-table th {
+    display: table-cell;
+    padding: 0 var(--space-4);
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  .admin-table thead th {
+    height: 37px;
+    color: var(--color-text-muted);
+    font-weight: inherit;
+  }
+
+  .admin-table tbody tr {
+    height: var(--admin-row, var(--size-rank-row-desktop));
+  }
+
+  .admin-table tbody tr + tr {
+    border-top: var(--border-hairline) solid var(--color-border-soft);
+  }
+}

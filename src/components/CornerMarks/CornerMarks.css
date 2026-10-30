@@ -1,0 +1,35 @@
+.corner-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.corner-marks__tl,
+.corner-marks__br {
+  position: absolute;
+  width: var(--corner-length);
+  height: var(--corner-length);
+  border: 0 solid var(--corner-color);
+}
+
+.corner-marks__tl {
+  top: var(--corner-inset);
+  left: var(--corner-inset);
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.corner-marks__br {
+  right: var(--corner-inset);
+  bottom: var(--corner-inset);
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+}
+
+/* Dưới trái và dưới phải: dấu "trên trái" chuyển xuống góc dưới trái. */
+.corner-marks--bottom .corner-marks__tl {
+  top: auto;
+  bottom: var(--corner-inset);
+  border-top-width: 0;
+  border-bottom-width: 2px;
+}

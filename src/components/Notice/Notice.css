@@ -1,0 +1,29 @@
+.notice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-inset);
+  border-left: 3px solid var(--color-border-danger);
+}
+
+.notice--success {
+  border-left-color: var(--color-status-online);
+}
+
+.notice__label,
+.notice__text {
+  margin: 0;
+}
+
+.notice__label {
+  color: var(--color-text-danger);
+}
+
+.notice--success .notice__label {
+  color: var(--color-text-online);
+}
+
+.notice__text {
+  color: var(--color-text-secondary);
+}

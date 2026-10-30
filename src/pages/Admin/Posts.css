@@ -1,0 +1,95 @@
+/* Danh sách bài viết. Điện thoại: mỗi bài là một lưới "loại, ngày / tiêu đề / trạng thái, hành động". */
+.posts-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "tag date"
+    "title title"
+    "status actions";
+  align-items: center;
+  row-gap: var(--space-3);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.posts-row__tag {
+  grid-area: tag;
+  justify-self: start;
+}
+
+.posts-row__date {
+  grid-area: date;
+  color: var(--color-text-secondary);
+}
+
+.posts-row__title {
+  grid-area: title;
+}
+
+.posts-row__status {
+  grid-area: status;
+}
+
+.posts-row__actions {
+  grid-area: actions;
+}
+
+.posts-row__link {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.posts-row__link:hover {
+  color: var(--color-text-accent);
+}
+
+@media (max-width: 1199px) {
+  /* Tiêu đề dòng là chữ tiêu đề lớn, hoa, như thẻ tin tức */
+  .posts-row__link {
+    font-family: var(--font-heading);
+    font-size: var(--text-heading-h3-size);
+    font-weight: 600;
+    line-height: var(--text-heading-h3-line);
+    text-transform: uppercase;
+  }
+}
+
+@media (min-width: 1200px) {
+  .posts-table {
+    table-layout: fixed;
+  }
+
+  .posts-table th:nth-child(2),
+  .posts-table td:nth-child(2) {
+    width: 157px;
+  }
+
+  .posts-table th:nth-child(3),
+  .posts-table td:nth-child(3) {
+    width: 136px;
+  }
+
+  .posts-table th:nth-child(4),
+  .posts-table td:nth-child(4) {
+    width: 156px;
+  }
+
+  .posts-table th:nth-child(5),
+  .posts-table td:nth-child(5) {
+    width: 152px;
+  }
+
+  .posts-row {
+    display: table-row;
+    padding: 0;
+  }
+
+  .posts-row__date {
+    color: var(--color-text-secondary);
+  }
+
+  .posts-row__link {
+    font-size: var(--text-body-s-size);
+    line-height: var(--text-body-s-line);
+  }
+}

@@ -1,0 +1,366 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding-block: 0 var(--space-section-y-mobile);
+}
+
+.profile__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+/* Thẻ tài khoản */
+.account-card {
+  box-sizing: border-box;
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.account-card__ruler {
+  height: 14px;
+}
+
+.account-card__body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+}
+
+.account-card__who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.account-card__avatar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  color: var(--color-text-accent);
+}
+
+.account-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.account-card__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.account-card__name {
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-transform: none;
+}
+
+.account-card__clan {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.account-card__presence {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.account-card__presence.is-online {
+  color: var(--color-text-online);
+}
+
+.account-card__dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-text-muted);
+}
+
+.is-online .account-card__dot {
+  background: var(--color-status-online);
+}
+
+.account-card__rows {
+  display: flex;
+  flex-direction: column;
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.account-card__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.account-card__row dt {
+  color: var(--color-text-muted);
+}
+
+.account-card__row dd {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.account-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Bốn chỉ số: hai hàng hai thẻ trên điện thoại */
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stat-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: 110px;
+  padding: var(--space-4);
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.stat-card__label {
+  color: var(--color-text-muted);
+}
+
+.stat-card__value {
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+/* Khối có tiêu đề: Nhân vật, Kỹ năng */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.profile-section__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+/* Bản vẽ có nút "Tạo nhân vật" cùng hàng với tiêu đề (đã bỏ, A-23). Giữ chiều cao hàng 44 px của nút để vị trí các khối khớp bản vẽ. */
+.profile-section__title--tall {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.profile-characters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.character-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.character-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.character-card__name {
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-transform: none;
+}
+
+.character-card__level {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.character-card__weapon {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 112px;
+  padding: calc(var(--space-6) + var(--space-1)) var(--space-2) var(--space-2);
+  background-color: var(--color-bg-inset);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.character-card__weapon-label {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.character-card__weapon img {
+  max-width: 70%;
+  max-height: 64px;
+  object-fit: contain;
+}
+
+.character-card__foot {
+  display: flex;
+  flex-direction: column;
+}
+
+.character-card__foot .text-label-m {
+  color: var(--color-text-muted);
+}
+
+/* Kỹ năng: ba cột trên điện thoại, sáu cột trên máy tính */
+.profile-skills {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-tile {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: 144px;
+  padding: var(--space-4) var(--space-2);
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+  text-align: center;
+}
+
+.skill-tile img {
+  width: 56px;
+  height: 56px;
+}
+
+.skill-tile__name {
+  color: var(--color-text-primary);
+}
+
+.skill-tile__state {
+  color: var(--color-text-muted);
+}
+
+.skill-tile.is-unlocked .skill-tile__state {
+  color: var(--color-text-accent);
+}
+
+@media (min-width: 1200px) {
+  .profile {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-7);
+    padding-block: var(--space-7) var(--space-9);
+  }
+
+  .account-card {
+    flex: none;
+    width: 400px;
+  }
+
+  .account-card__body {
+    padding: var(--space-6);
+  }
+
+  .account-card__avatar {
+    width: 96px;
+    height: 96px;
+  }
+
+  .account-card__rows {
+    margin-top: var(--space-5);
+  }
+
+  .account-card__row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-top: var(--border-hairline) solid var(--color-border-soft);
+    border-bottom: 0;
+  }
+
+  .profile__main {
+    flex: 1;
+    gap: calc(var(--space-6) + var(--space-2));
+  }
+
+  .profile-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .stat-card {
+    min-height: 122px;
+  }
+
+  .profile-characters {
+    flex-direction: row;
+    gap: var(--space-4);
+  }
+
+  .character-card {
+    flex: 1;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .character-card__foot {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-4);
+    border-top: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .character-card__foot .character-card__foot-value {
+    font-size: var(--text-body-m-size);
+    line-height: var(--text-body-m-line);
+  }
+
+  .skill-tile {
+    min-height: 157px;
+  }
+
+  .profile-skills {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}

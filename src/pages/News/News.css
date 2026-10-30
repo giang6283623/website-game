@@ -1,0 +1,94 @@
+/* Điện thoại: bộ lọc (hàng chip cuộn ngang, hàng đếm và "Mới nhất"), thẻ nổi bật, danh sách thẻ, phân trang. */
+.news-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: 0 var(--page-pad-x) var(--space-section-y-mobile);
+}
+
+.news-filters {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "chips chips"
+    "count sort";
+  align-items: center;
+  row-gap: var(--space-4);
+  min-width: 0;
+}
+
+.news-filters__chips {
+  grid-area: chips;
+  min-width: 0;
+}
+
+.news-filters__list {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 calc(var(--page-pad-x) * -1);
+  padding: 0 var(--page-pad-x);
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.news-filters__list::-webkit-scrollbar {
+  display: none;
+}
+
+.news-filters__list li {
+  flex: none;
+}
+
+.news-filters__count {
+  grid-area: count;
+  min-height: 28px;
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 28px;
+}
+
+.news-filters__sort {
+  grid-area: sort;
+  margin: 0;
+  color: var(--color-text-accent);
+}
+
+.news-page__results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0;
+  scroll-margin-top: var(--space-5);
+}
+
+@media (min-width: 1200px) {
+  /* Máy tính: đệm 48 / 64 / 96 / 64, khoảng cách 32. Chip bên trái, số bài bên phải. */
+  .news-page {
+    gap: var(--space-6);
+    padding: var(--space-7) var(--page-pad-x) var(--layout-desktop-section-y);
+  }
+
+  .news-filters {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "chips count";
+    column-gap: var(--space-4);
+  }
+
+  .news-filters__list {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .news-filters .news-filters__count {
+    min-height: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-label-l-size);
+    line-height: var(--text-label-l-line);
+    letter-spacing: var(--text-label-l-spacing);
+    text-transform: uppercase;
+  }
+}

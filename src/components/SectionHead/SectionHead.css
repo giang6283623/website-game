@@ -1,0 +1,31 @@
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.section-head__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.section-head__lead {
+  max-width: 640px;
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 1200px) {
+  .section-head {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .section-head__lead {
+    font-size: var(--text-body-l-size);
+    line-height: var(--text-body-l-line);
+  }
+}

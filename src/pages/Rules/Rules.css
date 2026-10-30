@@ -1,0 +1,171 @@
+/* Điện thoại: một cột 350, không có mục lục. Các quy tắc cách nhau 32. */
+.rules-page {
+  padding: 0 var(--page-pad-x) var(--space-section-y-mobile);
+}
+
+/* Mục lục chỉ có ở máy tính. Lớp của TocList đặt `display`, nên ẩn bằng selector đủ mạnh. */
+.rules-page .rules-page__toc {
+  display: none;
+}
+
+.rules {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rules__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  scroll-margin-top: var(--space-5);
+}
+
+.rules__section + .rules__section {
+  margin-top: var(--space-6);
+}
+
+.rules__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.rules__lead,
+.rules__closing {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+/* Chữ đọc: điện thoại 18/28, máy tính 20/32 (đo từ bản vẽ). */
+.rules__lead,
+.rules__list li {
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-line);
+}
+
+.rules__closing {
+  color: var(--color-text-muted);
+}
+
+.rules__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-secondary);
+}
+
+.rules__list li {
+  position: relative;
+  padding-left: var(--space-gutter-mobile);
+}
+
+.rules__list li::before {
+  position: absolute;
+  top: 11px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--color-border-accent);
+  content: "";
+}
+
+/* Bảng mức xử lý: ba hàng cao 61, hàng giữa có nền khác. */
+.penalties {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.penalties__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  height: 60px;
+  padding: 0 var(--space-gutter-mobile);
+  background: var(--color-bg-page);
+}
+
+.penalties__row:nth-child(even) {
+  background: var(--color-bg-panel);
+}
+
+.penalties__row + .penalties__row {
+  border-top: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.penalties__step {
+  color: var(--color-text-muted);
+}
+
+.penalties__action {
+  color: var(--color-text-primary);
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.rules__radio {
+  margin-top: var(--space-6);
+}
+
+.rules__radio .radio-line__text {
+  font-size: var(--text-body-l-size);
+  line-height: var(--text-body-l-line);
+}
+
+@media (min-width: 1200px) {
+  .rules-page {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-8);
+    padding: var(--space-7) var(--page-pad-x) var(--layout-desktop-section-y);
+  }
+
+  .rules-page .rules-page__toc {
+    display: flex;
+  }
+
+  .rules {
+    flex: 0 1 720px;
+  }
+
+  .rules__lead,
+  .rules__list li {
+    font-size: var(--text-body-l-size);
+    line-height: var(--text-body-l-line);
+  }
+
+  .rules__list li::before {
+    top: 13px;
+  }
+
+  /* 40 nằm giữa hai mức khoảng cách của bộ chuẩn (32 và 48), lấy đúng theo bản vẽ. */
+  .rules__section + .rules__section,
+  .rules__radio {
+    margin-top: 40px;
+  }
+
+  /* Bản vẽ máy tính: dòng đầu cao 60, các dòng sau cao 61 vì có vạch ngăn 1 ở trên. */
+  .penalties__row {
+    height: 60px;
+    padding: 0 var(--space-5);
+  }
+
+  .penalties__row + .penalties__row {
+    height: 61px;
+  }
+
+  .rules__radio .radio-line__text {
+    font-size: var(--text-body-m-size);
+    line-height: var(--text-body-m-line);
+  }
+}

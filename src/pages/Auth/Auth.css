@@ -1,0 +1,61 @@
+/* Phần chung của các biểu mẫu xác thực: cột ô nhập, hàng phụ và chân chuyển trang. */
+.auth-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+}
+
+.auth-intro {
+  margin: 0;
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-line);
+  color: var(--color-text-secondary);
+}
+
+.auth-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.auth-note {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.auth-note a {
+  color: var(--color-text-secondary);
+  text-underline-offset: 3px;
+}
+
+.auth-note a:hover {
+  color: var(--color-text-primary);
+}
+
+.auth-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 20px;
+  border-top: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.auth-switch__text {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.auth-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.auth-hint {
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: center;
+}

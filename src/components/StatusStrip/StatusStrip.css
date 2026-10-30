@@ -1,0 +1,61 @@
+.status-strip {
+  box-sizing: border-box;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--size-status-strip);
+  padding: 0 var(--page-pad-x);
+  background: var(--color-bg-inset);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.status-strip__left,
+.status-strip__middle,
+.status-strip__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Ngoại tuyến (G-25): vòng rỗng màu mờ. Trực tuyến: chấm đặc màu xanh. Hình khác nhau nên không chỉ dựa vào màu. */
+.status-strip__dot {
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--color-text-muted);
+  border-radius: 50%;
+}
+
+.status-strip__dot.is-online {
+  background: var(--color-status-online);
+  border-color: var(--color-status-online);
+}
+
+.status-strip__online {
+  color: var(--color-text-online);
+}
+
+.status-strip__offline {
+  color: var(--color-text-muted);
+}
+
+.status-strip__middle {
+  color: var(--color-text-primary);
+}
+
+.status-strip__right {
+  color: var(--color-text-secondary);
+}
+
+.status-strip__bar {
+  display: block;
+  width: 160px;
+  height: 14px;
+  background: var(--color-bg-hover);
+}
+
+@media (min-width: 1200px) {
+  .status-strip {
+    display: flex;
+  }
+}

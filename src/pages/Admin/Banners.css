@@ -1,0 +1,158 @@
+/* Quản trị banner. Điện thoại: xem trước, danh sách, rồi khung sửa xếp dọc. Máy tính: danh sách bên trái, khung sửa 360 bên phải. */
+.banners {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.admin-callout + .banners {
+  margin-top: calc(var(--space-2) * -1);
+}
+
+.banners__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.banners__preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.banners__preview-label {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* Dải xem trước: nền cam, chữ tối */
+.banners__strip {
+  box-sizing: border-box;
+  min-height: var(--size-chip);
+  margin: 0;
+  padding: 13px var(--space-4);
+  background: var(--color-accent-default);
+  color: var(--color-text-on-accent);
+}
+
+.banners__strip:empty {
+  background: var(--color-bg-panel);
+}
+
+.banners-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "message message"
+    "status toggle"
+    "edit edit";
+  align-items: center;
+  row-gap: var(--space-2);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.banners-row__message {
+  grid-area: message;
+}
+
+.banners-row__status {
+  grid-area: status;
+}
+
+.banners-row__toggle {
+  grid-area: toggle;
+}
+
+.banners-row__edit {
+  grid-area: edit;
+}
+
+.banners-row__title,
+.banners-row__range {
+  margin: 0;
+}
+
+.banners-row__title {
+  color: var(--color-text-primary);
+}
+
+.banners-row__range {
+  color: var(--color-text-muted);
+}
+
+.banner-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-sizing: border-box;
+  padding: var(--space-5);
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.banner-form__title {
+  margin: 0;
+}
+
+.banner-form__area {
+  height: auto;
+  align-items: stretch;
+}
+
+.banner-form__textarea {
+  height: auto;
+  min-height: 56px;
+  padding: var(--space-3) var(--space-4);
+  resize: vertical;
+}
+
+.banner-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 1200px) {
+  .banners {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .admin-callout + .banners {
+    margin-top: 0;
+  }
+
+  .banners-table {
+    table-layout: fixed;
+  }
+
+  .banners-table th:nth-child(2),
+  .banners-table td:nth-child(2) {
+    width: 96px;
+  }
+
+  .banners-table th:nth-child(3),
+  .banners-table td:nth-child(3) {
+    width: 148px;
+  }
+
+  .banners-table th:nth-child(4),
+  .banners-table td:nth-child(4) {
+    width: 72px;
+  }
+
+  .banners-row {
+    display: table-row;
+    padding: 0;
+  }
+
+  .banners-row td {
+    padding-block: var(--space-3);
+  }
+}

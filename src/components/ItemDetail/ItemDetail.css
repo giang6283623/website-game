@@ -1,0 +1,139 @@
+.item-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gutter-mobile);
+  min-width: 0;
+}
+
+.item-detail__visual {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: 28px var(--space-4);
+  background-color: var(--color-bg-raised);
+  background-size: 96px 96px;
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.item-detail__image {
+  width: 100%;
+  max-width: 256px;
+  height: auto;
+  aspect-ratio: 360 / 220;
+  object-fit: contain;
+}
+
+/* Bóng súng HUD chỉ có ở bản máy tính (bản vẽ điện thoại không có) */
+.item-detail__hud {
+  display: none;
+  width: auto;
+  max-width: 206px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.item-detail__badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 4px var(--space-3);
+  background: var(--color-accent-default);
+  color: var(--color-text-on-accent);
+}
+
+.item-detail__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.item-detail .item-detail__type {
+  margin: 0;
+  color: var(--color-text-accent);
+  font-size: var(--text-label-l-size);
+  line-height: var(--text-label-l-line);
+  letter-spacing: var(--text-label-l-spacing);
+}
+
+.item-detail__name {
+  margin: 0;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.item-detail__description {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.item-detail__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.item-detail__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  justify-content: center;
+  min-height: 88px;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.item-detail__stat-label {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.item-detail__stat-value {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.item-detail__summary {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 1200px) {
+  .item-detail {
+    display: grid;
+    grid-template-columns: 400px minmax(0, 1fr);
+    gap: 0;
+    min-height: 434px;
+    background: var(--color-bg-panel);
+    border: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .item-detail__visual {
+    padding: var(--space-6);
+    border: 0;
+  }
+
+  .item-detail__image {
+    max-width: 360px;
+  }
+
+  .item-detail__hud {
+    display: block;
+  }
+
+  .item-detail__text {
+    padding: var(--space-6) var(--space-6);
+  }
+
+  .item-detail .item-detail__type {
+    font-size: var(--text-label-m-size);
+    line-height: var(--text-label-m-line);
+    letter-spacing: var(--text-label-m-spacing);
+  }
+}

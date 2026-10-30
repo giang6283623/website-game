@@ -1,0 +1,419 @@
+/* Điện thoại: một cột. Cảnh báo Windows, khung tải, ba bước, hỏi đáp, hỗ trợ. Cách nhau 56. */
+.download-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-section-y-mobile);
+  padding: 0 var(--page-pad-x) var(--space-section-y-mobile);
+}
+
+.download-page__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gutter-mobile);
+  min-width: 0;
+}
+
+.download-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+  scroll-margin-top: var(--space-5);
+}
+
+/* Khung cảnh báo (chỉ điện thoại): viền cam bên trái, nền panel. */
+.windows-warning {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background: var(--color-bg-panel);
+  border-left: 3px solid var(--color-border-accent);
+}
+
+.windows-warning > * {
+  margin: 0;
+}
+
+.windows-warning__title {
+  color: var(--color-text-primary);
+}
+
+.windows-warning__text {
+  color: var(--color-text-secondary);
+}
+
+.windows-warning__status {
+  min-height: 0;
+  color: var(--color-text-muted);
+}
+
+.windows-warning__status:empty {
+  display: none;
+}
+
+/* Khung tải bộ cài */
+.download-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Điện thoại: khung tải và bảng yêu cầu máy là hai khối riêng. Máy tính gộp chung một khung. */
+.download-card__main {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  padding: var(--space-5);
+  background-color: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+/* Khoảng cách đo từ bản vẽ: nhãn 20, tiêu đề 24, đoạn 16, thông tin 24, nút 16 (máy tính 24), đặt bằng lề trên. */
+.download-card__title {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-gutter-mobile);
+  color: var(--color-text-primary);
+}
+
+.download-card .download-card__text {
+  margin-top: var(--space-5);
+  color: var(--color-text-secondary);
+}
+
+.download-card .download-card__facts {
+  display: flex;
+  gap: var(--space-5);
+  margin: var(--space-4) 0 0;
+}
+
+.download-card__fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.download-card__fact dt,
+.download-card__row dt {
+  color: var(--color-text-muted);
+}
+
+.download-card__fact dd {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: var(--text-body-l-size);
+  font-weight: 600;
+  line-height: var(--text-body-l-line);
+}
+
+.download-card .download-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.download-card .download-card__note {
+  margin-top: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+/* Nút tải: máy tính là liên kết, điện thoại là nút khóa. Chỉ một nút hiện. */
+.installer.installer--desktop {
+  display: none;
+}
+
+.download-card__req {
+  min-width: 0;
+}
+
+.download-card__ruler {
+  display: block;
+}
+
+.download-card__panel {
+  padding: var(--space-5) var(--space-5) var(--space-2);
+  background: var(--color-bg-inset);
+  border: var(--border-hairline) solid var(--color-border-soft);
+  border-top: 0;
+}
+
+.download-card__req-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: var(--text-heading-h3-size);
+  font-weight: 600;
+  line-height: var(--text-heading-h3-line);
+  letter-spacing: var(--text-heading-h3-spacing);
+  text-transform: uppercase;
+}
+
+.download-card__rows {
+  margin: 0;
+}
+
+.download-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.download-card__row:last-child {
+  border-bottom: 0;
+}
+
+.download-card__row dt {
+  font-size: 0.875rem;
+}
+
+.download-card__row dd {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--text-body-s-size);
+  line-height: var(--text-body-s-line);
+  text-align: right;
+}
+
+.download-steps,
+.faq-grid,
+.support__channels {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.download-steps {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.faq-grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.faq-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.faq-card > * {
+  margin: 0;
+}
+
+.faq-card__question {
+  color: var(--color-text-primary);
+}
+
+.faq-card__answer {
+  color: var(--color-text-secondary);
+}
+
+.support {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Bản vẽ: câu của Trạm trưởng dùng cỡ chữ lớn hơn trên điện thoại. */
+.support .radio-line__text {
+  font-size: var(--text-body-l-size);
+  line-height: var(--text-body-l-line);
+}
+
+/* Bản vẽ: thẻ bước ở trang này dùng vòng tròn 88 ngay cả trên điện thoại. */
+.download-steps .step-card__ring {
+  width: 88px;
+  height: 88px;
+  border-color: var(--color-border-strong);
+}
+
+.download-steps .step-card__ring img {
+  width: 48px;
+  height: 48px;
+}
+
+/* Bản vẽ điện thoại: các phần trong thẻ bước cách nhau 16 (thẻ dùng chung cách 12). */
+.download-steps .step-card__body {
+  gap: var(--space-4);
+}
+
+/* Bản vẽ: nút của thẻ bước không lùi lề (chữ thụt 20). Máy tính cách mô tả 32, điện thoại 16. */
+.download-steps .step-card__action {
+  margin-left: 0;
+  padding-inline: var(--space-gutter-mobile);
+}
+
+.support__channels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+@media (min-width: 1200px) {
+  /* Máy tính: đệm 48 / 64 / 96 / 64, các khối cách nhau 96. */
+  .download-page {
+    gap: var(--layout-desktop-section-y);
+    padding: var(--space-7) var(--page-pad-x) var(--layout-desktop-section-y);
+  }
+
+  .download-page__top {
+    gap: 0;
+  }
+
+  .windows-warning {
+    display: none;
+  }
+
+  .download-steps .step-card__action {
+    margin-top: var(--space-4);
+  }
+
+  .download-section {
+    gap: var(--space-7);
+  }
+
+  /* Máy tính: một khung 1312 x 604 có họa tiết, bốn dấu góc, cột chữ 654 và bảng yêu cầu máy 480. */
+  .download-card {
+    display: grid;
+    grid-template-columns: minmax(0, 654fr) minmax(0, 480fr);
+    align-items: center;
+    column-gap: 50px;
+    min-height: 604px;
+    padding: var(--space-8);
+    background-color: var(--color-bg-panel);
+    background-image: var(--pattern-cross);
+    background-size: 96px 96px;
+    border: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  /* Khoảng cách đo từ bản vẽ: nhãn 20, tiêu đề 24, đoạn 16, thông tin 24, nút 24 (đặt bằng lề trên). */
+  .download-card .download-card__main {
+    padding: 0;
+    background: none;
+    border: 0;
+  }
+
+  .download-card .download-card__note {
+    margin-top: var(--space-5);
+  }
+
+  .download-card .download-card__title {
+    font-size: var(--text-display-l-size);
+    line-height: var(--text-display-l-line);
+    letter-spacing: var(--text-display-l-spacing);
+  }
+
+  .download-card .download-card__text {
+    font-size: var(--text-body-l-size);
+    line-height: var(--text-body-l-line);
+  }
+
+  .download-card .download-card__facts {
+    gap: var(--space-6);
+  }
+
+  /* Nhãn thông tin nhỏ 12 theo bản vẽ, giá trị cỡ Heading/H3. */
+  .download-card .download-card__fact dt,
+  .download-card .download-card__row dt {
+    font-family: var(--font-data);
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .download-card .download-card__row dd {
+    font-size: var(--text-heading-h3-size);
+  }
+
+  .download-card .download-card__fact dd,
+  .download-card .download-card__row dd {
+    font-family: var(--font-heading);
+    font-size: var(--text-heading-h3-size);
+    font-weight: 600;
+    line-height: var(--text-heading-h3-line);
+  }
+
+  .download-card .download-card__actions {
+    flex-direction: row;
+    gap: var(--space-4);
+  }
+
+  .download-card__actions .btn--fill {
+    width: auto;
+  }
+
+  .installer.installer--desktop {
+    display: inline-flex;
+  }
+
+  .installer.installer--mobile {
+    display: none;
+  }
+
+  .download-card__panel {
+    padding: var(--space-6) var(--space-6) var(--space-4);
+  }
+
+  .download-card .download-card__req-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-label-l-size);
+    line-height: var(--text-label-l-line);
+    letter-spacing: var(--text-label-l-spacing);
+  }
+
+  /* Hàng cao 73 theo bản vẽ (kể cả vạch dưới). */
+  .download-card__row {
+    padding: 21px 0;
+  }
+
+  .download-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .faq-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .faq-card {
+    padding: var(--space-6);
+  }
+
+  .support .radio-line__text {
+    font-size: var(--text-body-m-size);
+    line-height: var(--text-body-m-line);
+  }
+
+  .support {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .support__channels {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .support__channels .btn--fill {
+    width: auto;
+  }
+}

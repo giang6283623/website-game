@@ -1,0 +1,22 @@
+.radio-line {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 7px 0 7px var(--space-4);
+  border-left: 4px solid var(--color-border-accent);
+}
+
+.radio-line p {
+  margin: 0;
+}
+
+.radio-line__label {
+  color: var(--color-text-accent);
+}
+
+@media (min-width: 1200px) {
+  .radio-line {
+    gap: 10px;
+    padding-left: var(--space-gutter-mobile);
+  }
+}

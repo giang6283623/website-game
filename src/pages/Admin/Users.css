@@ -1,0 +1,97 @@
+/* Danh sách người dùng. Điện thoại: tên và trạng thái, email và vai trò, ngày tạo và hành động. */
+.users-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "name status"
+    "email role"
+    "created action";
+  align-items: center;
+  row-gap: calc(var(--space-3) - 2px);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.users-row__name {
+  grid-area: name;
+}
+
+.users-row__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.users-row__link:hover {
+  color: var(--color-accent-hover);
+}
+
+.users-row__email {
+  grid-area: email;
+  color: var(--color-text-secondary);
+}
+
+.users-row__role {
+  grid-area: role;
+  justify-self: end;
+}
+
+.users-row__status {
+  grid-area: status;
+  justify-self: end;
+}
+
+.users-row__created {
+  grid-area: created;
+  color: var(--color-text-muted);
+}
+
+.users-row__action {
+  grid-area: action;
+  justify-self: end;
+}
+
+@media (min-width: 1200px) {
+  .users-table {
+    table-layout: fixed;
+  }
+
+  .users-table th:nth-child(2),
+  .users-table td:nth-child(2) {
+    width: 190px;
+  }
+
+  .users-table th:nth-child(3),
+  .users-table td:nth-child(3) {
+    width: 118px;
+  }
+
+  .users-table th:nth-child(4),
+  .users-table td:nth-child(4) {
+    width: 118px;
+  }
+
+  .users-table th:nth-child(5),
+  .users-table td:nth-child(5) {
+    width: 130px;
+  }
+
+  .users-table th:nth-child(6),
+  .users-table td:nth-child(6) {
+    width: 104px;
+  }
+
+  .users-row {
+    display: table-row;
+    padding: 0;
+  }
+
+  .users-row__role,
+  .users-row__status,
+  .users-row__action {
+    justify-self: auto;
+  }
+
+  .users-row__created {
+    color: var(--color-text-secondary);
+  }
+}

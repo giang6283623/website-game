@@ -1,0 +1,63 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--size-touch-min);
+}
+
+.toggle__label {
+  color: var(--color-text-primary);
+}
+
+.toggle__track {
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  width: 48px;
+  height: 26px;
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg-inset);
+  border: var(--border-control) solid var(--color-border-control);
+  cursor: pointer;
+  transition:
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard);
+}
+
+.toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  background: var(--color-text-muted);
+  transition:
+    transform var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard);
+}
+
+.toggle__track[aria-checked="true"] {
+  background: var(--color-accent-default);
+  border-color: var(--color-border-accent);
+}
+
+.toggle__track[aria-checked="true"] .toggle__thumb {
+  background: var(--color-text-on-accent);
+  transform: translateX(20px);
+}
+
+.toggle__track:disabled {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-soft);
+  cursor: not-allowed;
+}
+
+.toggle__track:disabled .toggle__thumb {
+  background: var(--color-text-disabled);
+}
+
+.toggle__track:disabled ~ .toggle__label,
+.toggle:has(.toggle__track:disabled) .toggle__label {
+  color: var(--color-text-disabled);
+}

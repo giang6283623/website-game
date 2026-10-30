@@ -1,0 +1,126 @@
+/* Điện thoại: thẻ dọc 350 x 480. Khay ảnh cao 168, thân chữ đệm 20. */
+.featured-news {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 480px;
+  background: var(--color-bg-panel);
+  border: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.featured-news__visual {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 168px;
+  background-color: var(--color-bg-raised);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.featured-news__image {
+  display: block;
+  width: auto;
+  max-width: 82%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.featured-news__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-gutter-mobile);
+}
+
+.featured-news__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+}
+
+.featured-news__short-date {
+  color: var(--color-text-muted);
+}
+
+.featured-news__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.featured-news .featured-news__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.featured-news__excerpt {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-line);
+}
+
+.featured-news__meta {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* Hai nút cùng liên kết: Primary cho máy tính, Ghost cho điện thoại. Chỉ một nút hiện. */
+.featured-news .featured-news__action--desktop {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .featured-news .featured-news__action--desktop {
+    display: inline-flex;
+  }
+
+  .featured-news .featured-news__action--mobile {
+    display: none;
+  }
+
+  /* Máy tính: 1312 x 390, ảnh 640 x 380 bên trái, cột chữ đệm 48 bên phải. */
+  .featured-news {
+    flex-direction: row;
+    min-height: 390px;
+    padding: 4px;
+  }
+
+  .featured-news__visual {
+    flex: none;
+    width: 640px;
+    height: auto;
+    border: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .featured-news__image {
+    width: 420px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 420 / 256;
+  }
+
+  .featured-news__body {
+    flex: 1;
+    justify-content: center;
+    gap: var(--space-gutter-mobile);
+    min-width: 0;
+    padding: var(--space-6) var(--space-7);
+  }
+
+  .featured-news .featured-news__title {
+    font-size: var(--text-heading-h1-size);
+    line-height: var(--text-heading-h1-line);
+    letter-spacing: var(--text-heading-h1-spacing);
+  }
+
+  .featured-news .featured-news__excerpt {
+    font-size: var(--text-body-l-size);
+    line-height: var(--text-body-l-line);
+  }
+}

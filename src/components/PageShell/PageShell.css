@@ -1,0 +1,36 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@supports (min-height: 100dvh) {
+  .shell {
+    min-height: 100dvh;
+  }
+}
+
+.shell__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.shell__main:focus {
+  outline: none;
+}
+
+/* Liên kết "Bỏ qua đến nội dung chính": ẩn cho đến khi nhận lấy nét đầu tiên */
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: var(--space-2);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-accent-default);
+  color: var(--color-text-on-accent);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}

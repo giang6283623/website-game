@@ -1,0 +1,34 @@
+.center-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-block: var(--space-7) var(--space-section-y-mobile);
+}
+
+.center-message__code {
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.center-message__card {
+  max-width: 720px;
+}
+
+/* Thẻ 720 của trang lỗi: câu giải thích nằm trên một dòng trên máy tính, rộng hơn 480 của trạng thái danh sách */
+.center-message__card .list-state__message {
+  max-width: 640px;
+}
+
+@media (min-width: 1200px) {
+  .center-message {
+    gap: var(--space-5);
+    padding-block: var(--layout-desktop-section-y);
+  }
+
+  .center-message .center-message__code {
+    font-size: var(--text-display-xl-size);
+    line-height: var(--text-display-xl-line);
+    letter-spacing: var(--text-display-xl-spacing);
+  }
+}

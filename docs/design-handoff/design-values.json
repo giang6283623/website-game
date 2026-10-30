@@ -1,0 +1,228 @@
+{
+  "meta": {
+    "name": "tan-so-sinh-ton",
+    "displayName": "Tần số sinh tồn",
+    "version": "1.1.0",
+    "updated": "2026-10-29",
+    "source": "Tệp Figma FIGMA_FILE_KEY. Gồm các bộ biến Primitives, Semantic, Layout và các kiểu chữ (text style) của tệp.",
+    "howToRead": "Mục 'figma' là tên biến hoặc tên kiểu chữ trong Figma. Mục 'proposed' là đề xuất chưa có trong Figma. Đơn vị chiều dài là px CSS. Độ giãn dòng (lineHeight) tính bằng px. Độ giãn chữ (letterSpacing) tính bằng em.",
+    "rules": [
+      "Chỉ một màu nhấn: rust. Không thêm màu nhấn thứ hai.",
+      "Màu moss chỉ dùng cho trạng thái trực tuyến.",
+      "Màu blood chỉ dùng cho lỗi.",
+      "Cỡ chữ nhỏ nhất là 16 px.",
+      "Không đổ bóng, không bo góc lớn, không gradient. Giao diện phẳng."
+    ]
+  },
+  "color": {
+    "primitive": {
+      "ink-950": "#0c0d0b",
+      "ink-900": "#131512",
+      "ink-850": "#191c17",
+      "ink-800": "#1f231d",
+      "ink-700": "#282d25",
+      "ink-600": "#353b31",
+      "ash-100": "#ece8db",
+      "ash-300": "#c9c4b3",
+      "ash-500": "#a29e8e",
+      "ash-700": "#6f6c60",
+      "rust-400": "#e27a33",
+      "rust-500": "#d0601c",
+      "rust-600": "#a94a14",
+      "moss-400": "#9db86a",
+      "moss-600": "#5e7a3a",
+      "blood-400": "#e5705a",
+      "blood-600": "#9e3524"
+    },
+    "semantic": {
+      "bg-inset": { "ref": "ink-950", "hex": "#0c0d0b", "figma": "bg/inset", "use": "Lớp thấp nhất: thanh trạng thái máy chủ, chân trang, dải số liệu, ô nhập, tab bar, thanh bên quản trị, vùng soạn bài viết, các dải nền xen kẽ trên điện thoại." },
+      "bg-page": { "ref": "ink-900", "hex": "#131512", "figma": "bg/page", "use": "Nền trang mặc định." },
+      "bg-panel": { "ref": "ink-850", "hex": "#191c17", "figma": "bg/panel", "use": "Thẻ, khung, bảng điều khiển. Sáng hơn bg-page một bậc." },
+      "bg-raised": { "ref": "ink-800", "hex": "#1f231d", "figma": "bg/raised", "use": "Khay đặt hình vật phẩm, dòng hạng Top và dòng của tôi, mục danh mục đang chọn." },
+      "bg-hover": { "ref": "ink-700", "hex": "#282d25", "figma": "bg/hover", "use": "Nền khi rê chuột, nền thẻ Guide, thanh khung xương (skeleton), nền nút bị khóa." },
+      "border-soft": { "ref": "ink-700", "hex": "#282d25", "figma": "border/soft", "use": "Đường kẻ mỏng 1 px giữa các dòng, viền thẻ. Chỉ để trang trí." },
+      "border-strong": { "ref": "ink-600", "hex": "#353b31", "figma": "border/strong", "use": "Đường kẻ nổi bật, viền tag tin tức, viền ảnh đại diện. Không dùng cho viền ô nhập và chip (dùng border-control)." },
+      "border-control": { "ref": "ash-700", "hex": "#6f6c60", "figma": "border/control", "figmaId": "VariableID:104:1361", "use": "Viền ô nhập (Field Default) và chip Default, nút bật tắt, ô chọn, chip tài khoản. Tỉ lệ tương phản với bg-inset là 3,70, bg-page 3,49, bg-panel 3,27, đạt mức 3:1 cho thành phần giao diện (WCAG 1.4.11). Đã áp dụng trong Figma ở vòng 3 (đóng G-01)." },
+      "border-bold": { "ref": "ash-300", "hex": "#c9c4b3", "figma": "border/bold", "use": "Viền nút Secondary, dấu góc thẻ (corner bracket)." },
+      "border-focus": { "ref": "ash-100", "hex": "#ece8db", "figma": "border/focus", "use": "Vòng lấy nét khi dùng bàn phím. Dày 3 px." },
+      "border-accent": { "ref": "rust-500", "hex": "#d0601c", "figma": "border/accent", "use": "Viền mục đang chọn, vòng dòng 'của tôi', tag Event." },
+      "border-danger": { "ref": "blood-400", "hex": "#e5705a", "figma": "border/danger", "use": "Viền ô nhập lỗi, khung lỗi của danh sách." },
+      "text-primary": { "ref": "ash-100", "hex": "#ece8db", "figma": "text/primary", "use": "Chữ chính, tiêu đề, giá trị." },
+      "text-secondary": { "ref": "ash-300", "hex": "#c9c4b3", "figma": "text/secondary", "use": "Chữ phụ: đoạn dẫn, mô tả, nhãn ô nhập." },
+      "text-muted": { "ref": "ash-500", "hex": "#a29e8e", "figma": "text/muted", "use": "Chữ mờ: nhãn nhỏ, ngày, gợi ý, nhãn của số liệu." },
+      "text-disabled": { "ref": "ash-700", "hex": "#6f6c60", "figma": "text/disabled", "use": "Chỉ dùng trong trạng thái Disabled. Không đặt cho nội dung cần đọc." },
+      "text-accent": { "ref": "rust-400", "hex": "#e27a33", "figma": "text/accent", "use": "Chữ nhấn: nhãn loại, số ở danh mục đang chọn, hạng Top, kỹ năng đã mở, tab đang chọn." },
+      "text-on-accent": { "ref": "ink-950", "hex": "#0c0d0b", "figma": "text/on-accent", "use": "Chữ đặt trên nền accent-default hoặc accent-hover." },
+      "text-danger": { "ref": "blood-400", "hex": "#e5705a", "figma": "text/danger", "use": "Chữ lỗi: gợi ý lỗi của ô nhập, dấu chấm than." },
+      "text-online": { "ref": "moss-400", "hex": "#9db86a", "figma": "text/online", "use": "Chỉ cho trạng thái trực tuyến: 'MÁY CHỦ TRỰC TUYẾN', 'ĐANG TRỰC TUYẾN'." },
+      "accent-default": { "ref": "rust-500", "hex": "#d0601c", "figma": "accent/default", "use": "Nền nút Primary, thanh nhấn nhỏ, nền tab 'ĐANG XEM'." },
+      "accent-hover": { "ref": "rust-400", "hex": "#e27a33", "figma": "accent/hover", "use": "Nền nút Primary khi rê chuột." },
+      "accent-pressed": { "ref": "rust-600", "hex": "#a94a14", "figma": "accent/pressed", "use": "Nền nút Primary khi nhấn. Chữ trên nền này dùng text-primary, không dùng text-on-accent." },
+      "status-online": { "ref": "moss-400", "hex": "#9db86a", "figma": "status/online", "use": "Chấm tròn trạng thái trực tuyến." },
+      "status-danger": { "ref": "blood-600", "hex": "#9e3524", "figma": "status/danger", "use": "Dự phòng cho nền trạng thái nguy hiểm. Chưa dùng trên màn hình nào." }
+    },
+    "proposed": {}
+  },
+  "contrast": {
+    "note": "Tỉ lệ tính theo công thức WCAG 2.x. Chữ nhỏ cần 4,5. Chữ lớn (từ 24 px, hoặc 19 px đậm) và thành phần giao diện cần 3.",
+    "pairs": [
+      { "fg": "text-primary", "bg": "bg-page", "ratio": 14.98 },
+      { "fg": "text-primary", "bg": "bg-panel", "ratio": 14.04 },
+      { "fg": "text-primary", "bg": "bg-raised", "ratio": 13.01 },
+      { "fg": "text-primary", "bg": "bg-hover", "ratio": 11.48 },
+      { "fg": "text-secondary", "bg": "bg-panel", "ratio": 9.86 },
+      { "fg": "text-secondary", "bg": "bg-hover", "ratio": 8.06 },
+      { "fg": "text-muted", "bg": "bg-page", "ratio": 6.84 },
+      { "fg": "text-muted", "bg": "bg-panel", "ratio": 6.41 },
+      { "fg": "text-muted", "bg": "bg-raised", "ratio": 5.94 },
+      { "fg": "text-muted", "bg": "bg-hover", "ratio": 5.24 },
+      { "fg": "text-accent", "bg": "bg-page", "ratio": 6.18 },
+      { "fg": "text-accent", "bg": "bg-panel", "ratio": 5.79 },
+      { "fg": "text-accent", "bg": "bg-hover", "ratio": 4.73 },
+      { "fg": "text-danger", "bg": "bg-panel", "ratio": 5.57 },
+      { "fg": "text-danger", "bg": "bg-hover", "ratio": 4.55 },
+      { "fg": "text-online", "bg": "bg-panel", "ratio": 7.79 },
+      { "fg": "text-on-accent", "bg": "accent-default", "ratio": 4.98 },
+      { "fg": "text-on-accent", "bg": "accent-hover", "ratio": 6.55 },
+      { "fg": "text-primary", "bg": "accent-pressed", "ratio": 4.66 },
+      { "fg": "text-disabled", "bg": "bg-hover", "ratio": 2.67, "note": "Chỉ cho nút bị khóa. Không đạt mức 4,5. Chấp nhận vì thành phần bị khóa được miễn." }
+    ],
+    "forbidden": [
+      "text-on-accent trên accent-pressed (3,41).",
+      "text-primary trên accent-default (3,19).",
+      "accent-default làm màu chữ nhỏ (4,40 trên bg-panel). Dùng text-accent.",
+      "text-disabled cho bất kỳ nội dung nào không nằm trong thành phần bị khóa."
+    ]
+  },
+  "space": {
+    "figmaCollection": "Layout",
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 24,
+    "6": 32,
+    "7": 48,
+    "8": 64,
+    "9": 96,
+    "extraMobile": {
+      "gutter": 20,
+      "sectionY": 56,
+      "note": "Hai giá trị này nằm ngoài thang 4 và 8 của Figma. Giữ nguyên khi code. Đặt tên --space-gutter-mobile và --space-section-y-mobile."
+    }
+  },
+  "radius": { "none": 0, "sm": 2, "md": 4, "note": "Chỉ dùng 0, 2, 4. Mặc định 0. Chỉ vòng tròn của icon trên thẻ bước dùng hình tròn đầy đủ." },
+  "border": {
+    "hairline": 1,
+    "control": 2,
+    "focus": 3,
+    "pressedEdge": 4,
+    "note": "Nút Primary Default có viền dưới 4 px màu rust-600 nằm trong bố cục (inLayout) để tạo độ dày. Khi nhấn, viền này mất và nội dung dịch xuống 4 px."
+  },
+  "size": {
+    "touchMin": 44,
+    "buttonL": 56,
+    "buttonM": 44,
+    "fieldBox": 52,
+    "chip": 46,
+    "tag": 28,
+    "tabBarMobile": 58,
+    "headerDesktop": 96,
+    "headerMobile": 72,
+    "statusStrip": 44,
+    "navDial": { "width": 720, "height": 68, "station": 144 },
+    "rankRowDesktop": 69,
+    "newsRowDesktop": 63,
+    "itemSlot": { "width": 304, "height": 292, "plate": 176 },
+    "miniSlotMobile": { "width": 169, "height": 190 }
+  },
+  "layout": {
+    "desktopFrame": 1440,
+    "desktopPadX": 64,
+    "desktopContent": 1312,
+    "desktopSectionY": 96,
+    "desktopPageContentPad": { "top": 48, "x": 64, "bottom": 96 },
+    "pageTitleHeight": 273,
+    "mobileFrame": 390,
+    "mobileGutter": 20,
+    "mobileContent": 350,
+    "mobileSectionY": 56,
+    "authFormCardDesktop": 520,
+    "authFormCardMobile": 350,
+    "adminSidebar": 280
+  },
+  "breakpoints": {
+    "status": "proposed",
+    "note": "Figma chỉ có hai khung: 1440 và 390. Các mốc dưới đây là đề xuất để code. Cần duyệt. Mốc 1200 tính từ độ rộng tối thiểu của Header máy tính: Wordmark 191 + NavDial 600 + nút 246 + khoảng cách 48 + lề 96 = khoảng 1181.",
+    "mobile": { "max": 767, "layout": "mobile", "gutter": 20 },
+    "tablet": { "min": 768, "max": 1199, "layout": "mobile", "gutter": 32, "maxContentWidth": 720 },
+    "desktop": { "min": 1200, "max": 1439, "layout": "desktop", "padX": 48, "navDialWidth": "clamp(600px, 50vw, 720px)", "displayXlSize": "clamp(72px, 6.7vw, 96px)" },
+    "wide": { "min": 1440, "layout": "desktop", "padX": 64, "maxContentWidth": 1312 }
+  },
+  "font": {
+    "families": {
+      "display": { "name": "Big Shoulders Stencil Display", "weights": [900], "fallback": "Impact, 'Arial Narrow', sans-serif", "use": "Chỉ dùng cho Display và chữ Wordmark. Chữ hoa." },
+      "heading": { "name": "Barlow Condensed", "weights": [600, 700], "fallback": "'Arial Narrow', sans-serif", "use": "Heading và Label. Chữ hoa." },
+      "body": { "name": "Barlow", "weights": [400, 600], "fallback": "system-ui, sans-serif", "use": "Đoạn văn, gợi ý, tên." },
+      "data": { "name": "Barlow Semi Condensed", "weights": [500, 600], "fallback": "'Arial Narrow', sans-serif", "use": "Số liệu, ngày, tiền, XP, hạng." }
+    },
+    "loading": {
+      "subsets": ["latin", "latin-ext", "vietnamese"],
+      "display": "swap",
+      "format": "woff2",
+      "preload": ["Barlow 400", "Barlow 600", "Barlow Condensed 600"],
+      "note": "Tự lưu các tệp font trên máy chủ của website để không phụ thuộc nguồn bên ngoài. Kiểm tra giấy phép (SIL OFL) và dấu tiếng Việt trước khi phát hành."
+    },
+    "numeric": "Cột số (xếp hạng, tiền, XP, số lượng) dùng font-variant-numeric: tabular-nums."
+  },
+  "typography": {
+    "figmaStyleNames": "Display/XL, Display/L, Display/M, Heading/H1, Heading/H2, Heading/H3, Body/L, Body/M, Body/S, Body/M Strong, Label/L, Label/M, Data/L, Data/M",
+    "styles": {
+      "display-xl": { "figma": "Display/XL", "family": "display", "weight": 900, "size": 96, "lineHeight": 112, "letterSpacing": 0.02, "case": "upper", "use": "Tiêu đề Hero trang chủ máy tính." },
+      "display-l": { "figma": "Display/L", "family": "display", "weight": 900, "size": 64, "lineHeight": 76, "letterSpacing": 0.02, "case": "upper", "use": "Tiêu đề trang (PageTitle), CTA, Hero điện thoại." },
+      "display-m": { "figma": "Display/M", "family": "display", "weight": 900, "size": 40, "lineHeight": 48, "letterSpacing": 0.02, "case": "upper", "use": "Số liệu lớn (dải số liệu, thẻ thống kê), Wordmark L, tiêu đề xác thực trên điện thoại, dấu chấm than lỗi." },
+      "heading-h1": { "figma": "Heading/H1", "family": "heading", "weight": 700, "size": 44, "lineHeight": 50, "letterSpacing": 0.01, "case": "upper", "use": "Tiêu đề mục lớn (BA BƯỚC VÀO GAME, TIN MỚI), tiêu đề khung xác thực trên máy tính." },
+      "heading-h2": { "figma": "Heading/H2", "family": "heading", "weight": 600, "size": 32, "lineHeight": 38, "letterSpacing": 0.02, "case": "upper", "use": "Tiêu đề thẻ bước, mục con (NHÂN VẬT, KỸ NĂNG, BÀI GẦN ĐÂY), tiêu đề khung xác thực trên điện thoại." },
+      "heading-h3": { "figma": "Heading/H3", "family": "heading", "weight": 600, "size": 24, "lineHeight": 30, "letterSpacing": 0.02, "case": "upper", "use": "Tên vật phẩm, tiêu đề dòng tin, tiêu đề trạng thái danh sách. Tiêu đề tin giữ chữ thường trong nội dung nhưng hiển thị hoa." },
+      "body-l": { "figma": "Body/L", "family": "body", "weight": 400, "size": 20, "lineHeight": 32, "letterSpacing": 0, "case": "none", "use": "Đoạn dẫn (lead) trên máy tính." },
+      "body-m": { "figma": "Body/M", "family": "body", "weight": 400, "size": 18, "lineHeight": 28, "letterSpacing": 0, "case": "none", "use": "Văn bản chính, đoạn dẫn trên điện thoại, nội dung ô nhập." },
+      "body-s": { "figma": "Body/S", "family": "body", "weight": 400, "size": 16, "lineHeight": 24, "letterSpacing": 0, "case": "none", "use": "Gợi ý, ghi chú pháp lý, tên gia tộc." },
+      "body-m-strong": { "figma": "Body/M Strong", "family": "body", "weight": 600, "size": 18, "lineHeight": 28, "letterSpacing": 0, "case": "none", "use": "Tên người chơi trong bảng xếp hạng." },
+      "label-l": { "figma": "Label/L", "family": "heading", "weight": 600, "size": 18, "lineHeight": 22, "letterSpacing": 0.06, "case": "upper", "use": "Chữ nút L, chữ chip, nhãn mục, tên kỹ năng." },
+      "label-m": { "figma": "Label/M", "family": "heading", "weight": 600, "size": 16, "lineHeight": 20, "letterSpacing": 0.08, "case": "upper", "use": "Chữ nút M, nhãn tag, nhãn ô nhập, nhãn số liệu, chữ tab bar." },
+      "data-l": { "figma": "Data/L", "family": "data", "weight": 600, "size": 28, "lineHeight": 32, "letterSpacing": 0, "case": "none", "use": "Hạng, tên tài khoản, chỉ số chính." },
+      "data-m": { "figma": "Data/M", "family": "data", "weight": 500, "size": 18, "lineHeight": 24, "letterSpacing": 0, "case": "none", "use": "Ngày, tiền, XP, số đếm." }
+    },
+    "wordmarkSmall": { "family": "display", "weight": 900, "size": 28, "note": "Wordmark kích cỡ S trên điện thoại không có kiểu chữ riêng trong Figma. Định nghĩa ngay trong thành phần." },
+    "caseRule": "Display, Heading và Label luôn in hoa. Lưu nội dung ở dạng câu thường và dùng text-transform: uppercase, để dấu tiếng Việt không bị mất và để trình đọc màn hình đọc đúng.",
+    "mobileMapping": {
+      "heroTitle": { "desktop": "display-xl", "mobile": "display-l" },
+      "pageTitle": { "desktop": "display-l", "mobile": "display-l" },
+      "authTitle": { "desktop": "display-l", "mobile": "display-m" },
+      "lead": { "desktop": "body-l", "mobile": "body-m" },
+      "sectionTitle": { "desktop": "heading-h1", "mobile": "heading-h1" },
+      "formTitle": { "desktop": "heading-h1", "mobile": "heading-h2" },
+      "others": "Giữ nguyên kích cỡ ở cả hai bản."
+    }
+  },
+  "elevation": { "shadows": "none", "note": "Không dùng đổ bóng. Độ sâu tạo bằng bậc nền (bg-inset, bg-page, bg-panel, bg-raised, bg-hover), viền 1 px và viền dưới 4 px của nút Primary." },
+  "motion": {
+    "status": "proposed",
+    "durations": { "instant": 0, "fast": 120, "base": 200, "slow": 320 },
+    "easing": { "standard": "cubic-bezier(0.2, 0, 0, 1)" },
+    "uses": {
+      "hoverPress": "fast. Chỉ đổi màu nền, màu viền, màu chữ.",
+      "needleSlide": "base. Kim dò tần số trượt đến trạm mới trên NavDial và TabBar.",
+      "skeletonPulse": "1200 ms, vòng lặp, độ mờ 0,5 đến 1. Tắt khi prefers-reduced-motion."
+    },
+    "reducedMotion": "Khi prefers-reduced-motion: reduce, tắt trượt kim, tắt nhấp nháy skeleton, không có hiệu ứng khác."
+  },
+  "zIndex": {
+    "status": "proposed",
+    "base": 0,
+    "sticky": 40,
+    "tabBar": 50,
+    "overlay": 100,
+    "toast": 110
+  }
+}

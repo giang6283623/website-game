@@ -1,0 +1,47 @@
+{
+  "name": "issvn-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Website game ISSVN (Infestation Việt Nam). Giao diện tĩnh, hướng thiết kế Tần số sinh tồn.",
+  "scripts": {
+    "gen-theme": "bun run scripts/gen-theme.ts",
+    "build:fonts": "bun run scripts/build-fonts.ts",
+    "build:images": "bun run scripts/build-images.ts",
+    "build": "bun run scripts/build.ts",
+    "build:dev": "NODE_ENV=development bun run build",
+    "build:prod": "NODE_ENV=production bun run build",
+    "measure": "bun run scripts/measure.ts",
+    "serve": "bun run scripts/serve.ts",
+    "serve:dev": "NODE_ENV=development bun run serve",
+    "serve:prod": "NODE_ENV=production bun run serve",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src scripts tests",
+    "format": "biome format --write src scripts tests",
+    "test": "bun test",
+    "validate": "bun run typecheck && bun run lint && bun run test && bun run build"
+  },
+  "dependencies": {
+    "axios": "1.21.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-router": "8.5.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.4",
+    "@fontsource/barlow": "5.3.0",
+    "@fontsource/barlow-condensed": "5.3.0",
+    "@fontsource/barlow-semi-condensed": "5.3.0",
+    "@fontsource/big-shoulders-stencil-display": "5.3.0",
+    "@happy-dom/global-registrator": "21.0.4",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@types/bun": "1.4.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "happy-dom": "21.0.4",
+    "subset-font": "2.9.0",
+    "typescript": "7.0.2"
+  }
+}

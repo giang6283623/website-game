@@ -1,0 +1,28 @@
+.tag {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: var(--size-tag);
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+.tag--news {
+  border: var(--border-hairline) solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+}
+
+.tag--guide {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.tag--event {
+  border: var(--border-hairline) solid var(--color-border-accent);
+  color: var(--color-text-accent);
+}
+
+.tag--new {
+  background: var(--color-text-primary);
+  color: var(--color-text-on-accent);
+}

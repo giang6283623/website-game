@@ -1,0 +1,161 @@
+/* Chi tiết người dùng quản trị (G-23). Điện thoại: một cột (thông tin, xếp hạng, nhân vật, nhật ký), thanh dính ở cuối.
+   Máy tính: cột trái co giãn (thông tin, nhân vật, nhật ký) và khung xếp hạng rộng 360 ở bên phải. */
+.user-detail .compose__layout {
+  gap: var(--space-5);
+}
+
+/* Tiêu đề dài xuống hai dòng đều nhau: "CHI TIẾT / NGƯỜI DÙNG" như bản vẽ điện thoại. */
+.user-detail .admin-head__title {
+  text-wrap: balance;
+}
+
+.user-detail__kv {
+  margin: 0;
+}
+
+.user-detail .compose__panel-title {
+  margin-bottom: var(--space-3);
+}
+
+.user-detail .compose__row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 0;
+  padding: var(--space-3) 0;
+}
+
+/* Giá trị của một dòng: cao đúng một dòng dữ liệu (24) để dòng khung cao 49 như bản vẽ. */
+.user-detail__value {
+  display: flex;
+  align-items: center;
+  min-height: var(--text-data-m-line);
+}
+
+.user-detail__empty {
+  margin: 0;
+  padding-block: var(--space-3);
+  border-top: var(--border-hairline) solid var(--color-border-soft);
+  color: var(--color-text-muted);
+}
+
+/* Bảng nhân vật và nhật ký. Điện thoại: mỗi dòng có tên hoặc hành động ở trên, chữ phụ ở dưới. */
+.user-detail__table,
+.user-detail__table tbody {
+  display: block;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-detail__table thead {
+  display: none;
+}
+
+.user-detail__table tr {
+  border-top: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.user-detail__row {
+  display: block;
+  padding-block: var(--space-3);
+}
+
+.user-detail__name {
+  display: block;
+  padding: 0;
+  color: var(--color-text-primary);
+}
+
+.user-detail__col {
+  display: none;
+}
+
+.user-detail__meta {
+  display: block;
+  margin-top: var(--space-1);
+  padding: 0;
+  color: var(--color-text-muted);
+}
+
+.user-detail__table--characters col:nth-child(1) {
+  width: 35%;
+}
+
+.user-detail__table--characters col:nth-child(2) {
+  width: 12%;
+}
+
+.user-detail__table--characters col:nth-child(3) {
+  width: 30%;
+}
+
+.user-detail__table--history col:nth-child(1) {
+  width: 34%;
+}
+
+.user-detail__table--history col:nth-child(2) {
+  width: 36%;
+}
+
+@media (min-width: 1200px) {
+  .user-detail .compose__layout {
+    grid-template-areas:
+      "info rank"
+      "characters ."
+      "history .";
+    column-gap: var(--space-6);
+    row-gap: var(--space-5);
+  }
+
+  .user-detail__info {
+    grid-area: info;
+  }
+
+  .user-detail__rank {
+    grid-area: rank;
+  }
+
+  .user-detail__characters {
+    grid-area: characters;
+  }
+
+  .user-detail__history {
+    grid-area: history;
+  }
+
+  .user-detail__table {
+    display: table;
+    table-layout: fixed;
+  }
+
+  .user-detail__table tbody {
+    display: table-row-group;
+  }
+
+  .user-detail__table thead {
+    display: table-header-group;
+  }
+
+  .user-detail__table th {
+    padding: var(--space-3) var(--space-3) var(--space-3) 0;
+    color: var(--color-text-muted);
+    text-align: left;
+  }
+
+  .user-detail__row {
+    display: table-row;
+    padding: 0;
+  }
+
+  .user-detail__name,
+  .user-detail__col {
+    display: table-cell;
+    padding: var(--space-3) var(--space-3) var(--space-3) 0;
+    vertical-align: middle;
+  }
+
+  .user-detail__meta {
+    display: none;
+  }
+}

@@ -1,0 +1,86 @@
+/* Danh sách vật phẩm. Điện thoại: hình và tên trên một hàng, hai công tắc ở hàng dưới. */
+.items-row {
+  display: grid;
+  grid-template-columns: 80px 40px minmax(0, 1fr);
+  grid-template-areas:
+    "image name name"
+    "featured featured visible"
+    "edit edit edit";
+  align-items: center;
+  column-gap: var(--space-4);
+  row-gap: calc(var(--space-3) + 2px);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.items-row__image {
+  grid-area: image;
+}
+
+.items-row__image img {
+  display: block;
+  width: 80px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.items-row__name {
+  grid-area: name;
+}
+
+.items-row__featured {
+  grid-area: featured;
+}
+
+.items-row__visible {
+  grid-area: visible;
+}
+
+.items-row__edit {
+  grid-area: edit;
+}
+
+.items-row__title,
+.items-row__type {
+  margin: 0;
+}
+
+.items-row__title {
+  color: var(--color-text-primary);
+}
+
+.items-row__type {
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 1200px) {
+  .items-table {
+    --admin-row: 75px;
+    table-layout: fixed;
+  }
+
+  .items-table th:nth-child(1),
+  .items-table td:nth-child(1) {
+    width: 105px;
+  }
+
+  .items-table th:nth-child(3),
+  .items-table td:nth-child(3) {
+    width: 156px;
+  }
+
+  .items-table th:nth-child(4),
+  .items-table td:nth-child(4) {
+    width: 172px;
+  }
+
+  .items-table th:nth-child(5),
+  .items-table td:nth-child(5) {
+    width: 96px;
+  }
+
+  .items-row {
+    display: table-row;
+    padding: 0;
+  }
+}

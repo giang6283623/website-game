@@ -1,0 +1,50 @@
+.page-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--page-pad-x) var(--space-5);
+  padding-top: var(--space-6);
+  overflow: hidden;
+  background-color: var(--color-bg-page);
+}
+
+/* Điện thoại không có họa tiết lưới chữ thập (bản vẽ "Title"). Máy tính dùng họa tiết tỉ lệ 1 của lớp `pattern-cross--large`. */
+@media (max-width: 1199px) {
+  .page-title.pattern-cross--large {
+    background-image: none;
+  }
+}
+
+.page-title__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.page-title__lead {
+  max-width: 720px;
+  margin: 0;
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-line);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1199px) {
+  .page-title .page-title__title--compact {
+    font-size: var(--text-display-m-size);
+    line-height: var(--text-display-m-line);
+    letter-spacing: var(--text-display-m-spacing);
+  }
+}
+
+@media (min-width: 1200px) {
+  .page-title {
+    gap: var(--space-4);
+    padding-block: 56px;
+    border-bottom: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .page-title__lead {
+    font-size: var(--text-body-l-size);
+    line-height: var(--text-body-l-line);
+  }
+}

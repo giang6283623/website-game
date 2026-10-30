@@ -1,0 +1,9 @@
+# Dự án ISSVN
+.DS_Store
+node_modules/
+out/
+# Ghi đè riêng từng máy. Bun nạp .env.local sau .env.development và .env.production
+.env.local
+.env.*.local
+# Hình game đã chuyển WebP: chưa commit cho đến khi D-09 (quyền dùng hình) được xác nhận
+public/assets/game/

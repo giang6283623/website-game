@@ -1,0 +1,172 @@
+/* Khung quản trị. Điện thoại: dải đầu, nhãn, hàng chip cuộn ngang, rồi nội dung. Máy tính: thanh bên 280 và vùng chính. */
+.admin {
+  min-height: 100vh;
+  background: var(--color-bg-page);
+}
+
+.admin__side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "brand out"
+    "label label"
+    "nav nav";
+  align-items: center;
+  padding: 0 var(--page-pad-x);
+}
+
+.admin__brand {
+  grid-area: brand;
+  display: flex;
+  align-items: center;
+  min-height: var(--size-header-mobile);
+}
+
+.admin__signout {
+  grid-area: out;
+  margin: 0;
+  padding: var(--space-2) 0;
+  background: none;
+  border: 0;
+  color: var(--color-text-accent);
+  cursor: pointer;
+}
+
+.admin__signout:hover {
+  color: var(--color-accent-hover);
+}
+
+.admin__label {
+  grid-area: label;
+  margin: 0;
+  padding-top: calc(var(--space-4) + var(--space-1));
+  color: var(--color-text-muted);
+}
+
+.admin__nav {
+  grid-area: nav;
+  min-width: 0;
+  padding-block: var(--space-3) var(--space-1);
+}
+
+.admin__list {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 calc(var(--page-pad-x) * -1);
+  padding: 0 var(--page-pad-x);
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.admin__list::-webkit-scrollbar {
+  display: none;
+}
+
+.admin__list li {
+  flex: none;
+}
+
+/* Điện thoại: mỗi mục là một chip */
+.admin__link {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-chip);
+  padding: 11px 16px;
+  border: var(--border-hairline) solid var(--color-border-control);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.admin__link:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-bold);
+  color: var(--color-text-primary);
+}
+
+.admin__link.is-current,
+.admin__link.is-current:hover {
+  background: var(--color-accent-default);
+  border-color: var(--color-accent-default);
+  color: var(--color-text-on-accent);
+}
+
+.admin__content {
+  min-width: 0;
+  padding: var(--space-5) var(--page-pad-x) var(--space-section-y-mobile);
+}
+
+@media (min-width: 1200px) {
+  .admin {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .admin__side {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100vh;
+    padding: var(--space-6) var(--space-6) var(--space-7);
+    overflow-y: auto;
+    background: var(--color-bg-inset);
+    border-right: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .admin__brand {
+    min-height: 0;
+  }
+
+  .admin__label {
+    padding-top: var(--space-5);
+  }
+
+  .admin__nav {
+    padding-block: var(--space-5) 0;
+  }
+
+  .admin__list {
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    border-top: 0;
+  }
+
+  .admin__link {
+    display: flex;
+    width: 100%;
+    min-height: 47px;
+    padding: 0 var(--space-4);
+    border: 0;
+    border-bottom: var(--border-hairline) solid var(--color-border-soft);
+  }
+
+  .admin__link:hover {
+    background: var(--color-bg-hover);
+    border-color: var(--color-border-soft);
+  }
+
+  .admin__link.is-current,
+  .admin__link.is-current:hover {
+    background: var(--color-bg-hover);
+    border-color: var(--color-border-soft);
+    border-left: 3px solid var(--color-accent-default);
+    color: var(--color-text-primary);
+  }
+
+  .admin__signout {
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 0;
+  }
+
+  .admin__content {
+    padding: var(--space-7) var(--space-8) var(--space-9);
+  }
+}

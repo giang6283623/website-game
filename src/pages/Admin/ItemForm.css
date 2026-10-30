@@ -1,0 +1,210 @@
+/* Thêm và sửa vật phẩm (G-23, Figma 156:2378, 156:2723, 160:915, 160:1145). Dùng lại khung của Soạn bài (Compose.css). */
+
+/* Nhóm: khoảng cách 8 ở cả hai cỡ màn hình, khác bản Soạn bài ở điện thoại. */
+.item-form .compose__group {
+  gap: var(--space-2);
+}
+
+.item-form legend.compose__label {
+  margin-bottom: var(--space-2);
+}
+
+.item-form__chips {
+  gap: var(--space-2);
+}
+
+/* Chỉ số */
+.item-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.item-stats__head,
+.item-stats__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 112px 65px;
+  align-items: center;
+  column-gap: var(--space-3);
+}
+
+.item-stats__head {
+  color: var(--color-text-secondary);
+}
+
+.item-stats__row .btn {
+  width: 100%;
+  min-width: 0;
+}
+
+.item-stats__add {
+  align-self: flex-start;
+}
+
+.item-form__hint {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.item-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  /* Bản vẽ Figma dùng ô 54 cho dòng chỉ số và ô Mã trong game (Field mặc định là 52). Ghi ở C-59. */
+  height: 54px;
+  margin: 0;
+  padding: 0 var(--space-4);
+  background: var(--color-bg-inset);
+  border: var(--border-hairline) solid var(--color-border-control);
+  border-radius: 0;
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+.item-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.item-input:focus {
+  border: var(--border-control) solid var(--color-border-focus);
+}
+
+.item-input--label {
+  text-transform: uppercase;
+}
+
+/* Ô mô tả nhiều dòng dùng khung của Field nhưng cao theo nội dung. */
+.item-textarea {
+  height: auto;
+  min-height: 160px;
+  align-items: stretch;
+}
+
+.field__input.item-textarea__input {
+  height: auto;
+  min-height: 158px;
+  padding: var(--space-4);
+  font: inherit;
+  resize: vertical;
+}
+
+/* Hình vật phẩm: điện thoại xếp dọc, máy tính xem trước 200 bên trái và ô khóa hình bên phải. */
+.item-image {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.item-image__preview {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 140px;
+  background: var(--color-bg-inset);
+  border: var(--border-hairline) solid var(--color-border-soft);
+  color: var(--color-text-muted);
+}
+
+.item-image__preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.item-image__fields {
+  display: contents;
+}
+
+.item-image__pick {
+  align-self: flex-start;
+}
+
+/* Khung bên phải */
+.item-form .compose__panel-title {
+  margin-bottom: var(--space-3);
+}
+
+.item-form__kv {
+  margin: 0;
+}
+
+.item-form .compose__row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 0;
+  padding: var(--space-3) 0;
+}
+
+.item-form .compose__pair {
+  padding: 0;
+}
+
+.item-form__date {
+  display: block;
+}
+
+.item-form__note {
+  margin: 0;
+  padding-bottom: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.item-form__note--error {
+  color: var(--color-text-danger);
+}
+
+.item-form__game {
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+.item-form__game .field__box {
+  height: 54px;
+}
+
+.item-form .compose__panel-actions {
+  margin-top: var(--space-4);
+}
+
+@media (min-width: 1200px) {
+  .item-form__chips {
+    gap: var(--space-3);
+  }
+
+  .item-stats__head,
+  .item-stats__row {
+    grid-template-columns: minmax(0, 1fr) 200px 65px;
+  }
+
+  .item-textarea {
+    min-height: 144px;
+  }
+
+  .field__input.item-textarea__input {
+    min-height: 142px;
+  }
+
+  .item-image {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .item-image__preview {
+    width: 200px;
+  }
+
+  .item-image__fields {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+}

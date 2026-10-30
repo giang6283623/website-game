@@ -1,0 +1,92 @@
+/* Điện thoại: một cột. Điều khiển (ô tìm, loại), thanh công cụ, lưới thẻ, phân trang. */
+.items-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gutter-mobile);
+  padding: 0 var(--page-pad-x) var(--space-section-y-mobile);
+}
+
+.items-page__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gutter-mobile);
+  min-width: 0;
+}
+
+.items-page__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.items-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.items-toolbar__count {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.items-toolbar__sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.items-toolbar__sort-label {
+  margin-right: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.items-page__results {
+  scroll-margin-top: var(--space-5);
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.items-page__main > .pagination {
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 1200px) {
+  .items-page {
+    display: grid;
+    grid-template-columns: 288px minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-8);
+    padding: var(--space-7) var(--page-pad-x) var(--space-9);
+  }
+
+  .items-page__side {
+    gap: var(--space-5);
+  }
+
+  .items-page__main {
+    gap: var(--space-6);
+  }
+
+  .items-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .items-page__main > .pagination {
+    margin-top: 0;
+  }
+}

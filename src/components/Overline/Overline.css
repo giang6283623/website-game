@@ -1,0 +1,29 @@
+.overline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-accent);
+}
+
+/* Chiều cao dòng giữ 22 px ở mọi cỡ để nhịp dọc khớp bản vẽ. */
+.overline.text-label-m {
+  line-height: var(--text-label-l-line);
+}
+
+.overline__bar {
+  flex: none;
+  width: 24px;
+  height: 3px;
+  background: var(--color-border-accent);
+}
+
+@media (min-width: 1200px) {
+  .overline.overline--l {
+    font-size: var(--text-label-l-size);
+    letter-spacing: var(--text-label-l-spacing);
+  }
+
+  .overline--l .overline__bar {
+    width: 32px;
+  }
+}
