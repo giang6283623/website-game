@@ -195,7 +195,7 @@ Dòng "Me" (vị trí của tôi) không phải một bản ghi riêng. Máy ch�
 | `statLine` | Chuỗi | Dòng chỉ số trên thẻ, ví dụ "Sát thương 32 · Tầm xa 120". Nhập tay hoặc sinh từ `stats` |
 | `stats` | Danh sách {nhãn, giá trị} | Bộ trường theo nhóm, xem bảng dưới |
 | `description` | Chuỗi thuần | Mô tả ngắn cho khối chi tiết |
-| `imageKey` | Chuỗi | Khóa hình, ví dụ `items/asr-ak74.webp`. Danh sách đầy đủ trong `ASSET-MAP.md`. Rỗng khi chưa có hình: thẻ và khối chi tiết vẫn vẽ khung nền, tên và chỉ số, không vẽ thẻ `img` (C-74) |
+| `imageKey` | Chuỗi | Khóa hình, ví dụ `items/asr-ak74.webp`. Danh sách đầy đủ trong `ASSET-MAP.md`. Luôn có tiền tố thư mục (`items/...`). Rỗng khi chưa có hình: thẻ và khối chi tiết vẫn vẽ khung nền, tên và chỉ số, không vẽ thẻ `img` (C-74). Từ phiên 7, 154 trong 170 dòng mẫu có hình, 16 dòng còn rỗng (C-80) |
 | `publishedAt` | Thời điểm | Dùng cho sắp xếp "MỚI NHẤT" |
 | `featured` | Đúng hoặc sai | Cột "NỔI BẬT" ở quản trị Vật phẩm. Tối đa 4 vật phẩm cùng bật. Các vật phẩm này hiện ở khối "Vũ khí và đồ dùng" của Trang chủ (A-27) |
 | `visible` | Đúng hoặc sai | Cột "HIỂN THỊ" ở quản trị. Tắt thì vật phẩm biến khỏi Kho đồ công khai và khỏi `sitemap.xml` |

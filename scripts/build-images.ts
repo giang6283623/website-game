@@ -11,6 +11,7 @@ const root = resolve(import.meta.dir, "..");
 const sourceRoot = resolve(root, process.env.GAME_ASSETS_DIR ?? "game-assets-src");
 const outRoot = resolve(root, "public/assets/game");
 const mapFile = resolve(root, "docs/design-handoff/ASSET-MAP.md");
+const itemImagesFile = resolve(root, "scripts/data/game-item-images.json");
 const sizesFile = resolve(root, "src/content/image-sizes.ts");
 
 async function convert(entry: AssetEntry): Promise<number | null> {
@@ -30,6 +31,14 @@ async function convert(entry: AssetEntry): Promise<number | null> {
 }
 
 const entries = parseAssetMap(await Bun.file(mapFile).text());
+// Hình vật phẩm nhập từ client game (xem C-74, C-80). Mỗi dòng nối một mã trong game với một hình, hình dùng chung chỉ chuyển một lần.
+const known = new Set(entries.map((e) => e.web));
+const itemImages = (await Bun.file(itemImagesFile).json()) as AssetEntry[];
+for (const row of itemImages) {
+  if (known.has(row.web)) continue;
+  known.add(row.web);
+  entries.push({ source: row.source, web: row.web, width: row.width, height: row.height });
+}
 let converted = 0;
 let missing = 0;
 let bytes = 0;
@@ -48,7 +57,7 @@ await mkdir(dirname(sizesFile), { recursive: true });
 await writeFile(
   sizesFile,
   [
-    "// Tự sinh bằng scripts/build-images.ts từ ASSET-MAP.md. Không sửa tay.",
+    "// Tự sinh bằng scripts/build-images.ts từ ASSET-MAP.md và scripts/data/game-item-images.json. Không sửa tay.",
     "export const IMAGE_SIZES: Record<string, readonly [number, number]> = {",
     ...lines,
     "};",

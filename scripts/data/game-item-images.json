@@ -1,0 +1,821 @@
+[
+ {
+  "gameItemId": "20006",
+  "source": "store-icons/HEADHELMET.png",
+  "web": "items/headhelmet.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20015",
+  "source": "store-icons/ARMOR_Rebel_Heavy.png",
+  "web": "items/armor-rebel-heavy.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20022",
+  "source": "store-icons/HGEAR_Beret.png",
+  "web": "items/hgear-beret.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20023",
+  "source": "store-icons/HGEAR_Boonie.png",
+  "web": "items/hgear-boonie.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20025",
+  "source": "store-icons/HGEAR_Shadow.png",
+  "web": "items/hgear-shadow.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20032",
+  "source": "store-icons/HGEAR_Mask_Black_01.png",
+  "web": "items/hgear-mask-black-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20033",
+  "source": "store-icons/HGEAR_Mask_Clown_01.png",
+  "web": "items/hgear-mask-clown-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20034",
+  "source": "store-icons/HGEAR_Mask_Hockey_01.png",
+  "web": "items/hgear-mask-hockey-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20035",
+  "source": "store-icons/HGEAR_Mask_Skull_01.png",
+  "web": "items/hgear-mask-skull-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20036",
+  "source": "store-icons/HGEAR_Mask_Slash_01.png",
+  "web": "items/hgear-mask-slash-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20041",
+  "source": "store-icons/HGEAR_Boonie_Hat_Desert.png",
+  "web": "items/hgear-boonie-hat-desert.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20042",
+  "source": "store-icons/HGEAR_Boonie_Hat_MilGreen.png",
+  "web": "items/hgear-boonie-hat-milgreen.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20043",
+  "source": "store-icons/HGEAR_M9_Helmet_Black_01.png",
+  "web": "items/hgear-m9-helmet-black-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20046",
+  "source": "store-icons/HGEAR_M9_Helmet_Desert_02.png",
+  "web": "items/hgear-m9-helmet-desert-02.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20047",
+  "source": "store-icons/HGEAR_M9_Helmet_MilGreen_01.png",
+  "web": "items/hgear-m9-helmet-milgreen-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20048",
+  "source": "store-icons/HGEAR_M9_Helmet_Urban_01.png",
+  "web": "items/hgear-m9-helmet-urban-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20049",
+  "source": "store-icons/HGEAR_M9_Helmet_forest_01.png",
+  "web": "items/hgear-m9-helmet-forest-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20050",
+  "source": "store-icons/HGEAR_M9_Helmet_forest_02.png",
+  "web": "items/hgear-m9-helmet-forest-02.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20054",
+  "source": "store-icons/Armor_IBA_01_Sand.png",
+  "web": "items/armor-iba-01-sand.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20067",
+  "source": "store-icons/Hgear_KStyle_NVG_01.png",
+  "web": "items/hgear-kstyle-nvg-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20096",
+  "source": "store-icons/HGEAR_Boonie_Hat_Leather_01.png",
+  "web": "items/hgear-boonie-hat-leather-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20097",
+  "source": "store-icons/HGEAR_Fireman_Helmet_01.png",
+  "web": "items/hgear-fireman-helmet-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20098",
+  "source": "store-icons/HGear_HardHat_01.png",
+  "web": "items/hgear-hardhat-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20179",
+  "source": "store-icons/Gear_Backpack_Med_01.png",
+  "web": "items/gear-backpack-med-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20181",
+  "source": "store-icons/Gear_Backpack_TeddyBear.png",
+  "web": "items/gear-backpack-teddybear.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20182",
+  "source": "store-icons/mohawkguy.png",
+  "web": "items/mohawkguy.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20185",
+  "source": "store-icons/gear_backpack_med_01_black.png",
+  "web": "items/gear-backpack-med-01-black.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20187",
+  "source": "store-icons/HGEAR_NV_Mil_01.png",
+  "web": "items/hgear-nv-mil-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20188",
+  "source": "store-icons/HGEAR_NV_Civ_01.png",
+  "web": "items/hgear-nv-civ-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "20189",
+  "source": "store-icons/CharacterMale_01.png",
+  "web": "items/charactermale-01.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20193",
+  "source": "store-icons/CharacterMale_02.png",
+  "web": "items/charactermale-02.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20194",
+  "source": "store-icons/CharacterFemale_01.png",
+  "web": "items/characterfemale-01.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20195",
+  "source": "store-icons/CharacterFemale_02.png",
+  "web": "items/characterfemale-02.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20201",
+  "source": "store-icons/CharacterMale_Asian.png",
+  "web": "items/charactermale-asian.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20202",
+  "source": "store-icons/CharacterMale_05.png",
+  "web": "items/charactermale-05.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20203",
+  "source": "store-icons/CharacterMale_Black.png",
+  "web": "items/charactermale-black.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20218",
+  "source": "store-icons/female_st.png",
+  "web": "items/female-st.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20222",
+  "source": "store-icons/rg.png",
+  "web": "items/rg.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "20997",
+  "source": "store-icons/character_roxy.png",
+  "web": "items/character-roxy.webp",
+  "width": 256,
+  "height": 256
+ },
+ {
+  "gameItemId": "101002",
+  "source": "store-icons/ASR_M16.png",
+  "web": "items/asr-m16.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101004",
+  "source": "store-icons/HG_FN57.png",
+  "web": "items/hg-fn57.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101005",
+  "source": "store-icons/ASR_G36.png",
+  "web": "items/asr-g36.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101022",
+  "source": "store-icons/ASR_AK74M.png",
+  "web": "items/asr-ak74m.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101040",
+  "source": "store-icons/ASR_Sig516.png",
+  "web": "items/asr-sig516.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101055",
+  "source": "store-icons/ASR_M4FFH.png",
+  "web": "items/asr-m4ffh.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101063",
+  "source": "store-icons/SMG_MP7.png",
+  "web": "items/smg-mp7.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101093",
+  "source": "store-icons/MG_RPK.png",
+  "web": "items/mg-rpk.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101098",
+  "source": "store-icons/SHG_Saiga.png",
+  "web": "items/shg-saiga.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101107",
+  "source": "store-icons/SMG_P90.png",
+  "web": "items/smg-p90.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101109",
+  "source": "store-icons/SMG_Bizon.png",
+  "web": "items/smg-bizon.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101112",
+  "source": "store-icons/HG_Beretta93R.png",
+  "web": "items/hg-beretta93r.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101115",
+  "source": "store-icons/HG_Jericho.png",
+  "web": "items/hg-jericho.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101158",
+  "source": "store-icons/SHG_Mossberg590_01.png",
+  "web": "items/shg-mossberg590-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101169",
+  "source": "store-icons/ASR_Mossada.png",
+  "web": "items/asr-mossada.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101183",
+  "source": "store-icons/SHG_Keltech.png",
+  "web": "items/shg-keltech.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101197",
+  "source": "store-icons/MG_G36MG.png",
+  "web": "items/mg-g36mg.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101200",
+  "source": "store-icons/SHG_Usas12.png",
+  "web": "items/shg-usas12.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101201",
+  "source": "store-icons/SMG_SR-1_Veresk.png",
+  "web": "items/smg-sr-1-veresk.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101261",
+  "source": "store-icons/Item_Bandage_01.png",
+  "web": "items/item-bandage-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101262",
+  "source": "store-icons/Item_Bandage_02.png",
+  "web": "items/item-bandage-02.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101267",
+  "source": "store-icons/MEL_Knife_01.png",
+  "web": "items/mel-knife-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101278",
+  "source": "store-icons/MEL_BaseballBat_01.png",
+  "web": "items/mel-baseballbat-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101283",
+  "source": "store-icons/Consumables_Bag_Chips_01.png",
+  "web": "items/consumables-bag-chips-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101285",
+  "source": "store-icons/consumables_bag_oat_01.png",
+  "web": "items/consumables-bag-oat-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101286",
+  "source": "store-icons/consumables_coconutwater_01.png",
+  "web": "items/consumables-coconutwater-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101288",
+  "source": "store-icons/Consumables_Bar_Chocolate_01.png",
+  "web": "items/consumables-bar-chocolate-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101289",
+  "source": "store-icons/consumables_bar_granola_01.png",
+  "web": "items/consumables-bar-granola-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101291",
+  "source": "store-icons/consumables_can_soup_01.png",
+  "web": "items/consumables-can-soup-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101292",
+  "source": "store-icons/Consumables_Can_Spam_01.png",
+  "web": "items/consumables-can-spam-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101293",
+  "source": "store-icons/consumables_can_tuna_01.png",
+  "web": "items/consumables-can-tuna-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101295",
+  "source": "store-icons/consumables_gatorade_01.png",
+  "web": "items/consumables-gatorade-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101296",
+  "source": "store-icons/consumables_soda_01.png",
+  "web": "items/consumables-soda-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101297",
+  "source": "store-icons/Consumables_Tetrapack_Juice_01.png",
+  "web": "items/consumables-tetrapack-juice-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101299",
+  "source": "store-icons/Consumables_water_S_01.png",
+  "web": "items/consumables-water-s-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101302",
+  "source": "store-icons/Item_Syringe_01_Vaccine.png",
+  "web": "items/item-syringe-01-vaccine.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101303",
+  "source": "store-icons/Item_Syringe_01_GC_Vaccine.png",
+  "web": "items/item-syringe-01-gc-vaccine.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101304",
+  "source": "store-icons/Item_Medkit_01.png",
+  "web": "items/item-medkit-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101305",
+  "source": "store-icons/Item_MsgBottle.png",
+  "web": "items/item-msgbottle.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101306",
+  "source": "store-icons/MEL_Flashlight.png",
+  "web": "items/mel-flashlight.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101307",
+  "source": "store-icons/MEL_Hammer.png",
+  "web": "items/mel-hammer.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101309",
+  "source": "store-icons/MEL_Pickaxe.png",
+  "web": "items/mel-pickaxe.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101310",
+  "source": "store-icons/EXP_M26.png",
+  "web": "items/exp-m26.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101311",
+  "source": "store-icons/Item_ChemLight.png",
+  "web": "items/item-chemlight.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101314",
+  "source": "store-icons/MEL_BaseballBat_02.png",
+  "web": "items/mel-baseballbat-02.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101317",
+  "source": "store-icons/Item_Barricade_WoodShield.png",
+  "web": "items/item-barricade-woodshield.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101318",
+  "source": "store-icons/Item_Riot_Shield_Crate_01.png",
+  "web": "items/item-riot-shield-crate-01.webp",
+  "width": 312,
+  "height": 312
+ },
+ {
+  "gameItemId": "101319",
+  "source": "store-icons/Item_RangeFinder.png",
+  "web": "items/item-rangefinder.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101320",
+  "source": "store-icons/HG_FlareGun.png",
+  "web": "items/hg-flaregun.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101325",
+  "source": "store-icons/Item_ChemLight_blue.png",
+  "web": "items/item-chemlight-blue.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101329",
+  "source": "store-icons/Item_ChemLight_yellow.png",
+  "web": "items/item-chemlight-yellow.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101330",
+  "source": "store-icons/HG_Ruger.png",
+  "web": "items/hg-ruger.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101332",
+  "source": "store-icons/ASR_Ruger_Rifle.png",
+  "web": "items/asr-ruger-rifle.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101334",
+  "source": "store-icons/ASR_Mini14.png",
+  "web": "items/asr-mini14.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101335",
+  "source": "store-icons/Mel_CandyCane_01.png",
+  "web": "items/mel-candycane-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101336",
+  "source": "store-icons/MEL_Katana_01.png",
+  "web": "items/mel-katana-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101337",
+  "source": "store-icons/MEL_Katana_01_Special.png",
+  "web": "items/mel-katana-01-special.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101338",
+  "source": "store-icons/MEL_Katana_02_Special.png",
+  "web": "items/mel-katana-02-special.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101339",
+  "source": "store-icons/MEL_Machete_01.png",
+  "web": "items/mel-machete-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101342",
+  "source": "store-icons/HG_Colt_1911.png",
+  "web": "items/hg-colt-1911.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101346",
+  "source": "store-icons/MEL_Shovel.png",
+  "web": "items/mel-shovel.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101384",
+  "source": "store-icons/Mel_FryingPan.png",
+  "web": "items/mel-fryingpan.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101388",
+  "source": "store-icons/Mel_Pitchfork.png",
+  "web": "items/mel-pitchfork.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101389",
+  "source": "store-icons/Mel_PoliceBaton.png",
+  "web": "items/mel-policebaton.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101391",
+  "source": "store-icons/Mel_Wrench.png",
+  "web": "items/mel-wrench.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101392",
+  "source": "store-icons/Mel_Nailgun.png",
+  "web": "items/mel-nailgun.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101399",
+  "source": "store-icons/Item_repairKit_01.png",
+  "web": "items/item-repairkit-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101400",
+  "source": "store-icons/Item_repairKit_Premium_01.png",
+  "web": "items/item-repairkit-premium-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "101408",
+  "source": "store-icons/MEL_Pickaxe_Craft.png",
+  "web": "items/mel-pickaxe-craft.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "301321",
+  "source": "store-icons/Craft_Gas_01.png",
+  "web": "items/craft-gas-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "301340",
+  "source": "store-icons/Craft_Recipe_01.png",
+  "web": "items/craft-recipe-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "301342",
+  "source": "store-icons/Craft_Recipe_01.png",
+  "web": "items/craft-recipe-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "301344",
+  "source": "store-icons/Craft_Recipe_01.png",
+  "web": "items/craft-recipe-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "301346",
+  "source": "store-icons/Craft_Recipe_01.png",
+  "web": "items/craft-recipe-01.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "800011",
+  "source": "store-icons/ASR_Famas.png",
+  "web": "items/asr-famas.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "800027",
+  "source": "store-icons/ASR_L85.png",
+  "web": "items/asr-l85.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "800030",
+  "source": "store-icons/ASR_QBZ-95.png",
+  "web": "items/asr-qbz-95.webp",
+  "width": 512,
+  "height": 312
+ },
+ {
+  "gameItemId": "800032",
+  "source": "store-icons/MG_Pecheneg.png",
+  "web": "items/mg-pecheneg.webp",
+  "width": 512,
+  "height": 312
+ }
+]

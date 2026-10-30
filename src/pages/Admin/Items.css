@@ -53,6 +53,21 @@
   color: var(--color-text-muted);
 }
 
+/* Điện thoại từ 380: nút SỬA nằm cùng hàng hai công tắc, rộng 65 như bản vẽ (C-43). Dưới 380 không đủ chỗ nên SỬA xuống hàng riêng. */
+@media (min-width: 380px) and (max-width: 1199px) {
+  .items-row {
+    grid-template-columns: 80px 40px minmax(0, 1fr) 65px;
+    grid-template-areas:
+      "image name name name"
+      "featured featured visible edit";
+  }
+
+  .items-row__edit .admin-action {
+    justify-content: center;
+    min-width: 65px;
+  }
+}
+
 @media (min-width: 1200px) {
   .items-table {
     --admin-row: 75px;

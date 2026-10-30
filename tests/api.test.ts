@@ -31,6 +31,7 @@ import {
   serverStatusSchema,
   skillSchema,
 } from "../src/api/schemas.ts";
+import { assetSize } from "../src/lib/assets.ts";
 
 beforeEach(() => {
   resetMockSession();
@@ -122,10 +123,23 @@ describe("API giả: kho đồ, xếp hạng, trạng thái", () => {
     const helmets = await getItemList({ loai: "giap-va-ba-lo", q: "m9 helmet" });
     const helmet = helmets.items.find((entry) => entry.name === "M9 Helmet Green");
     expect(helmet?.gameItemId).toBe("20047");
-    expect(helmet?.imageKey).toBe("");
+    expect(helmet?.imageKey).toBe("items/hgear-m9-helmet-milgreen-01.webp");
     expect(helmet?.stats.length).toBeGreaterThan(0);
     const hidden = await getItem("vat-pham-20252").catch((error: unknown) => error);
     expect(isApiError(hidden)).toBe(true);
+  });
+
+  test("hình vật phẩm: mỗi khóa hình có kích thước, 16 món còn trống hình và không có hình của bên thứ ba", () => {
+    const withImage = sample.items.filter((item) => item.imageKey !== "");
+    for (const item of withImage) {
+      if (assetSize(item.imageKey) === null)
+        throw new Error(`${item.slug}: thiếu kích thước cho ${item.imageKey}`);
+    }
+    expect(sample.items.length - withImage.length).toBe(16);
+    const keys = withImage.map((item) => item.imageKey);
+    for (const banned of ["spiderman", "energydrink", "minisaints"]) {
+      expect(keys.some((key) => key.toLowerCase().includes(banned))).toBe(false);
+    }
   });
 
   test("chi tiết vật phẩm theo slug", async () => {

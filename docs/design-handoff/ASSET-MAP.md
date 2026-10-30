@@ -144,3 +144,9 @@ Cột "Nhóm lọc Kho đồ" khớp với số lượng trong thiết kế: VŨ
 2. Viết một script xuất hàng loạt: đọc danh sách trong tệp này, đổi PNG sang WebP, ghi tên tệp theo cột gợi ý, ghi `width` và `height` vào một tệp dữ liệu để thành phần ảnh đọc.
 3. Kiểm tra quyền dùng hình trước khi công khai (xem mục Câu hỏi mở trong PRD).
 4. Dữ liệu vật phẩm thật cần cột `imageKey` trỏ tới tên tệp web. Xem `ROUTES-AND-DATA.md`, bảng `Item`.
+
+### Hình vật phẩm nhập thêm ở phiên 7
+
+Bảng trên chỉ liệt kê 60 hình thiết kế. Thêm 114 hình vật phẩm lấy từ thư mục hình cửa hàng của client game, được ghi ở `scripts/data/game-item-images.json` (mỗi dòng: `gameItemId`, `source`, `web`, `width`, `height`). Lệnh `bun run build:images` đọc cả hai nguồn, chuyển sang WebP vào `public/assets/game/items/` (thư mục này không đưa vào git) và sinh `src/content/image-sizes.ts`. Nhiều món có thể dùng chung một hình, ví dụ bốn món Công thức.
+
+Không dùng hình: ba món có hình nhân vật của bên thứ ba hoặc gương mặt người thật (xem C-80), mười mẫu nhân vật mà client game không có hình trong `Data/Weapons/StoreIcons`, và ba mã không có trong `itemsDB.xml`. Tổng cộng 16 dòng giữ `imageKey` rỗng.
