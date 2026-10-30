@@ -1,0 +1,110 @@
+# ISSVN: website Infestation Việt Nam
+
+Website tĩnh cho máy chủ game sinh tồn Infestation Việt Nam. Người chơi xem tin tức, kho đồ và bảng xếp hạng. Họ cũng tải game và đọc quy tắc cộng đồng. Có khu đăng nhập, hồ sơ người chơi và khu quản trị.
+
+Website hiện chạy bằng dữ liệu mẫu (API giả). Chưa có máy chủ API thật.
+
+## Lưu ý về hình ảnh và tài sản của game
+
+Mã nguồn dùng giấy phép MIT (xem `LICENSE`). Giấy phép này chỉ áp dụng cho mã và tài liệu do dự án tự viết.
+
+Một số hình ảnh vật phẩm và tài sản của game chỉ mang tính tham khảo. Chúng thuộc về bên thứ ba. Dự án không sở hữu chúng và không cấp quyền dùng chúng.
+
+- Kho này không chứa các hình đó. Thư mục `public/assets/game/` nằm ngoài git.
+- Tên, mã và chỉ số vật phẩm trong `docs/design-handoff/sample-data.json` lấy từ dữ liệu của game. Chúng cũng thuộc về bên thứ ba.
+- Tên game, nhãn hiệu và logo thuộc về chủ sở hữu của chúng. Dự án không tuyên bố liên kết hay được bảo trợ bởi chủ sở hữu game gốc.
+- Hãy cân nhắc kỹ trước khi dùng lại hoặc phát hành các hình và tài sản này. Bạn cần tự xin phép chủ sở hữu.
+- Nếu bạn là chủ sở hữu và muốn gỡ một nội dung, hãy mở một issue trên kho này.
+
+## Trạng thái
+
+Đã có:
+
+- Giao diện các trang công khai, đăng nhập, hồ sơ và khu quản trị, chạy bằng dữ liệu mẫu.
+- Bản dựng tĩnh, có HTML dựng sẵn cho các trang công khai.
+- Kiểm thử tự động bằng `bun test`.
+
+Chưa có:
+
+- Máy chủ API thật.
+- Link Discord và YouTube (đang là `#`) và địa chỉ tải bộ cài game.
+- Tên miền chính thức.
+- Hình vật phẩm. Khi chạy từ bản clone, ô hình vật phẩm sẽ trống. Tên, nhãn loại và chỉ số vẫn hiện.
+
+## Cần có
+
+- Bun. Đã thử với 1.4.4.
+- Lệnh `trash`. Lệnh dựng dùng nó để dọn thư mục `out/` cũ.
+  - macOS 14 trở lên: có sẵn.
+  - Linux: `sudo apt install trash-cli`.
+  - Máy có Node.js: `npm install --global trash-cli`.
+
+## Chạy thử
+
+```sh
+bun install
+bun run build
+bun run serve
+```
+
+Mở http://127.0.0.1:4173/ trong trình duyệt.
+
+## Lệnh
+
+| Lệnh | Việc làm |
+| --- | --- |
+| `bun run build` | Dựng website vào `out/` bằng `.env.development`. |
+| `bun run serve` | Máy chủ thử cho `out/`, cổng 4173. |
+| `bun run build:prod` | Dựng bản phát hành bằng `.env.production`. |
+| `bun run serve:prod` | Máy chủ thử cho bản phát hành, cổng 4174. |
+| `bun run typecheck` | Kiểm tra kiểu TypeScript. |
+| `bun run lint` | Kiểm tra định dạng và lỗi bằng Biome. |
+| `bun run test` | Chạy kiểm thử. |
+| `bun run validate` | Chạy kiểm tra kiểu, Biome, kiểm thử và dựng, theo thứ tự. |
+| `bun run measure` | Đo JavaScript tải đầu của `out/`. Ngân sách là 150 KB nén. |
+| `bun run gen-theme` | Sinh `src/styles/theme.css` từ `docs/design-handoff/design-values.json`. |
+| `bun run build:fonts` | Tạo phông woff2 trong `public/assets/fonts/`. |
+| `bun run build:images` | Chuyển hình game sang WebP. Cần thư mục hình nguồn mà kho này không có (đặt bằng biến `GAME_ASSETS_DIR`) và lệnh `cwebp`. |
+
+## Cấu hình
+
+Hai tệp `.env.development` và `.env.production` nằm trong kho. Giá trị được nhúng vào gói JavaScript lúc dựng. Vì vậy không đặt khóa bí mật ở đó. Muốn ghi đè trên máy của bạn, dùng tệp `.env.local`.
+
+| Biến | Ý nghĩa |
+| --- | --- |
+| `API_MODE` | `mock` dùng dữ liệu mẫu trong `docs/design-handoff/sample-data.json`. `real` gọi `/api/v1` trên máy chủ thật. |
+| `SITE_URL` | Địa chỉ công khai của site, dạng `https://ten-mien.com`. Dùng cho `canonical`, `og:url` và `sitemap.xml`. |
+| `PORT` | Cổng của máy chủ thử. Chỉ ảnh hưởng lệnh `serve`. |
+
+Khi `API_MODE=mock`, bản dựng chặn công cụ tìm kiếm: `robots.txt` chỉ có `Disallow: /`, mọi trang có thẻ `noindex, nofollow`, và không có `sitemap.xml`.
+
+## Cấu trúc thư mục
+
+| Thư mục | Nội dung |
+| --- | --- |
+| `src/` | Mã giao diện (React). Có `pages/`, `components/`, `content/` (chữ trên giao diện) và `api/` (có `mock/` là API giả). |
+| `scripts/` | Dựng website, máy chủ thử, đo dung lượng, xử lý phông và hình. |
+| `tests/` | Kiểm thử. |
+| `docs/` | Mô tả sản phẩm, đặc tả thiết kế và hợp đồng API (`docs/design-handoff/ROUTES-AND-DATA.md`). |
+| `public/` | Tệp tĩnh: phông chữ và biểu tượng. |
+
+## Các trang
+
+| Đường dẫn | Trang |
+| --- | --- |
+| `/` | Trang chủ |
+| `/tin-tuc`, `/tin-tuc/:slug` | Tin tức và bài viết |
+| `/kho-do`, `/kho-do/:slug` | Kho đồ và chi tiết vật phẩm |
+| `/xep-hang` | Bảng xếp hạng |
+| `/tai-game` | Tải game |
+| `/quy-tac` | Quy tắc cộng đồng |
+| `/dang-nhap`, `/dang-ky`, `/quen-mat-khau`, `/dat-lai-mat-khau` | Tài khoản |
+| `/ho-so`, `/ho-so/doi-mat-khau` | Hồ sơ người chơi |
+| `/quan-tri/*` | Khu quản trị: bài viết, vật phẩm, banner, người dùng, nhật ký |
+
+## Giấy phép
+
+- Mã nguồn và tài liệu của dự án: MIT, xem `LICENSE`.
+- Phông chữ: SIL Open Font License 1.1, xem `public/assets/fonts/LICENSE.txt`.
+- Thư viện: mỗi gói trong `package.json` có giấy phép riêng.
+- Hình ảnh và tài sản của game: xem mục "Lưu ý về hình ảnh và tài sản của game" ở trên.
