@@ -37,6 +37,11 @@
   margin-bottom: calc(var(--space-2) * -1);
 }
 
+/* Điện thoại: bản vẽ để 16 giữa chú thích và ô tìm, không phải 24 như các khối khác (C-81) */
+.admin-callout + .admin-filters {
+  margin-top: calc(var(--space-2) * -1);
+}
+
 .admin-filters__chips {
   display: flex;
   flex-wrap: wrap;
@@ -71,6 +76,13 @@
 .admin-callout__text {
   margin: 0;
   color: var(--color-text-primary);
+}
+
+/* Câu phụ của chú thích: bản vẽ điện thoại bỏ câu này (C-81) */
+@media (max-width: 1199px) {
+  .admin-callout__extra {
+    display: none;
+  }
 }
 
 /* Bảng: máy tính là bảng thật, điện thoại mỗi dòng là một lưới nhỏ */
@@ -226,6 +238,10 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-6);
+  }
+
+  .admin-callout + .admin-filters {
+    margin-top: 0;
   }
 
   .admin-search {

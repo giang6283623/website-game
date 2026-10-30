@@ -106,9 +106,11 @@ export const ADMIN_COPY = {
   items: {
     title: "Vật phẩm",
     featuredTitle: "Nổi bật trên trang chủ",
-    featuredText: (count: number, max: number) =>
-      `Chọn tối đa ${max} vật phẩm nổi bật. Chúng hiện ở khối Vũ khí và đồ dùng trên trang chủ. Đang chọn ${count} / ${max}.`,
+    // Chú thích Nổi bật gồm ba đoạn. Bản vẽ điện thoại bỏ câu giữa (`featuredWhere`), nên câu này
+    // chỉ hiện từ 1200 px trở lên (C-81, D3 phiên 8).
     featuredLimit: (max: number) => `Chọn tối đa ${max} vật phẩm nổi bật.`,
+    featuredWhere: "Chúng hiện ở khối Vũ khí và đồ dùng trên trang chủ.",
+    featuredCount: (count: number, max: number) => `Đang chọn ${count} / ${max}.`,
     searchLabel: "Tìm vật phẩm",
     searchHint: "Gõ tên vật phẩm",
     searchPlaceholder: "AK-74",

@@ -399,6 +399,32 @@ describe("Vật phẩm (E4-S6)", () => {
     expect(all(".admin-filters__chips a").length).toBeGreaterThan(2);
   });
 
+  test("chú thích Nổi bật có câu phụ riêng, ẩn dưới 1200 px theo bản vẽ điện thoại (C-81)", async () => {
+    await renderAt("/quan-tri/vat-pham");
+    const callout = one(".admin-callout__text");
+    // Máy tính: đủ ba câu.
+    expect(text(callout)).toBe(
+      "Chọn tối đa 4 vật phẩm nổi bật. Chúng hiện ở khối Vũ khí và đồ dùng trên trang chủ. Đang chọn 3 / 4.",
+    );
+    const extra = callout.querySelector(".admin-callout__extra");
+    expect(text(extra)).toBe("Chúng hiện ở khối Vũ khí và đồ dùng trên trang chủ.");
+    // Điện thoại: bỏ câu phụ thì còn đúng hai câu như bản vẽ.
+    extra?.remove();
+    expect(text(callout).replace(/\s+/g, " ")).toBe(
+      "Chọn tối đa 4 vật phẩm nổi bật. Đang chọn 3 / 4.",
+    );
+    // Trình duyệt thử không tính được @media, nên đọc quy tắc CSS.
+    const css = await Bun.file(new URL("../src/pages/Admin/Admin.css", import.meta.url)).text();
+    expect(css).toMatch(
+      /@media \(max-width: 1199px\) \{\s*\.admin-callout__extra \{\s*display: none;\s*\}\s*\}/,
+    );
+    // Điện thoại: 16 giữa chú thích và ô tìm (24 trừ 8), máy tính trả về 0.
+    expect(css).toMatch(
+      /\.admin-callout \+ \.admin-filters \{\s*margin-top: calc\(var\(--space-2\) \* -1\);\s*\}/,
+    );
+    expect(css).toMatch(/\.admin-callout \+ \.admin-filters \{\s*margin-top: 0;\s*\}/);
+  });
+
   test("bật Nổi bật tới 4 được, vật phẩm thứ 5 bị từ chối và công tắc giữ nguyên", async () => {
     await renderAt("/quan-tri/vat-pham");
     const fal = all(".items-row").find(

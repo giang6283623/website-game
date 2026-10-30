@@ -88,7 +88,11 @@ export function ItemsPage() {
         }
       />
       {flash ? <Notice tone="success" label={flash} /> : null}
-      <Callout title={copy.featuredTitle}>{copy.featuredText(count, max)}</Callout>
+      <Callout title={copy.featuredTitle}>
+        {copy.featuredLimit(max)}{" "}
+        <span className="admin-callout__extra">{copy.featuredWhere} </span>
+        {copy.featuredCount(count, max)}
+      </Callout>
       {error ? <Notice tone="error" label={error} /> : null}
       <div className="admin-filters">
         <SearchBox
