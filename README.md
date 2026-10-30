@@ -29,7 +29,7 @@ Chưa có:
 - Máy chủ API thật.
 - Link Discord và YouTube (đang là `#`) và địa chỉ tải bộ cài game.
 - Tên miền chính thức.
-- Hình game. Khi chạy từ bản clone, mọi hình trong `public/assets/game/` bị thiếu. Chúng nằm ở trang chủ, tin tức, kho đồ, xếp hạng, tải game, đăng nhập và đăng ký. Ô hình không trống. Trình duyệt vẽ biểu tượng hình hỏng và chữ thay thế (ví dụ tên vật phẩm) ở góc ô. Tên, nhãn loại và chỉ số vẫn hiện như khi có hình.
+- Hình game. Khi chạy từ bản clone, mọi hình trong `public/assets/game/` bị thiếu. Chúng nằm ở trang chủ, tin tức, kho đồ, xếp hạng, tải game, đăng nhập và đăng ký. Mã ẩn các hình hỏng, nên ô hình chỉ hiện khung nền. Tên, nhãn loại và chỉ số vẫn hiện như khi có hình.
 
 ## Cần có
 

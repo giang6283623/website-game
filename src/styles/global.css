@@ -77,6 +77,11 @@ img {
   height: auto;
 }
 
+/* Hình game không tải được (bản clone không có hình): ẩn biểu tượng hình hỏng, khung giữ chỗ. Xem hide-broken-images.ts */
+img[data-broken] {
+  visibility: hidden;
+}
+
 button,
 input,
 select,

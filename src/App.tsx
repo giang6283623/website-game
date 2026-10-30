@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router";
 import { AdminGate } from "./auth/AdminGate.tsx";
 import { AuthProvider } from "./auth/AuthProvider.tsx";
@@ -7,6 +7,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary/ErrorBoundary.tsx";
 import { PageShell } from "./components/PageShell/PageShell.tsx";
 import { ServerStatusProvider } from "./hooks/useServerStatus.tsx";
 import { LazyPage, resetLazyPages } from "./lazy-page.tsx";
+import { hideBrokenGameImages } from "./lib/hide-broken-images.ts";
 import { NotFound } from "./pages/NotFound.tsx";
 
 // Mỗi trang là một gói riêng. Trang 404 nhỏ nên nằm trong gói chính.
@@ -30,6 +31,8 @@ const loadNews = () => import("./pages/News/News.tsx").then((m) => m.News);
 /** Gốc của ứng dụng. Cùng một cây cho trình duyệt (BrowserRouter) và cho bước dựng sẵn HTML (StaticRouter). */
 export function App() {
   const { pathname } = useLocation();
+  // Chạy sau khi React nối vào HTML dựng sẵn. Chỉ có trong trình duyệt, bước dựng sẵn HTML không chạy useEffect.
+  useEffect(() => hideBrokenGameImages(document), []);
   return (
     <AuthProvider>
       <ServerStatusProvider>
