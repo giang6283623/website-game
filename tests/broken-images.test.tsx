@@ -146,4 +146,15 @@ describe("quy tắc CSS", () => {
     expect(rule?.[1]).toContain("visibility: hidden");
     expect(rule?.[1]).not.toContain("display");
   });
+
+  test("trang đăng nhập và đăng ký không tràn ngang khi thiếu hình (cột lưới và ô hình)", async () => {
+    // Bản clone: bốn img giữ width 512 theo thuộc tính, làm cột trái rộng 2177 px ở 1440 và đẩy form ra ngoài màn hình.
+    const css = await Bun.file(
+      resolve(import.meta.dir, "../src/components/AuthLayout/AuthLayout.css"),
+    ).text();
+    const visual = css.match(/\.auth-visual\s*\{([^}]*)\}/);
+    const slot = css.match(/\.auth-items__slot\s*\{([^}]*)\}/);
+    expect(visual?.[1]).toMatch(/min-width:\s*0/);
+    expect(slot?.[1]).toMatch(/overflow:\s*hidden/);
+  });
 });
