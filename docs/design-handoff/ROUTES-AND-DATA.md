@@ -108,7 +108,7 @@ Quy tắc:
 
 - Mỗi trang có một `<h1>`, một mô tả (`<meta name="description">`, 120 đến 160 ký tự), địa chỉ chuẩn và thẻ chia sẻ (Open Graph: tiêu đề, mô tả, hình 1200 x 630).
 - Bài viết dùng dữ liệu có cấu trúc `Article` (tiêu đề, ngày đăng, tác giả, hình).
-- Có `sitemap.xml` (trang công khai, bài viết, vật phẩm) và `robots.txt` (cho phép trang công khai, chặn `/quan-tri/` và `/api/`). Địa chỉ trang có `q` hoặc `trang` lớn hơn 1 gắn `noindex, follow`.
+- Có `sitemap.xml` (trang công khai, bài viết, vật phẩm) và `robots.txt` (cho phép trang công khai, chặn `/quan-tri/` và `/api/`). Địa chỉ trang có `q` hoặc `trang` lớn hơn 1 gắn `noindex, follow`. Bản dựng với `API_MODE=mock` (dữ liệu mẫu) chặn lập chỉ mục: `robots.txt` chỉ có `Disallow: /`, mọi trang gắn `noindex, nofollow`, và không có `sitemap.xml`, `canonical`, `og:url`. Các thẻ trên chỉ hiện khi `API_MODE=real` (C-91).
 - Thuộc tính `lang="vi"` trên thẻ `html`. Mục tiêu hiệu năng xem `DESIGN-SPEC.md`, mục 10.
 
 ## 6. Chuyển hướng từ site cũ (chỉ cần nếu giữ tên miền cũ, D-08)

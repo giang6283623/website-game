@@ -8,10 +8,13 @@ import { renderApp } from "../src/entry-server.tsx";
 import { matchRoute, NOT_FOUND_ROUTE, prerenderPaths, SITE_NAME } from "../src/routes.ts";
 import { buildHead, escapeText, headToHtml } from "../src/seo.ts";
 import { PRELOAD } from "./lib/font-preload.ts";
+import { buildRobotsTxt } from "./lib/robots.ts";
 
 const root = resolve(import.meta.dir, "..");
 const outDir = resolve(root, "out");
 const siteUrl = process.env.SITE_URL || undefined;
+// Cùng mặc định với scripts/build.ts: không đặt API_MODE thì là "mock". Bản mock chặn lập chỉ mục (C-91).
+const blockIndexing = (process.env.API_MODE ?? "mock") === "mock";
 
 const template = await Bun.file(resolve(outDir, "index.html")).text();
 for (const marker of ["<!--head-tags-->", "<!--app-html-->", "<!--noscript-html-->"]) {
@@ -52,7 +55,7 @@ const written: string[] = [];
 for (const path of prerenderPaths()) {
   const route = matchRoute(path);
   const html = page(
-    headToHtml(buildHead(route, { pathname: path, siteUrl })),
+    headToHtml(buildHead(route, { pathname: path, siteUrl, blockIndexing })),
     await renderApp(path),
   );
   const file = path === "/" ? "index.html" : `${path.slice(1)}/index.html`;
@@ -64,7 +67,7 @@ for (const path of prerenderPaths()) {
 await write(
   "404.html",
   page(
-    headToHtml(buildHead(NOT_FOUND_ROUTE, { pathname: "/404", siteUrl })),
+    headToHtml(buildHead(NOT_FOUND_ROUTE, { pathname: "/404", siteUrl, blockIndexing })),
     await renderApp("/404"),
   ),
 );
@@ -81,20 +84,14 @@ const shellHead = headToHtml({
 await write("200.html", page(shellHead, ""));
 written.push("200.html");
 
-await write(
-  "robots.txt",
-  [
-    "User-agent: *",
-    "Allow: /",
-    "Disallow: /quan-tri/",
-    "Disallow: /api/",
-    ...(siteUrl ? [`Sitemap: ${siteUrl.replace(/\/+$/, "")}/sitemap.xml`] : []),
-    "",
-  ].join("\n"),
-);
+await write("robots.txt", buildRobotsTxt({ siteUrl, blockIndexing }));
 written.push("robots.txt");
 
-if (siteUrl) {
+if (blockIndexing) {
+  console.log(
+    "prerender: API_MODE=mock nên chặn lập chỉ mục (robots.txt, thẻ noindex) và bỏ sitemap.xml, canonical, og:url (C-91).",
+  );
+} else if (siteUrl) {
   const base = siteUrl.replace(/\/+$/, "");
   const urls = prerenderPaths()
     .map((path) => `  <url><loc>${escapeText(`${base}${path}`)}</loc></url>`)

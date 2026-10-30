@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { buildRobotsTxt } from "../scripts/lib/robots.ts";
 import {
   matchRoute,
   NOT_FOUND_ROUTE,
@@ -120,6 +121,28 @@ describe("buildHead", () => {
     expect(find(head, "rel", "canonical")).toBeUndefined();
   });
 
+  test("bản dựng dùng API giả (blockIndexing) gắn noindex, nofollow, không canonical và og:url dù có tên miền", () => {
+    const head = buildHead(home, {
+      pathname: "/",
+      siteUrl: "https://example.org",
+      blockIndexing: true,
+    });
+    expect(find(head, "name", "robots")?.attrs.content).toBe("noindex, nofollow");
+    expect(find(head, "rel", "canonical")).toBeUndefined();
+    expect(find(head, "property", "og:url")).toBeUndefined();
+    expect(find(head, "name", "description")?.attrs.content).toBe(home.description);
+  });
+
+  test("blockIndexing tắt thì trang công khai vẫn có canonical như trước", () => {
+    const head = buildHead(home, {
+      pathname: "/",
+      siteUrl: "https://example.org",
+      blockIndexing: false,
+    });
+    expect(find(head, "name", "robots")).toBeUndefined();
+    expect(find(head, "rel", "canonical")?.attrs.href).toBe("https://example.org/");
+  });
+
   test("tiêu đề riêng của trang chi tiết thay tiêu đề của mẫu", () => {
     const head = buildHead(matchRoute("/tin-tuc/abc"), {
       pathname: "/tin-tuc/abc",
@@ -127,6 +150,29 @@ describe("buildHead", () => {
     });
     expect(head.title).toBe("Bài A | Infestation");
     expect(find(head, "property", "og:title")?.attrs.content).toBe("Bài A | Infestation");
+  });
+});
+
+describe("buildRobotsTxt", () => {
+  test("bản dựng dùng API giả chặn cả site và không ghi Sitemap", () => {
+    const text = buildRobotsTxt({ siteUrl: "https://example.org", blockIndexing: true });
+    expect(text).toBe("User-agent: *\nDisallow: /\n");
+    expect(text).not.toContain("Sitemap");
+    expect(text).not.toContain("Allow: /");
+  });
+
+  test("bản có API thật cho bot vào, chặn khu quản trị và ghi Sitemap khi có tên miền", () => {
+    const text = buildRobotsTxt({ siteUrl: "https://example.org/", blockIndexing: false });
+    expect(text).toContain("Allow: /");
+    expect(text).toContain("Disallow: /quan-tri/");
+    expect(text).toContain("Disallow: /api/");
+    expect(text).toContain("Sitemap: https://example.org/sitemap.xml");
+  });
+
+  test("chưa có tên miền thì không ghi Sitemap", () => {
+    const text = buildRobotsTxt({ blockIndexing: false });
+    expect(text).toContain("Allow: /");
+    expect(text).not.toContain("Sitemap");
   });
 });
 

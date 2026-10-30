@@ -13,6 +13,8 @@ export type HeadInput = {
   description?: string;
   /** Gốc địa chỉ công khai, ví dụ "https://example.org". Chưa chọn tên miền (D-08) thì bỏ trống và không ghi canonical, og:url. */
   siteUrl?: string;
+  /** Bản dựng dùng API giả: mọi trang gắn "noindex, nofollow" và không có canonical, og:url (C-91). */
+  blockIndexing?: boolean;
 };
 
 export type Head = { title: string; tags: HeadTag[] };
@@ -45,7 +47,9 @@ export function buildHead(route: RouteMeta, input: HeadInput): Head {
   const description = input.description ?? route.description;
   const tags: HeadTag[] = [{ tag: "meta", attrs: { name: "description", content: description } }];
 
-  if (!route.index) {
+  const indexable = route.index && !input.blockIndexing;
+
+  if (!indexable) {
     tags.push({ tag: "meta", attrs: { name: "robots", content: "noindex, nofollow" } });
   } else if (isThinListing(input.search)) {
     tags.push({ tag: "meta", attrs: { name: "robots", content: "noindex, follow" } });
@@ -59,7 +63,7 @@ export function buildHead(route: RouteMeta, input: HeadInput): Head {
     { tag: "meta", attrs: { property: "og:description", content: description } },
   );
 
-  if (input.siteUrl && route.index) {
+  if (input.siteUrl && indexable) {
     const base = input.siteUrl.replace(/\/+$/, "");
     const path = input.pathname === "/" ? "/" : input.pathname.replace(/\/+$/, "");
     const url = `${base}${path}${canonicalSearch(input.search)}`;

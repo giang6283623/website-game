@@ -36,6 +36,8 @@ export function usePageMeta(meta: { title?: string; description?: string; chrome
 }
 
 const SITE_URL: string | undefined = process.env.SITE_URL || undefined;
+/** Bản dựng dùng API giả chặn lập chỉ mục, cùng quy tắc với scripts/prerender.tsx (C-91). */
+const BLOCK_INDEXING = process.env.API_MODE === "mock";
 
 /**
  * Khung chung của mọi trang: liên kết bỏ qua, thanh trạng thái, đầu trang, nội dung, chân trang và TabBar.
@@ -56,6 +58,7 @@ export function PageShell({ children }: { children: ReactNode }) {
         title: override?.title,
         description: override?.description,
         siteUrl: SITE_URL,
+        blockIndexing: BLOCK_INDEXING,
       }),
     );
   }, [route, pathname, search, override]);
