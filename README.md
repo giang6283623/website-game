@@ -71,6 +71,15 @@ Cảnh báo: máy chủ giả chỉ dùng trên máy của bạn. Không đưa l
 
 Sau lệnh này, `out/` là bản dành cho máy chủ giả. Muốn dùng lại `bun run serve` thì chạy lại `bun run build`.
 
+## Triển khai và nối API thật
+
+| Tài liệu | Dành cho | Nội dung |
+| --- | --- | --- |
+| [Dựng và triển khai lên Ubuntu](docs/guides/DEPLOY-UBUNTU.md) | Người đưa website lên máy chủ | Dựng bản tĩnh, chép lên máy chủ, cấu hình nginx, HTTPS, quay lại bản cũ. |
+| [Nối API thật thay API giả](docs/guides/REAL-API.md) | Người làm API và người sửa giao diện | Các bước đổi `API_MODE`, hợp đồng API, xác thực và các lưu ý. |
+
+Hai tài liệu này là mẫu minh họa. Tên miền và đường dẫn trong đó chỉ là ví dụ.
+
 ## Lệnh
 
 | Lệnh | Việc làm |
@@ -110,7 +119,7 @@ Khi `API_MODE` là `mock` hoặc `mock-server`, bản dựng chặn công cụ t
 | `src/` | Mã giao diện (React). Có `pages/`, `components/`, `content/` (chữ trên giao diện) và `api/` (có `mock/` là API giả). |
 | `scripts/` | Dựng website, máy chủ thử, đo dung lượng, xử lý phông và hình. |
 | `tests/` | Kiểm thử. |
-| `docs/` | Mô tả sản phẩm, đặc tả thiết kế và hợp đồng API (`docs/design-handoff/ROUTES-AND-DATA.md`). |
+| `docs/` | Mô tả sản phẩm, đặc tả thiết kế, hợp đồng API (`docs/design-handoff/ROUTES-AND-DATA.md`) và hướng dẫn triển khai (`docs/guides/`). |
 | `public/` | Tệp tĩnh: phông chữ và biểu tượng. |
 
 ## Các trang
