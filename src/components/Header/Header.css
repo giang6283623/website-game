@@ -1,3 +1,9 @@
+/* Khi ghim, phần trên của đầu trang bị đẩy khỏi đỉnh màn hình: 72 còn 56, 96 còn 76. Hộp vẫn giữ nguyên chiều cao nên nội dung bên dưới không xê dịch. */
+:root {
+  --header-pin-cut: 16px;
+  --header-pinned-height: calc(var(--size-header-mobile) - var(--header-pin-cut));
+}
+
 .header,
 .header-mobile {
   position: relative;
@@ -7,6 +13,25 @@
   padding: 0 var(--page-pad-x);
   background: var(--color-bg-page);
   border-bottom: var(--border-hairline) solid var(--color-border-soft);
+}
+
+/* Vạch cam phẳng ở mép dưới, chạy từ trái sang khi ghim. */
+.header::after,
+.header-mobile::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: calc(-1 * var(--border-hairline));
+  left: 0;
+  height: 2px;
+  background: var(--color-border-accent);
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+:is(.header, .header-mobile) .wordmark {
+  transform-origin: left center;
 }
 
 .header {
@@ -27,11 +52,45 @@
 }
 
 @media (min-width: 1200px) {
+  :root {
+    --header-pin-cut: 20px;
+    --header-pinned-height: calc(var(--size-header-desktop) - var(--header-pin-cut));
+  }
+
   .header {
     display: flex;
   }
 
   .header-mobile {
     display: none;
+  }
+}
+
+/* Dính ở đỉnh. Màn hình thấp (điện thoại xoay ngang, phóng to 400%) thì đứng yên để đầu trang không che nội dung. */
+@media (min-height: 560px) {
+  /* Cuộn tới mốc # và lấy nét bằng phím chừa chỗ cho đầu trang đang dính. */
+  html {
+    scroll-padding-top: var(--header-pinned-height);
+  }
+
+  .header,
+  .header-mobile {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-tab-bar);
+  }
+
+  /* Đổi `top` lúc đầu trang vừa chạm đỉnh nên không có cú nhảy: nó trôi thêm một đoạn theo trang rồi mới dừng. */
+  [data-header-pinned] > :is(.header, .header-mobile) {
+    top: calc(-1 * var(--header-pin-cut));
+    padding-top: var(--header-pin-cut);
+  }
+
+  [data-header-pinned] > :is(.header, .header-mobile) .wordmark {
+    transform: scale(0.88);
+  }
+
+  [data-header-pinned] > :is(.header, .header-mobile)::after {
+    transform: scaleX(1);
   }
 }

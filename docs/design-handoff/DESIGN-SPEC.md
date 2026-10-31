@@ -274,7 +274,7 @@ Dải 768 đến 1199 dùng bố cục ĐT. Để tránh nhìn trống trên mà
 - TabBar rộng đủ màn hình, cao 58, cố định ở đáy. Đặt `padding-bottom: env(safe-area-inset-bottom)` để tránh thanh cử chỉ của iPhone.
 - Mọi trang ĐT có TabBar phải chừa khoảng trống ở cuối: chân trang có đệm dưới 112.
 - Trang đăng nhập, đăng ký, quên mật khẩu, đặt lại mật khẩu và quản trị trên ĐT không có TabBar.
-- Header không dính (không sticky). Chỉ TabBar cố định.
+- Header MT dính ở đỉnh khi cuộn. Khi bắt đầu dính, phần nhìn thấy thu từ 96 xuống 76, Wordmark nhỏ còn 88 phần trăm, vạch `border/accent` 2 px chạy từ trái sang phải ở mép dưới. Hộp Header vẫn cao 96 nên nội dung bên dưới không xê dịch. Màn hình thấp dưới 560 px thì không dính. HeaderMobile dính giống vậy, thu từ 72 xuống 56.
 
 ### 5.4 Cuộn ngang
 
@@ -304,6 +304,7 @@ Toàn bộ mục này là đề xuất (Figma không có nguyên mẫu tương t
 | Nút Primary | Nhấn | Mất viền dưới 4 px và nội dung dịch xuống 4 px. Nền `accent/pressed` | tức thì |
 | Mọi phần tử tương tác | Lấy nét bằng bàn phím | Vòng 3 px `border/focus`, vẽ vào trong bằng `outline-offset: -3px` để không đổi bố cục | tức thì |
 | NavDial, TabBar | Đổi trang | Kim cam trượt đến trạm mới theo đường lò xo: vượt 8 đến 18 px rồi về đúng trạm, kim lắc như con lắc, có vệt phẳng sau kim. Thước giật nhẹ khi kim chạm đích. Nếu tải trang đầy đủ thì kim đứng sẵn ở trạm hiện tại, không cần hoạt ảnh | Theo số trạm nhảy, tối đa 1,1 giây |
+| Header MT, HeaderMobile | Bắt đầu dính khi cuộn | Thu gọn và vạch cam như mục 5.3. Giảm chuyển động hoặc Tắt hiệu ứng thì đổi tức thì | 320 ms |
 | Thẻ vật phẩm | Rê chuột, lấy nét, chạm | Ống ngắm: bốn dấu góc siết vào, chữ thập gặp nhau giữa khay, góc chuyển cam, hình phóng 1,06, nhãn "ĐÃ KHÓA". Đang giữ thì lắc thở 1 px. Khay các thẻ khác mờ còn 0,55, chữ giữ nguyên. Rời thẻ tắt trong 120 ms | Khóa đủ trong 320 ms |
 | Thẻ vật phẩm | Chọn | Hiện vòng `border/accent` 2 px và nhãn "ĐANG XEM". Máy tính mở cửa sổ chi tiết có Trước, Sau và Đóng (xem ngoại lệ ở mục 1) | 200 ms |
 | Skeleton | Đang tải | Thanh xám nhấp nháy độ mờ 0,5 đến 1, 1200 ms, lặp | Tắt khi giảm chuyển động |

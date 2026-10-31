@@ -89,4 +89,5 @@ export const ART_MAP: ArtEntry[] = [
     quality: 82,
     maxKb: 250,
   },
+  webp("bg-500-general.png", "29-bg-500-general.webp", 1672, 941, 68, 150),
 ];

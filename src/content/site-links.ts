@@ -15,3 +15,10 @@ export const COMMUNITY_LINKS: readonly SiteLink[] = [
 ];
 
 export const CONTACT_LINK: SiteLink = { key: "contact", label: "Liên hệ quản trị", url: null };
+
+// LINK-TAI-GAME: chỗ gắn link tải bộ cài game. Chưa có link thật nên tạm đặt "#": bấm nút tải không đi đâu,
+// không nhảy sang địa chỉ giả `installerUrl` của dữ liệu mẫu.
+// Khi có link thật: thay "#" bằng địa chỉ tệp cài. Mọi nút tải ở /tai-game dùng chung hằng này và tự bật
+// lại thuộc tính `download` (xem InstallerButton ở src/pages/Download/DownloadCard.tsx).
+// Rồi sửa các bài "LINK-TAI-GAME" và nút tải trong tests/download.test.tsx cho khớp.
+export const INSTALLER_URL: string = "#";

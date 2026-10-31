@@ -2,7 +2,7 @@
   display: inline-flex;
 }
 
-/* Menu tựa vào đầu trang (Header và HeaderMobile có position: relative), cách đáy đầu trang 8 và căn mép phải theo lề. */
+/* Menu tựa vào đầu trang (Header và HeaderMobile dùng sticky hoặc relative), cách đáy đầu trang 8 và căn mép phải theo lề. */
 .account-menu {
   position: absolute;
   top: calc(100% + 8px);

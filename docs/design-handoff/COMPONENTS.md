@@ -279,7 +279,7 @@ Gồm: Wordmark L, NavDial và hai nút (Secondary M "ĐĂNG NHẬP", Primary M 
 
 Header có thêm biến thể `Active=None` (không trạm nào sáng) cho trang không nằm trong năm trạm chính, như Tải game, Quy tắc, 404 và 500. Khi đã đăng nhập, dùng `HeaderUser` (mục 21): hai nút được thay bằng chip tài khoản `UserChip` và nút Primary M "TẢI GAME" (đã vẽ ở vòng 3, đóng G-09).
 
-Không dính khi cuộn (không sticky).
+Dính ở đỉnh khi cuộn, xem DESIGN-SPEC mục 5.3.
 
 ## 12. Footer (`23:160`)
 

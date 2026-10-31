@@ -3,6 +3,7 @@ import { Button, type ButtonProps } from "../../components/Button/Button.tsx";
 import { CornerMarks } from "../../components/CornerMarks/CornerMarks.tsx";
 import { Overline } from "../../components/Overline/Overline.tsx";
 import { PAGE_COPY } from "../../content/pages.ts";
+import { INSTALLER_URL } from "../../content/site-links.ts";
 import { cn } from "../../lib/cn.ts";
 import { formatDateFull } from "../../lib/format.ts";
 
@@ -28,7 +29,10 @@ export function InstallerButton({
   className?: string;
   children: string;
 }) {
-  const href = info?.available && info.installerUrl ? info.installerUrl : undefined;
+  // LINK-TAI-GAME: link tải game gắn ở INSTALLER_URL (src/content/site-links.ts), đang tạm là "#".
+  const href = info?.available ? INSTALLER_URL : undefined;
+  // Chưa có link thật: `download` sẽ tải chính trang web về máy, còn bấm "#" sẽ cuộn về đầu trang.
+  const placeholder = href === "#";
   return (
     <>
       <Button
@@ -37,7 +41,8 @@ export function InstallerButton({
         size={size}
         fill={fill}
         href={href}
-        download={href ? true : undefined}
+        download={href && !placeholder ? true : undefined}
+        onClick={placeholder ? (event) => event.preventDefault() : undefined}
         disabled={!href}
       >
         {children}

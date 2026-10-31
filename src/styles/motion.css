@@ -245,6 +245,17 @@ html:has(link[href$="art.css"]) .home-hero .locker__main::after {
     animation: none !important;
   }
 
+  /* Đầu trang chuyển sang dạng ghim: nội dung trượt vào phần còn thấy, Wordmark thu lại, vạch cam chạy từ trái sang.
+     Đệm chỉ đổi bên trong hộp cao cố định nên trang không xê dịch. */
+  html:not([data-motion="off"]) :is(.header, .header-mobile) {
+    transition: padding-top var(--motion-slow) var(--ease-standard);
+  }
+
+  html:not([data-motion="off"]) :is(.header, .header-mobile) .wordmark,
+  html:not([data-motion="off"]) :is(.header, .header-mobile)::after {
+    transition: transform var(--motion-slow) var(--ease-standard);
+  }
+
   /* Khối ra khỏi màn hình thì dừng vòng lặp (`src/lib/signal.ts` đặt data-offscreen). */
   [data-offscreen],
   [data-offscreen] *,

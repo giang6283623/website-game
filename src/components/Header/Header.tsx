@@ -9,7 +9,7 @@ import "./Header.css";
 
 /**
  * Đầu trang máy tính (từ 1200): Wordmark, NavDial và vùng hành động.
- * Khách: ĐĂNG NHẬP và ĐĂNG KÝ. Đã đăng nhập: chip tài khoản và TẢI GAME. Không dính khi cuộn.
+ * Khách: ĐĂNG NHẬP và ĐĂNG KÝ. Đã đăng nhập: chip tài khoản và TẢI GAME. Dính ở đỉnh khi cuộn (xem Header.css).
  */
 export function Header({ active }: { active: NavKey | null }) {
   const { status } = useAuth();

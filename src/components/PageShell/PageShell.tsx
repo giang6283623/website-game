@@ -11,6 +11,7 @@ import {
 import { useLocation } from "react-router";
 import { SHARED_COPY } from "../../content/shared.ts";
 import { blocksIndexing } from "../../lib/api-mode.ts";
+import { headerPinRef } from "../../lib/header-pin.ts";
 import { type Chrome, matchRoute } from "../../routes.ts";
 import { applyHead, buildHead } from "../../seo.ts";
 import { BannerStrip } from "../BannerStrip/BannerStrip.tsx";
@@ -93,6 +94,7 @@ export function PageShell({ children }: { children: ReactNode }) {
           <>
             <BannerStrip />
             <StatusStrip />
+            <div ref={headerPinRef} data-header-sentinel="" aria-hidden="true" />
             <Header active={route.nav} />
             <HeaderMobile />
           </>

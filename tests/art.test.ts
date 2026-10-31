@@ -76,6 +76,36 @@ describe("bảng ảnh trang trí", () => {
     expect(home).toContain("data-art-lazy");
   });
 
+  test("ảnh nền màn hình lỗi đi qua bảng ảnh, đổi sang WebP và có trần dung lượng", () => {
+    const entry = ART_MAP.find((item) => item.source === "bg-500-general.png");
+    expect(entry?.web).toBe("29-bg-500-general.webp");
+    expect(entry?.mode).toBe("webp");
+    expect(entry?.maxKb).toBeLessThanOrEqual(150);
+    expect(artVarName(entry?.web ?? "")).toBe("--art-bg-500-general");
+  });
+
+  test("trang 500 và 403 dùng ảnh nền lỗi qua biến, thiếu ảnh thì về nền phẳng", () => {
+    const css = readFileSync(resolve(root, "src/styles/art.css"), "utf8");
+    for (const selector of ['.center-message[data-code="500"]', ".forbidden"]) {
+      const start = css.indexOf(`${selector} {`);
+      expect(start).toBeGreaterThan(-1);
+      const rule = css.slice(start, css.indexOf("}", start));
+      expect(rule).toContain("--art-img: var(--art-bg-500-general, none);");
+      expect(rule).toMatch(/--art-scrim: 0\.\d+;/);
+    }
+    // `.forbidden` phải vào đủ năm danh sách của bộ máy chung thì mới có lớp ảnh và lớp phủ.
+    expect(css.match(/^ {2}\.forbidden,?$/gm)?.length).toBe(
+      css.match(/^ {2}\.center-message,$/gm)?.length,
+    );
+    expect(css).toContain(
+      '.center-message[data-code="404"] {\n  --art-img: var(--art-hands-404, none);',
+    );
+  });
+
+  test("ảnh nền màn hình lỗi không vào thẳng public/ vì sẽ chép nguyên 2,8 MB ra bản dựng", () => {
+    expect(existsSync(resolve(root, "public/assets/art/bg-500-general.png"))).toBe(false);
+  });
+
   // Chỉ chạy khi máy có ảnh đã dựng (bun run build:art). Bản clone không có ảnh thì bỏ qua.
   const built = existsSync(resolve(root, "public/assets/art/art.css"));
   test.skipIf(!built)("ảnh đã dựng có đúng cỡ trong bảng và không vượt trần dung lượng", () => {

@@ -9,6 +9,7 @@
   .home-cta__frame,
   .auth-visual,
   .center-message,
+  .forbidden,
   .featured-news__visual,
   .article-hero,
   .home-facts,
@@ -24,6 +25,7 @@
   .home-cta__frame,
   .auth-visual,
   .center-message,
+  .forbidden,
   .featured-news__visual,
   .article-hero,
   .home-facts,
@@ -35,6 +37,7 @@
   .home-cta__frame,
   .auth-visual,
   .center-message,
+  .forbidden,
   .featured-news__visual,
   .article-hero,
   .home-facts,
@@ -52,6 +55,7 @@
   .home-cta__frame,
   .auth-visual,
   .center-message,
+  .forbidden,
   .featured-news__visual,
   .article-hero,
   .home-facts,
@@ -70,6 +74,7 @@
   .home-cta__frame,
   .auth-visual,
   .center-message,
+  .forbidden,
   .featured-news__visual,
   .article-hero,
   .home-facts,
@@ -144,8 +149,25 @@
   --art-img: var(--art-hands-404, none);
 }
 
+/* Số 500 màu đỏ nằm trực tiếp trên bức tường sáng của ảnh nên lớp phủ phải đậm hơn trang 403. */
 .center-message[data-code="500"] {
-  --art-img: var(--art-hands-500-cracked, none);
+  --art-img: var(--art-bg-500-general, none);
+  --art-scrim: 0.78;
+}
+
+.forbidden {
+  --art-img: var(--art-bg-500-general, none);
+  --art-scrim: 0.72;
+}
+
+/* Ảnh phủ kín vùng giữa đầu trang và chân trang: trang lỗi ít chữ không để lại dải trống. */
+.shell__main:has(> .center-message, > .forbidden) {
+  display: flex;
+  flex-direction: column;
+}
+
+.shell__main > :is(.center-message, .forbidden) {
+  flex: 1;
 }
 
 .center-message[data-code="403"] {

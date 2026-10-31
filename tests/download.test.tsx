@@ -1,9 +1,12 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import { act, render, screen, within } from "@testing-library/react";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { App } from "../src/App.tsx";
 import { resetMockSession } from "../src/api/mock/adapter.ts";
 import { setMockConfig } from "../src/api/mock/config.ts";
+import { INSTALLER_URL } from "../src/content/site-links.ts";
 
 async function renderAt(path: string) {
   await act(async () => {
@@ -48,14 +51,34 @@ describe("Tải game và Hướng dẫn (E1-S6)", () => {
     ]);
   });
 
-  test("nút tải trên máy tính là liên kết tải về, nút trên điện thoại bị khóa", async () => {
+  test("chưa có link tải thật: nút máy tính trỏ về #, bấm không đi đâu, nút điện thoại bị khóa", async () => {
     await renderAt("/tai-game");
     const card = document.querySelector(".download-card") as HTMLElement;
-    const desktop = card.querySelector(".installer--desktop");
-    expect(desktop?.getAttribute("href")).toBe("https://example.invalid/issvn-setup-1.0.3.exe");
-    expect(desktop?.hasAttribute("download")).toBe(true);
+    const desktop = card.querySelector(".installer--desktop") as HTMLAnchorElement;
+    expect(INSTALLER_URL).toBe("#");
+    expect(desktop.getAttribute("href")).toBe("#");
+    // Có `download` thì bấm vào "#" sẽ tải chính trang web về máy.
+    expect(desktop.hasAttribute("download")).toBe(false);
+    // `fireEvent.click` trả false khi mã đã chặn hành vi mặc định: trang không cuộn về đầu.
+    expect(fireEvent.click(desktop)).toBe(false);
     const mobile = card.querySelector(".installer--mobile") as HTMLButtonElement;
     expect(mobile.disabled).toBe(true);
+  });
+
+  test("mọi nút tải trên trang đều dùng chung hằng INSTALLER_URL, không dùng địa chỉ giả của API", async () => {
+    await renderAt("/tai-game");
+    const links = [...document.querySelectorAll(".installer--desktop")];
+    expect(links.length).toBeGreaterThan(1);
+    for (const link of links) expect(link.getAttribute("href")).toBe(INSTALLER_URL);
+    expect(document.body.innerHTML).not.toContain("example.invalid");
+  });
+
+  test("giữ dấu LINK-TAI-GAME ở hai chỗ để sau này biết gắn link thật vào đâu", () => {
+    const read = (path: string) => readFileSync(resolve(import.meta.dir, "..", path), "utf8");
+    expect(read("src/content/site-links.ts")).toMatch(/\/\/ LINK-TAI-GAME: chỗ gắn link/);
+    expect(read("src/pages/Download/DownloadCard.tsx")).toMatch(
+      /\/\/ LINK-TAI-GAME: link tải game gắn ở/,
+    );
   });
 
   test("có khung cảnh báo Windows với nút sao chép liên kết", async () => {
