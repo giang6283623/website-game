@@ -183,4 +183,15 @@ describe("dựng sẵn HTML", () => {
     const html = renderApp("/khong-co");
     expect(html).toContain("<h1");
   });
+
+  // C-120: khối nội dung quá 12800 byte bị React giấu trong <div hidden> và chỉ mở lại bằng script nhúng.
+  test.each(["/", "/tai-game", "/kho-do"])(
+    "%s nằm thẳng trong HTML, không có khối ẩn và không có script nhúng của React",
+    (path) => {
+      const html = renderApp(path);
+      expect(html).toContain("<h1");
+      expect(html).not.toContain('<div hidden id="S:');
+      expect(html).not.toContain("<script");
+    },
+  );
 });
