@@ -37,7 +37,7 @@ Trên máy dựng:
 
 - Bun, đã thử với bản 1.4.4.
 - Lệnh `trash`. README có cách cài.
-- Hình game trong `public/assets/game/` và ảnh trang trí trong `public/assets/art/`. Hai thư mục này không có trong git. Bản clone thiếu chúng vẫn dựng được, nhưng website sẽ không có hình.
+- Hình game trong `public/assets/game/`. Thư mục này không có trong git. Bản clone thiếu nó vẫn dựng được, nhưng website sẽ không có hình game. Ảnh trang trí trong `public/assets/art/` đã có trong git.
 
 Trên máy chủ:
 

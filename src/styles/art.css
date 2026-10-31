@@ -1,5 +1,5 @@
 /* Ảnh trang trí "Sau tấm kính". Ảnh nằm sau một lớp phủ phẳng (một màu, có độ trong suốt). Chữ, thẻ và nút vẫn phẳng.
-   Các biến `--art-*` do `bun run build:art` sinh ở public/assets/art/art.css và không nằm trong git.
+   Các biến `--art-*` do `bun run build:art` sinh ở public/assets/art/art.css và nằm trong git.
    Thiếu tệp đó thì mọi `var(--art-..., none)` rơi về `none` và trang giữ nền phẳng như trước. */
 
 /* Bộ máy chung: ảnh ở lớp -3, lớp phủ ở lớp -2, hiệu ứng ở lớp -1. Nội dung nằm trên cả ba. */

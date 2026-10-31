@@ -1,0 +1,36 @@
+/* Sinh bởi bun run build:art. Không sửa tay, không commit. */
+:root {
+  --art-bg-home-hero-desktop: url("/assets/art/01-bg-home-hero-desktop.webp");
+  --art-bg-home-hero-mobile: url("/assets/art/02-bg-home-hero-mobile.webp");
+  --art-bg-pagetitle-generic: url("/assets/art/03-bg-pagetitle-generic.webp");
+  --art-bg-pagetitle-news: url("/assets/art/04-bg-pagetitle-news.webp");
+  --art-bg-pagetitle-items: url("/assets/art/05-bg-pagetitle-items.webp");
+  --art-bg-pagetitle-ranking: url("/assets/art/06-bg-pagetitle-ranking.webp");
+  --art-bg-auth-visual: url("/assets/art/07-bg-auth-visual.webp");
+  --art-bg-download-card: url("/assets/art/09-bg-download-card.webp");
+  --art-hands-band-wide: url("/assets/art/10-hands-band-wide.webp");
+  --art-hands-cta-desktop: url("/assets/art/11-hands-cta-desktop.webp");
+  --art-hands-cta-mobile: url("/assets/art/12-hands-cta-mobile.webp");
+  --art-hands-404: url("/assets/art/13-hands-404.webp");
+  --art-hands-500-cracked: url("/assets/art/14-hands-500-cracked.webp");
+  --art-hands-overlay-black: url("/assets/art/15-hands-overlay-black.webp");
+  --art-cover-news: url("/assets/art/16-cover-news.webp");
+  --art-cover-guide: url("/assets/art/17-cover-guide.webp");
+  --art-cover-event: url("/assets/art/18-cover-event.webp");
+  --art-cover-update: url("/assets/art/19-cover-update.webp");
+  --art-cover-default: url("/assets/art/20-cover-default.webp");
+  --art-tex-frosted-glass-tile: url("/assets/art/21-tex-frosted-glass-tile.webp");
+  --art-tex-concrete-tile: url("/assets/art/22-tex-concrete-tile.webp");
+  --art-tex-rust-steel-tile: url("/assets/art/23-tex-rust-steel-tile.webp");
+  --art-divider-smear: url("/assets/art/24-divider-smear.webp");
+  --art-decor-barbed-wire: url("/assets/art/25-decor-barbed-wire.webp");
+  --art-decor-chainlink-fog: url("/assets/art/26-decor-chainlink-fog.webp");
+  --art-decor-flare-glow: url("/assets/art/27-decor-flare-glow.webp");
+  --art-bg-500-general: url("/assets/art/29-bg-500-general.webp");
+  --art-frost: 60%;
+  --art-blur: 5px;
+}
+html:root {
+  --cursor-default: url("/assets/art/cursor.png") 1 1, auto;
+  --cursor-pointer: url("/assets/art/cursor.png") 1 1, pointer;
+}
