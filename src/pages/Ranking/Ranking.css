@@ -60,7 +60,7 @@
   letter-spacing: inherit;
   text-decoration: none;
   text-transform: inherit;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
 }
 
 .rank-me__jump:hover {

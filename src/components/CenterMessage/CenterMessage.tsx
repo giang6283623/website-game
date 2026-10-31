@@ -1,3 +1,4 @@
+import { GlitchText } from "../GlitchText/GlitchText.tsx";
 import { ListState } from "../ListState/ListState.tsx";
 import "./CenterMessage.css";
 
@@ -19,7 +20,9 @@ export function CenterMessage({
 }) {
   return (
     <section className="center-message container" data-code={code}>
-      <p className="center-message__code text-display-l">{code}</p>
+      <p className="center-message__code text-display-l">
+        <GlitchText text={code} tone="error" />
+      </p>
       <ListState
         kind="error"
         headingLevel={1}

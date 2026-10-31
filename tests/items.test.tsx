@@ -32,6 +32,11 @@ const wait = (ms: number) =>
     await new Promise((resolve) => setTimeout(resolve, ms));
   });
 
+const slugs = () =>
+  [...document.querySelectorAll(".items-grid .item-slot a")].map((node) =>
+    (node.getAttribute("href") ?? "").split("/").pop(),
+  );
+
 const names = () =>
   [...document.querySelectorAll(".items-grid .item-slot__name")].map((node) => node.textContent);
 
@@ -54,23 +59,29 @@ describe("Kho đồ (E1-S3)", () => {
     expect(document.querySelector(".items-toolbar__count")?.textContent).toBe("167 vật phẩm");
   });
 
-  test("thẻ đầu tiên là thẻ đang xem và khối chi tiết khớp thẻ đó", async () => {
+  test("chưa có ?chon= thì không mở cửa sổ chi tiết và không thẻ nào đang chọn", async () => {
     await renderAt("/kho-do");
-    const first = document.querySelector(".item-slot") as HTMLElement;
-    expect(first.classList.contains("is-selected")).toBe(true);
-    const detail = document.querySelector(".item-detail") as HTMLElement;
-    expect(within(detail).getByRole("heading", { name: "AK-74" })).toBeTruthy();
-    expect(within(detail).getByText("SÁT THƯƠNG")).toBeTruthy();
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(document.querySelector(".item-slot.is-selected")).toBeNull();
+    expect(document.querySelector(".item-detail")).toBeNull();
+    expect(document.documentElement.style.overflow).toBe("");
   });
 
-  test("?chon= đổi thẻ đang xem và vật phẩm không có chỉ số hiện dòng tóm tắt", async () => {
+  test("?chon= mở cửa sổ chi tiết ở thẻ đó, vật phẩm không có chỉ số hiện dòng tóm tắt", async () => {
     await renderAt("/kho-do?chon=akm");
     const link = document.querySelector('.item-slot a[href="/kho-do/akm"]') as HTMLElement;
     expect(link.getAttribute("aria-current")).toBe("true");
-    const detail = document.querySelector(".item-detail") as HTMLElement;
+    const dialog = screen.getByRole("dialog", { name: "Chi tiết vật phẩm đang xem: AKM" });
+    const detail = dialog.querySelector(".item-detail") as HTMLElement;
     expect(within(detail).getByRole("heading", { name: "AKM" })).toBeTruthy();
     expect(detail.querySelector(".item-detail__stats")).toBeNull();
     expect(detail.querySelector(".item-detail__summary")?.textContent).toContain("Sát thương");
+    expect(within(dialog).getByText(`${slugs().indexOf("akm") + 1} / 12`)).toBeTruthy();
+  });
+
+  test("?chon= không khớp thẻ nào trong trang thì không mở cửa sổ", async () => {
+    await renderAt("/kho-do?chon=khong-co-that");
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 
   test("lọc theo nhóm bằng ?loai= và đánh dấu nhóm đang chọn", async () => {
@@ -87,7 +98,8 @@ describe("Kho đồ (E1-S3)", () => {
   test("tham số sai quay về mặc định, không báo lỗi", async () => {
     await renderAt("/kho-do?loai=khong-co&trang=abc&sap-xep=xyz&chon=khong-co");
     expect(names().length).toBe(12);
-    expect(document.querySelector(".item-slot")?.classList.contains("is-selected")).toBe(true);
+    expect(document.querySelector(".item-slot.is-selected")).toBeNull();
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 
   test("sắp xếp tên A-Z đặt liên kết sắp xếp đúng và đổi thứ tự", async () => {
@@ -128,6 +140,93 @@ describe("Kho đồ (E1-S3)", () => {
     const categories = screen.getByRole("navigation", { name: "Loại vật phẩm" });
     // Chưa có số lượng thì hiện đủ chín nhóm cộng mục Tất cả, kể cả nhóm đang trống.
     expect(within(categories).getAllByRole("link").length).toBe(10);
+  });
+});
+
+describe("Cửa sổ chi tiết vật phẩm", () => {
+  const where = () => screen.getByTestId("where").textContent;
+  const open = (slug: string) => renderAt(`/kho-do?chon=${slug}`);
+  const button = (name: string) =>
+    within(screen.getByRole("dialog")).getByRole("button", { name }) as HTMLButtonElement;
+
+  test("mở thì tiêu điểm vào khung, trang phía sau bị khóa cuộn, đóng thì trả lại", async () => {
+    await open("akm");
+    const dialog = screen.getByRole("dialog");
+    expect(document.activeElement === dialog).toBe(true);
+    expect(dialog.getAttribute("aria-modal")).toBe("true");
+    expect(document.documentElement.style.overflow).toBe("hidden");
+    fireEvent.click(button("Đóng chi tiết vật phẩm"));
+    await wait(10);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(document.documentElement.style.overflow).toBe("");
+    expect(where()).toBe("/kho-do");
+  });
+
+  test("Sau và Trước đi theo thứ tự danh sách và ghi vào ?chon=", async () => {
+    await open("akm");
+    const all = slugs();
+    const at = all.indexOf("akm");
+    expect(at).toBeGreaterThan(0);
+    fireEvent.click(button("Vật phẩm sau"));
+    await wait(10);
+    expect(where()).toBe(`/kho-do?chon=${all[at + 1]}`);
+    expect(
+      within(screen.getByRole("dialog")).getByRole("heading", { name: names()[at + 1] ?? "" }),
+    ).toBeTruthy();
+    fireEvent.click(button("Vật phẩm trước"));
+    fireEvent.click(button("Vật phẩm trước"));
+    await wait(10);
+    expect(where()).toBe(`/kho-do?chon=${all[at - 1]}`);
+  });
+
+  test("vật phẩm đầu khóa nút Trước, vật phẩm cuối khóa nút Sau", async () => {
+    await open("ak-74");
+    expect(button("Vật phẩm trước").disabled).toBe(true);
+    expect(button("Vật phẩm sau").disabled).toBe(false);
+    const last = slugs().at(-1) ?? "";
+    fireEvent.click(button("Đóng chi tiết vật phẩm"));
+    await wait(10);
+    fireEvent.click(document.querySelector(`.item-slot a[href="/kho-do/${last}"]`) as HTMLElement);
+    await wait(10);
+    // Màn hình thử không đủ rộng để bấm thẻ mở cửa sổ (chỉ máy tính), nên mở bằng địa chỉ.
+    if (!screen.queryByRole("dialog")) await open(last);
+    expect(button("Vật phẩm sau").disabled).toBe(true);
+    expect(button("Vật phẩm trước").disabled).toBe(false);
+  });
+
+  test("phím mũi tên đổi vật phẩm, Esc đóng, bấm nền ngoài khung cũng đóng", async () => {
+    await open("akm");
+    const all = slugs();
+    const at = all.indexOf("akm");
+    const dialog = screen.getByRole("dialog");
+    fireEvent.keyDown(dialog, { key: "ArrowRight" });
+    await wait(10);
+    expect(where()).toBe(`/kho-do?chon=${all[at + 1]}`);
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowLeft" });
+    await wait(10);
+    expect(where()).toBe(`/kho-do?chon=${all[at]}`);
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+    await wait(10);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(where()).toBe("/kho-do");
+    await open("akm");
+    fireEvent.click(document.querySelector(".item-dialog__backdrop") as HTMLElement);
+    await wait(10);
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  test("Tab ở nút cuối quay về nút đầu, Shift+Tab ở khung quay về nút cuối", async () => {
+    await open("akm");
+    const dialog = screen.getByRole("dialog");
+    const buttons = [...dialog.querySelectorAll("button:not(:disabled)")] as HTMLElement[];
+    const first = buttons[0] as HTMLElement;
+    const last = buttons.at(-1) as HTMLElement;
+    last.focus();
+    fireEvent.keyDown(last, { key: "Tab" });
+    expect(document.activeElement === first).toBe(true);
+    dialog.focus();
+    fireEvent.keyDown(dialog, { key: "Tab", shiftKey: true });
+    expect(document.activeElement === last).toBe(true);
   });
 });
 

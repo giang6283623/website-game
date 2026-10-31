@@ -11,6 +11,7 @@ import { buildHead, escapeText, headToHtml } from "../src/seo.ts";
 import { BROKEN_IMAGE_TAG } from "./lib/broken-image-script.ts";
 import { PRELOAD } from "./lib/font-preload.ts";
 import { ICON_TAGS } from "./lib/icons.ts";
+import { MOTION_NOSCRIPT_TAG, MOTION_PREF_TAG } from "./lib/motion-pref-script.ts";
 import { buildRobotsTxt } from "./lib/robots.ts";
 
 const root = resolve(import.meta.dir, "..");
@@ -57,7 +58,10 @@ const FONT_TAGS = [
 function page(headHtml: string, appHtml: string): string {
   // Script ẩn hình hỏng đứng trước mọi stylesheet (đứng sau thì phải chờ CSS tải xong) và trước mọi thẻ img.
   return template
-    .replace("<!--head-tags-->", `${BROKEN_IMAGE_TAG}\n    ${headHtml}\n    ${FONT_TAGS}`)
+    .replace(
+      "<!--head-tags-->",
+      `${BROKEN_IMAGE_TAG}\n    ${MOTION_PREF_TAG}\n    ${headHtml}\n    ${FONT_TAGS}\n    ${MOTION_NOSCRIPT_TAG}`,
+    )
     .replace("<!--app-html-->", appHtml)
     .replace("<!--noscript-html-->", NOSCRIPT);
 }

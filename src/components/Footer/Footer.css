@@ -54,6 +54,18 @@
   color: var(--color-text-primary);
 }
 
+/* Nút Tắt hiệu ứng trông như liên kết của danh sách. */
+.footer__motion {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-text-secondary);
+}
+
+.footer__motion:hover {
+  color: var(--color-text-primary);
+}
+
 .footer__ruler {
   display: block;
   height: 14px;

@@ -278,6 +278,15 @@ export const PAGE_COPY = {
     resultsLabel: "Danh sách vật phẩm",
     detailLabel: "Chi tiết vật phẩm đang xem",
     viewing: "Đang xem",
+    // Cửa sổ chi tiết: mở khi có ?chon=, Trước và Sau đi dọc danh sách đang hiện.
+    scopeLocked: "Đã khóa",
+    dialogClose: "Đóng",
+    dialogCloseLabel: "Đóng chi tiết vật phẩm",
+    dialogPrevious: "Trước",
+    dialogPreviousLabel: "Vật phẩm trước",
+    dialogNext: "Sau",
+    dialogNextLabel: "Vật phẩm sau",
+    dialogPosition: (index: number, total: number) => `${index} / ${total}`,
   },
   // Xếp hạng (CONTENT-COPY.md mục 4.3, 5.4, 10.10).
   rankingPage: {

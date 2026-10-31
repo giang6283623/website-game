@@ -84,7 +84,7 @@ legend.compose__label {
   background: none;
   border: var(--border-hairline) solid var(--color-border-control);
   color: var(--color-text-secondary);
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
 }
 
 .editor__tool:hover {

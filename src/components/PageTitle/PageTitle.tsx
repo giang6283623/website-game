@@ -1,5 +1,6 @@
 import { cn } from "../../lib/cn.ts";
 import { Breadcrumbs, type Crumb } from "../Breadcrumbs/Breadcrumbs.tsx";
+import { GlitchText } from "../GlitchText/GlitchText.tsx";
 import "./PageTitle.css";
 
 export type { Crumb };
@@ -42,7 +43,7 @@ export function PageTitle({
           compactOnMobile && "page-title__title--compact",
         )}
       >
-        {title}
+        <GlitchText text={title} tone="soft" />
       </h1>
       {lead ? <p className="page-title__lead">{lead}</p> : null}
     </header>

@@ -4,7 +4,7 @@
   align-items: center;
   gap: var(--space-3);
   min-height: var(--size-touch-min);
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
 }
 
 .checkbox__input {

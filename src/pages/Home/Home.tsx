@@ -3,6 +3,7 @@ import { getItem, getNewsList, getRanking } from "../../api/endpoints.ts";
 import type { Item, PlayerRow } from "../../api/schemas.ts";
 import { Button } from "../../components/Button/Button.tsx";
 import { CornerMarks } from "../../components/CornerMarks/CornerMarks.tsx";
+import { GlitchText } from "../../components/GlitchText/GlitchText.tsx";
 import { ItemSlot } from "../../components/ItemSlot/ItemSlot.tsx";
 import { NewsList } from "../../components/NewsRow/NewsRow.tsx";
 import { Overline } from "../../components/Overline/Overline.tsx";
@@ -17,10 +18,17 @@ import { useResource } from "../../hooks/useResource.ts";
 import { useServerStatus } from "../../hooks/useServerStatus.tsx";
 import { formatNumber } from "../../lib/format.ts";
 import { lazyArtRef } from "../../lib/lazy-art.ts";
+import { lockOnRef, scopeGridRef } from "../../lib/signal.ts";
 import { Locker } from "./Locker.tsx";
 import "./Home.css";
 
 const copy = PAGE_COPY.home;
+
+/** Lưới vật phẩm trang chủ vừa có khóa mục tiêu, vừa có ống ngắm. */
+function itemGridRef(element: HTMLUListElement | null) {
+  lockOnRef(element);
+  return scopeGridRef(element);
+}
 
 function Hero() {
   return (
@@ -29,7 +37,10 @@ function Hero() {
         <Overline>{copy.heroLabel}</Overline>
         <h1 id="home-title" className="home-hero__title">
           <span className="home-hero__line">{copy.heroTitleLine1}</span>
-          <span className="home-hero__line home-hero__line--accent">{copy.heroTitleLine2}</span>
+          <GlitchText
+            className="home-hero__line home-hero__line--accent"
+            text={copy.heroTitleLine2}
+          />
         </h1>
         <p className="home-hero__lead">
           {copy.heroLeadStart}
@@ -116,7 +127,7 @@ function Steps() {
         }
       />
       <RadioLine label={steps.radioLabel}>{steps.radioText}</RadioLine>
-      <ol className="home-steps__list">
+      <ol className="home-steps__list" ref={lockOnRef}>
         {steps.cards.map((card) => (
           <StepCard
             key={card.no}
@@ -246,7 +257,7 @@ function FeaturedItems() {
       <ResourceView resource={resource} copy={LIST_COPY.items} emptyActionTo="/kho-do">
         {(items) => (
           <>
-            <ul className="home-items__grid">
+            <ul className="home-items__grid scope-grid" ref={itemGridRef}>
               {items.map((item) => (
                 <ItemSlot key={item.slug} item={item} to={`/kho-do/${item.slug}`} />
               ))}
@@ -266,7 +277,7 @@ function FeaturedItems() {
 function Cta() {
   const cta = copy.cta;
   return (
-    <section className="home-cta" aria-labelledby="home-cta-title">
+    <section className="home-cta" aria-labelledby="home-cta-title" ref={lockOnRef}>
       <div className="home-cta__frame pattern-cross" data-art-lazy ref={lazyArtRef}>
         <span className="home-cta__ruler pattern-ruler" aria-hidden="true" />
         <div className="home-cta__body">
@@ -300,7 +311,7 @@ export function Home() {
       <Hero />
       <Facts />
       <Steps />
-      <div className="home-news-ranking">
+      <div className="home-news-ranking" ref={lockOnRef}>
         <LatestNews />
         <TopPlayers />
       </div>

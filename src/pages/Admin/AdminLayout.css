@@ -29,7 +29,7 @@
   background: none;
   border: 0;
   color: var(--color-text-accent);
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
 }
 
 .admin__signout:hover {

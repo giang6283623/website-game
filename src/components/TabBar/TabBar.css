@@ -6,6 +6,7 @@
   z-index: var(--z-tab-bar);
   box-sizing: border-box;
   padding-bottom: env(safe-area-inset-bottom);
+  overflow-x: clip;
   background: var(--color-bg-inset);
 }
 
@@ -21,15 +22,8 @@
   pointer-events: none;
 }
 
-.tab-bar__needle {
-  position: absolute;
+.tab-bar .dial-track {
   top: 0;
-  left: calc((var(--tab-index) + 0.5) * 20%);
-  width: 3px;
-  height: 24px;
-  margin-left: -1.5px;
-  background: var(--color-accent-default);
-  pointer-events: none;
 }
 
 .tab-bar__list {
@@ -69,12 +63,6 @@
 
 .tab-bar__tab.is-active {
   color: var(--color-text-accent);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .tab-bar__needle {
-    transition: left var(--motion-base) var(--ease-standard);
-  }
 }
 
 /* Từ 1200: bố cục máy tính, không dùng TabBar */

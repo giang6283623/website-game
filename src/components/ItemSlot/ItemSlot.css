@@ -43,6 +43,155 @@
   object-fit: contain;
 }
 
+/* Ống ngắm tầng 1. Hai dấu góc thêm (trên phải, dưới trái) dùng `::before` và `::after` của khay, ẩn khi nghỉ để giống bản vẽ.
+   Lớp `item-slot__bite` là bốn dấu góc cam chồng đúng chỗ. Giảm chuyển động thì mọi thứ hiện tức thì, phần chuyển động ở `motion.css`. */
+.item-slot__plate::before,
+.item-slot__plate::after,
+.item-slot__bite::before,
+.item-slot__bite::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 0 solid var(--color-text-disabled);
+  pointer-events: none;
+}
+
+.item-slot__plate::before,
+.item-slot__plate::after {
+  opacity: 0;
+}
+
+.item-slot__bite::before,
+.item-slot__bite::after {
+  border-color: var(--color-border-accent);
+}
+
+.item-slot__plate::before,
+.item-slot__bite--alt::before {
+  --sx: 1;
+  --sy: -1;
+
+  top: 12px;
+  right: 12px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.item-slot__plate::after,
+.item-slot__bite--alt::after {
+  --sx: -1;
+  --sy: 1;
+
+  bottom: 12px;
+  left: 12px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.item-slot__bite:not(.item-slot__bite--alt)::before {
+  --sx: -1;
+  --sy: -1;
+
+  top: 12px;
+  left: 12px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.item-slot__bite:not(.item-slot__bite--alt)::after {
+  --sx: 1;
+  --sy: 1;
+
+  right: 12px;
+  bottom: 12px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+}
+
+.item-slot .corner-marks__tl {
+  --sx: -1;
+  --sy: -1;
+}
+
+.item-slot .corner-marks__br {
+  --sx: 1;
+  --sy: 1;
+}
+
+/* Nằm trên `::after` của khay, nếu không dấu xám phủ lên dấu cam. */
+.item-slot__scope {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.item-slot__bite,
+.item-slot__cross {
+  position: absolute;
+  inset: 0;
+}
+
+.item-slot__cross::before {
+  content: "";
+  position: absolute;
+  background: var(--color-accent-default);
+}
+
+.item-slot__cross--v {
+  --cx: -1;
+  --cy: 0;
+}
+
+.item-slot__cross--v::before {
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+}
+
+.item-slot__cross--h {
+  --cx: 0;
+  --cy: -1;
+}
+
+.item-slot__cross--h::before {
+  top: calc(50% - 1px);
+  right: 0;
+  left: 0;
+  height: 2px;
+}
+
+.item-slot__lock {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 2px var(--space-2);
+  background: var(--color-accent-default);
+  color: var(--color-text-on-accent);
+}
+
+.item-slot:not(.is-disabled):is(:hover, :active, :has(.item-slot__link:focus-visible))
+  .item-slot__plate::before,
+.item-slot:not(.is-disabled):is(:hover, :active, :has(.item-slot__link:focus-visible))
+  .item-slot__plate::after,
+.item-slot:not(.is-disabled):is(:hover, :active, :has(.item-slot__link:focus-visible))
+  .item-slot__scope {
+  opacity: 1;
+}
+
+/* Ống ngắm đang ở một thẻ: khay các thẻ khác mờ đi, chữ giữ nguyên nên tương phản không đổi. */
+.scope-grid:has(
+    .item-slot:not(.is-disabled):is(:hover, :active, :has(.item-slot__link:focus-visible))
+  )
+  .item-slot:not(:hover, :active, .is-selected, :has(.item-slot__link:focus-visible))
+  .item-slot__plate {
+  opacity: 0.55;
+}
+
 .item-slot__badge {
   position: absolute;
   top: 0;

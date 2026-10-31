@@ -45,7 +45,7 @@
   background: transparent;
   border: 0;
   color: inherit;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
 }
 
 .banner-strip__link:focus-visible,

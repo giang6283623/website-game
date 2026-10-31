@@ -142,6 +142,10 @@ export function buildThemeCss(values: DesignValues): string {
     if (isNumber(value)) decl(`--z-${kebab(key)}`, value);
   }
 
+  lines.push("  /* Trỏ chuột. Bản có ảnh được art.css ghi đè (scripts/lib/art-map.ts). */");
+  decl("--cursor-default", "auto");
+  decl("--cursor-pointer", "pointer");
+
   const pattern = patterns(values);
   lines.push("  /* Họa tiết */");
   decl("--pattern-ruler", pattern.ruler);

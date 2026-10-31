@@ -1,12 +1,13 @@
 import { CornerMarks } from "../../components/CornerMarks/CornerMarks.tsx";
 import { PAGE_COPY } from "../../content/pages.ts";
 import { assetUrl } from "../../lib/assets.ts";
+import { pauseOffscreenRef } from "../../lib/signal.ts";
 
 /** Túi đồ khởi đầu: hình lớn AK-74 với chú thích, và bốn món nhỏ. Nội dung chọn sẵn, không lấy từ API. */
 export function Locker() {
   const copy = PAGE_COPY.home.locker;
   return (
-    <aside className="locker pattern-cross" aria-label={copy.title}>
+    <aside className="locker pattern-cross" aria-label={copy.title} ref={pauseOffscreenRef}>
       <div className="locker__head text-label-m" aria-hidden="true">
         <span>{copy.title}</span>
         <span>{copy.count}</span>
@@ -27,6 +28,9 @@ export function Locker() {
           height="322"
           fetchPriority="high"
         />
+        <span className="locker__sweep" aria-hidden="true">
+          <span className="locker__sweep-band" />
+        </span>
       </div>
       <ul className="locker__small">
         {copy.small.map((item) => (

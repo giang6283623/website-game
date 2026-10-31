@@ -9,7 +9,7 @@
   background: none;
   border: var(--border-hairline) solid var(--color-border-control);
   color: var(--color-text-primary);
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   transition:
     background-color var(--motion-fast) var(--ease-standard),
     border-color var(--motion-fast) var(--ease-standard);

@@ -1,6 +1,7 @@
 import type { MouseEventHandler } from "react";
 import { Link } from "react-router";
 import type { Item } from "../../api/schemas.ts";
+import { PAGE_COPY } from "../../content/pages.ts";
 import { assetUrl } from "../../lib/assets.ts";
 import { cn } from "../../lib/cn.ts";
 import { CornerMarks } from "../CornerMarks/CornerMarks.tsx";
@@ -10,6 +11,7 @@ import "./ItemSlot.css";
  * Thẻ vật phẩm. Máy tính: 304 x 292 có dòng chỉ số. Điện thoại: thẻ nhỏ không có dòng chỉ số (MiniSlot).
  * Đang chọn: vòng cam 2 px và nhãn "ĐANG XEM". Nhãn chỉ là hình ảnh, thẻ mang aria-current.
  * Khóa (Figma `State=Disabled`): hình mờ 40 phần trăm, chữ `text/disabled`, không phải liên kết.
+ * Rê chuột, lấy nét hoặc chạm thì hiện ống ngắm (`item-slot__scope`): dấu góc, chữ thập, nhãn "ĐÃ KHÓA". Chỉ là hình ảnh.
  */
 export function ItemSlot({
   item,
@@ -39,6 +41,15 @@ export function ItemSlot({
           />
         ) : null}
         <CornerMarks length={16} inset={12} color="var(--color-text-disabled)" />
+        {disabled ? null : (
+          <span className="item-slot__scope" aria-hidden="true">
+            <span className="item-slot__bite" />
+            <span className="item-slot__bite item-slot__bite--alt" />
+            <span className="item-slot__cross item-slot__cross--v" />
+            <span className="item-slot__cross item-slot__cross--h" />
+            <span className="item-slot__lock text-label-m">{PAGE_COPY.itemsPage.scopeLocked}</span>
+          </span>
+        )}
         {selected && !disabled ? (
           <span className="item-slot__badge text-label-m" aria-hidden="true">
             Đang xem

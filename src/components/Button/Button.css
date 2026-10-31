@@ -8,7 +8,7 @@
   border: 0;
   background: none;
   color: inherit;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   text-decoration: none;
   white-space: nowrap;
   transition:

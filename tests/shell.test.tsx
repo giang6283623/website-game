@@ -194,4 +194,29 @@ describe("dựng sẵn HTML", () => {
       expect(html).not.toContain("<script");
     },
   );
+
+  // Tín hiệu yếu (phiên 16): HTML dựng sẵn không có trạng thái ẩn, nên tắt JavaScript vẫn thấy đủ nội dung.
+  test.each(["/", "/kho-do", "/khong-co"])(
+    "%s dựng sẵn không có data-lock và không có style làm trong suốt",
+    (path) => {
+      const html = renderApp(path);
+      expect(html).not.toContain("data-lock");
+      expect(html).not.toMatch(/opacity:\s*0/);
+    },
+  );
+
+  test("GlitchText giữ chữ thật một lần, năm lát và hai bóng màu rỗng, ẩn khỏi trình đọc màn hình", () => {
+    const html = renderApp("/");
+    const line =
+      /<span class="glitch-text home-hero__line home-hero__line--accent">.*?<\/span><\/span>/.exec(
+        html,
+      )?.[0] ?? "";
+    expect(line).toMatch(/<span class="glitch-text__real">[^<]+<\/span>/);
+    expect(line.match(/class="glitch-text__slice /g)).toHaveLength(5);
+    expect(line.match(/class="glitch-text__ghost /g)).toHaveLength(2);
+    expect(line.indexOf("glitch-text__ghost")).toBeLessThan(line.indexOf("glitch-text__slice"));
+    expect(line.match(/aria-hidden="true"/g)).toHaveLength(7);
+    expect(line.match(/<span[^>]*data-text="[^"]+"[^>]*><\/span>/g)).toHaveLength(7);
+    expect(renderApp("/khong-co")).toContain('class="glitch-text glitch-text--error');
+  });
 });

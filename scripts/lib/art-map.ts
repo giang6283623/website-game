@@ -29,6 +29,9 @@ const webp = (
   maxKb = 100,
 ): ArtEntry => ({ source, web, width, height, mode: "webp", quality, maxKb });
 
+/** Ảnh trỏ chuột: PNG 32 x 32 nằm ở thư mục hình game, chép nguyên tệp nên không đi cùng bảng ảnh WebP. */
+export const CURSOR_ART = { source: "ui-images/CURSOR.png", web: "cursor.png", maxKb: 4 };
+
 /** `01-bg-home-hero-desktop.webp` thành `--art-bg-home-hero-desktop`. */
 export function artVarName(web: string): string {
   return `--art-${web.replace(/^\d+-/, "").replace(/\.[a-z]+$/, "")}`;
@@ -41,7 +44,12 @@ export function buildArtCss(files: readonly string[]): string {
     .map((file) => `  ${artVarName(file)}: url("/assets/art/${file}");`);
   // `--art-frost` và `--art-blur` chỉ có khi có ảnh: thiếu tệp thì thẻ kính mờ giữ đúng màu đặc cũ.
   lines.push("  --art-frost: 60%;", "  --art-blur: 5px;");
-  return `/* Sinh bởi bun run build:art. Không sửa tay, không commit. */\n:root {\n${lines.join("\n")}\n}\n`;
+  const url = `url("/assets/art/${CURSOR_ART.web}") 1 1`;
+  // art.css nạp trước global.css nên `:root` sẽ thua token mặc định của theme.css, vì vậy dùng `html:root`.
+  const cursor = files.includes(CURSOR_ART.web)
+    ? `html:root {\n  --cursor-default: ${url}, auto;\n  --cursor-pointer: ${url}, pointer;\n}\n`
+    : "";
+  return `/* Sinh bởi bun run build:art. Không sửa tay, không commit. */\n:root {\n${lines.join("\n")}\n}\n${cursor}`;
 }
 
 export const ART_MAP: ArtEntry[] = [

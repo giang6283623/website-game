@@ -100,6 +100,11 @@ describe("gen-theme", () => {
     expect(vars.get("--font-body")).toContain("Barlow");
   });
 
+  test("token trỏ chuột mặc định là con trỏ của hệ thống", () => {
+    expect(vars.get("--cursor-default")).toBe("auto");
+    expect(vars.get("--cursor-pointer")).toBe("pointer");
+  });
+
   test("không có mã màu viết tay ngoài khối :root", () => {
     const outside = css.slice(css.indexOf("\n}\n") + 3);
     expect(/#[0-9a-fA-F]{3,8}\b/.test(outside)).toBe(false);

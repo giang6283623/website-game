@@ -10,6 +10,7 @@ import { SectionHead } from "../../components/SectionHead/SectionHead.tsx";
 import { LIST_COPY } from "../../content/lists.ts";
 import { PAGE_COPY } from "../../content/pages.ts";
 import { useResource } from "../../hooks/useResource.ts";
+import { scopeGridRef } from "../../lib/signal.ts";
 import { NotFound } from "../NotFound.tsx";
 import "./ItemPage.css";
 
@@ -63,7 +64,11 @@ export function ItemPage() {
                 overline={copy.othersOverline}
                 title={copy.othersTitle}
               />
-              <ul className="item-page__grid" aria-label={copy.othersLabel}>
+              <ul
+                className="item-page__grid scope-grid"
+                aria-label={copy.othersLabel}
+                ref={scopeGridRef}
+              >
                 {sameGroup.map((entry) => (
                   <ItemSlot key={entry.slug} item={entry} to={`/kho-do/${entry.slug}`} />
                 ))}

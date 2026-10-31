@@ -52,6 +52,20 @@ Ngoại lệ đã được người dùng duyệt (phiên 15, 31/10/2026) cho qu
 - Nếu thiếu ảnh (bản clone không có thư mục `public/assets/art/`) thì trang trở về thiết kế phẳng cũ, không lỗi và không lệch bố cục.
 - Ảnh không nằm trong git. Dựng bằng `bun run build:art` từ thư mục `art-src` (đường dẫn tới ảnh gốc), mã nguồn ở `scripts/build-art.ts` và `scripts/lib/art-map.ts`, kiểu dáng ở `src/styles/art.css`.
 
+Ngoại lệ thứ hai đã được người dùng duyệt (phiên 16, 31/10/2026) cho chuyển động: hoạt ảnh "Tín hiệu yếu" (thư viện Motion, bản `motion/mini`) và cửa sổ chi tiết vật phẩm. Phạm vi của ngoại lệ:
+
+- Chỉ đổi `opacity` và `transform` (gồm cả `translate`, `rotate`, `scale`). Bước vào dùng 120 đến 900 ms. Mọi nhịp lặp là bội số của `--signal-beat` (1 giây) và chỉ chạy khi không bật giảm chuyển động: nhiễu dòng tiêu đề và số trang lỗi (1 giây nhiễu, 1 giây nghỉ), nhiễu nhẹ tiêu đề trang (1 giây mỗi 4 giây), quét băng (1,8 giây mỗi 4 giây), kim rà sóng (rung 1 px mỗi 2 giây). Khối ra khỏi màn hình thì dừng vòng lặp.
+- Mục dưới màn hình đầu hiện bằng "khóa mục tiêu". Trạng thái ẩn chỉ đặt sau khi React nối vào.
+- Nhiễu là chữ bị xé thành các lát cùng màu với chữ, lệch tới 0,2 em, không có bản sao sáng đè lên chữ. Mọi khoảng 1 giây có không quá 3 lần đổi sáng mạnh trên vùng từ 21824 px². Dòng tiêu đề không đổi màu, trang lỗi mới dùng đỏ máu.
+- Tắt mọi dịch chuyển khi bật giảm chuyển động. Chữ lúc nghỉ vẫn đạt tương phản 4,5. Bản sao nhiễu chỉ là hình trang trí, ẩn khỏi trình đọc màn hình.
+- Vạch quét VHS trên Locker là vạch phẳng nửa tối, không chuyển động, chỉ có khi có ảnh trang trí.
+- Cửa sổ chi tiết vật phẩm hiện bằng nền mờ dần 200 ms và khung nổi lên 8 px trong 320 ms.
+- Ống ngắm trên thẻ vật phẩm là phản hồi khi người dùng trỏ, lấy nét hoặc chạm. Phần CSS luôn chạy. Phần JavaScript nạp lười chỉ thêm một ống ngắm trượt từ thẻ này sang thẻ khác. Không có số giả, chỉ dùng dữ liệu thật của vật phẩm.
+- Kim đổi trạm bằng đường lò xo `linear()` sinh từ công thức khối lượng, chạy bằng `transition`, không dùng vòng `requestAnimationFrame`. Lúc tải trang kim đứng yên.
+- Trỏ chuột dùng ảnh `cursor.png` 32 x 32, điểm nóng (1, 1), nạp qua `art.css`. Thiếu ảnh thì về `auto` và `pointer`. Ô nhập giữ `text`, thẻ khóa giữ `not-allowed`. Ảnh không nằm trong git.
+- Nút `Tắt hiệu ứng` ở chân trang dừng mọi vòng lặp và nhớ lựa chọn trên máy người dùng.
+- Mã nằm ở `src/lib/signal.ts`, `src/motion/signal.ts` và `src/styles/motion.css`. Motion chỉ được nạp lười sau khi React nối vào, nên không nằm trong gói JavaScript tải đầu.
+
 Giọng nói trên giao diện: ngắn, thẳng, tiếng Việt thường ngày. Chỉ có một nơi dùng giọng nhập vai: dòng "TRẠM TRƯỞNG · 88.1 MHz" trong mục Ba bước (chỉ là chữ, không có âm thanh).
 
 Từ dùng trong tài liệu này (chưa phải bảng thuật ngữ chính thức của dự án):
@@ -289,12 +303,13 @@ Toàn bộ mục này là đề xuất (Figma không có nguyên mẫu tương t
 | Nút, chip, dòng tin, thẻ | Rê chuột | Đổi nền và viền theo bảng trạng thái trong COMPONENTS.md | 120 ms |
 | Nút Primary | Nhấn | Mất viền dưới 4 px và nội dung dịch xuống 4 px. Nền `accent/pressed` | tức thì |
 | Mọi phần tử tương tác | Lấy nét bằng bàn phím | Vòng 3 px `border/focus`, vẽ vào trong bằng `outline-offset: -3px` để không đổi bố cục | tức thì |
-| NavDial, TabBar | Đổi trang | Kim cam trượt đến trạm mới. Nếu tải trang đầy đủ thì kim đứng sẵn ở trạm hiện tại, không cần hoạt ảnh | 200 ms |
-| Thẻ vật phẩm | Chọn | Hiện vòng `border/accent` 2 px và nhãn "ĐANG XEM". Khối chi tiết đổi nội dung | tức thì |
+| NavDial, TabBar | Đổi trang | Kim cam trượt đến trạm mới theo đường lò xo: vượt 8 đến 18 px rồi về đúng trạm, kim lắc như con lắc, có vệt phẳng sau kim. Thước giật nhẹ khi kim chạm đích. Nếu tải trang đầy đủ thì kim đứng sẵn ở trạm hiện tại, không cần hoạt ảnh | Theo số trạm nhảy, tối đa 1,1 giây |
+| Thẻ vật phẩm | Rê chuột, lấy nét, chạm | Ống ngắm: bốn dấu góc siết vào, chữ thập gặp nhau giữa khay, góc chuyển cam, hình phóng 1,06, nhãn "ĐÃ KHÓA". Đang giữ thì lắc thở 1 px. Khay các thẻ khác mờ còn 0,55, chữ giữ nguyên. Rời thẻ tắt trong 120 ms | Khóa đủ trong 320 ms |
+| Thẻ vật phẩm | Chọn | Hiện vòng `border/accent` 2 px và nhãn "ĐANG XEM". Máy tính mở cửa sổ chi tiết có Trước, Sau và Đóng (xem ngoại lệ ở mục 1) | 200 ms |
 | Skeleton | Đang tải | Thanh xám nhấp nháy độ mờ 0,5 đến 1, 1200 ms, lặp | Tắt khi giảm chuyển động |
 | Trang | Chuyển trang | Không có hiệu ứng chuyển trang | |
 
-Khi `prefers-reduced-motion: reduce`: tắt trượt kim, tắt nhấp nháy skeleton. Không có hoạt ảnh khác để tắt.
+Khi `prefers-reduced-motion: reduce`: tắt trượt kim, tắt nhấp nháy skeleton, tắt mọi hoạt ảnh "Tín hiệu yếu" (xem ngoại lệ ở mục 1).
 
 Hành vi bàn phím:
 

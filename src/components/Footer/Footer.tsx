@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { SHARED_COPY, STATIONS } from "../../content/shared.ts";
 import { COMMUNITY_LINKS, CONTACT_LINK, type SiteLink } from "../../content/site-links.ts";
 import { lazyArtRef } from "../../lib/lazy-art.ts";
+import { MotionToggle } from "../MotionToggle/MotionToggle.tsx";
 import { Wordmark } from "../Wordmark/Wordmark.tsx";
 import "./Footer.css";
 
@@ -85,6 +86,9 @@ export function Footer({ introOnMobile = false }: { introOnMobile?: boolean }) {
                 </a>
               </li>
             ) : null}
+            <li>
+              <MotionToggle />
+            </li>
           </ul>
         </nav>
         {community.length > 0 ? (

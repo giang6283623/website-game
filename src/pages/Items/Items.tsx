@@ -5,7 +5,7 @@ import { ITEM_GROUP_KEYS, type ItemGroupKey } from "../../api/schemas.ts";
 import { CategoryList } from "../../components/CategoryList/CategoryList.tsx";
 import { Chip } from "../../components/Chip/Chip.tsx";
 import { Field } from "../../components/Field/Field.tsx";
-import { ItemDetail } from "../../components/ItemDetail/ItemDetail.tsx";
+import { ItemDialog } from "../../components/ItemDialog/ItemDialog.tsx";
 import { ItemSlot } from "../../components/ItemSlot/ItemSlot.tsx";
 import { PageTitle } from "../../components/PageTitle/PageTitle.tsx";
 import { Pagination } from "../../components/Pagination/Pagination.tsx";
@@ -14,6 +14,7 @@ import { LIST_COPY } from "../../content/lists.ts";
 import { PAGE_COPY } from "../../content/pages.ts";
 import { useResource } from "../../hooks/useResource.ts";
 import { buildQuery, parseOneOf, parsePositiveInt } from "../../lib/query.ts";
+import { scopeGridRef } from "../../lib/signal.ts";
 import "./Items.css";
 
 const copy = PAGE_COPY.itemsPage;
@@ -92,10 +93,15 @@ export function Items() {
   }, [page]);
 
   const data = resource.status === "success" || resource.status === "empty" ? resource.data : null;
-  const selected = data ? (data.items.find((item) => item.slug === chosen) ?? data.items[0]) : null;
+  // Không có ?chon= thì không mở cửa sổ chi tiết. Có ?chon= khớp một thẻ trong trang thì mở cửa sổ ở thẻ đó.
+  const items = data?.items ?? [];
+  const selectedIndex = chosen ? items.findIndex((item) => item.slug === chosen) : -1;
+  const selected = selectedIndex >= 0 ? (items[selectedIndex] ?? null) : null;
+  const previous = selectedIndex > 0 ? items[selectedIndex - 1] : undefined;
+  const next = selectedIndex >= 0 ? items[selectedIndex + 1] : undefined;
   const total = groups ? groups.reduce((sum, entry) => sum + entry.count, 0) : null;
 
-  // Máy tính: bấm thẻ thì đổi khối chi tiết bên dưới. Điện thoại và phím bổ trợ: mở trang chi tiết như liên kết thường.
+  // Máy tính: bấm thẻ thì mở cửa sổ chi tiết. Điện thoại và phím bổ trợ: mở trang chi tiết như liên kết thường.
   const pick = (slug: string) => (event: MouseEvent<HTMLElement>) => {
     const plain = !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
     if (!plain || event.button !== 0) return;
@@ -169,7 +175,7 @@ export function Items() {
           <div ref={resultsRef} className="items-page__results">
             <ResourceView resource={resource} copy={LIST_COPY.items} onEmptyAction={clearFilters}>
               {(list) => (
-                <ul className="items-grid">
+                <ul className="items-grid scope-grid" ref={scopeGridRef}>
                   {list.items.map((item) => (
                     <ItemSlot
                       key={item.slug}
@@ -191,14 +197,28 @@ export function Items() {
               hrefFor={(target) => hrefFor({ trang: target, chon: null })}
             />
           ) : null}
-
-          {selected ? (
-            <section className="items-page__detail only-desktop" aria-label={copy.detailLabel}>
-              <ItemDetail item={selected} badge={copy.viewing} headingLevel={2} />
-            </section>
-          ) : null}
         </section>
       </div>
+      {selected ? (
+        <ItemDialog
+          item={selected}
+          index={selectedIndex}
+          total={items.length}
+          labels={{
+            dialog: copy.detailLabel,
+            close: copy.dialogClose,
+            closeLabel: copy.dialogCloseLabel,
+            previous: copy.dialogPrevious,
+            previousLabel: copy.dialogPreviousLabel,
+            next: copy.dialogNext,
+            nextLabel: copy.dialogNextLabel,
+            position: copy.dialogPosition,
+          }}
+          onClose={() => go({ chon: null }, true)}
+          onPrevious={previous ? () => go({ chon: previous.slug }, true) : undefined}
+          onNext={next ? () => go({ chon: next.slug }, true) : undefined}
+        />
+      ) : null}
     </>
   );
 }

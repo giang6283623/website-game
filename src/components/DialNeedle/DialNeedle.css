@@ -1,0 +1,46 @@
+/* Ray rộng bằng một trạm, dời đúng số trạm theo phần trăm của chính nó. */
+.dial-track {
+  position: absolute;
+  left: 0;
+  width: 20%;
+  height: 24px;
+  translate: calc(var(--dial-index) * 100%) 0;
+  pointer-events: none;
+}
+
+.dial-track[data-parked] {
+  opacity: 0;
+}
+
+.dial-magnet {
+  position: absolute;
+  inset: 0;
+}
+
+.dial-needle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 3px;
+  height: 24px;
+  margin-left: -1.5px;
+  transform-origin: 50% 0;
+}
+
+.dial-needle__bar {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent-default);
+}
+
+/* Vệt quán tính: khối phẳng sau kim, chỉ hiện lúc đang đi. */
+.dial-needle__trail {
+  position: absolute;
+  top: 0;
+  left: 1.5px;
+  width: 40px;
+  height: 100%;
+  background: var(--color-accent-default);
+  opacity: 0;
+  transform-origin: 0 50%;
+}

@@ -5,10 +5,11 @@
 import { existsSync } from "node:fs";
 import { copyFile, mkdir, stat, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { ART_MAP, type ArtEntry, buildArtCss } from "./lib/art-map.ts";
+import { ART_MAP, type ArtEntry, buildArtCss, CURSOR_ART } from "./lib/art-map.ts";
 
 const root = resolve(import.meta.dir, "..");
 const sourceRoot = resolve(root, process.env.ART_ASSETS_DIR ?? "art-src");
+const gameRoot = resolve(root, process.env.GAME_ASSETS_DIR ?? "game-assets-src");
 const outRoot = resolve(root, "public/assets/art");
 
 async function run(command: string[]): Promise<void> {
@@ -77,6 +78,15 @@ for (const entry of ART_MAP) {
   console.log(
     `${entry.web.padEnd(34)} ${String(entry.width).padStart(4)}x${String(entry.height).padEnd(4)} ${String(kb).padStart(4)} KB (trần ${entry.maxKb})${flag}`,
   );
+}
+// Ảnh trỏ chuột là hình game, thiếu thì website dùng con trỏ của hệ thống.
+const cursorSource = resolve(gameRoot, CURSOR_ART.source);
+if (existsSync(cursorSource)) {
+  await mkdir(outRoot, { recursive: true });
+  const output = resolve(outRoot, CURSOR_ART.web);
+  await copyFile(cursorSource, output);
+  built.push(CURSOR_ART.web);
+  if ((await stat(output)).size / 1024 > CURSOR_ART.maxKb) tooBig += 1;
 }
 if (built.length > 0) await writeFile(resolve(outRoot, "art.css"), buildArtCss(built));
 console.log(

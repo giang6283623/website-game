@@ -58,6 +58,8 @@ export const SHARED_COPY = {
     navTitle: "Điều hướng",
     supportTitle: "Hỗ trợ",
     communityTitle: "Cộng đồng",
+    motionOff: "Tắt hiệu ứng",
+    motionOn: "Bật hiệu ứng",
   },
 } as const;
 

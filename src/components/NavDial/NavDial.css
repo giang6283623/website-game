@@ -60,19 +60,6 @@
   pointer-events: none;
 }
 
-.nav-dial__needle {
-  position: absolute;
+.nav-dial .dial-track {
   top: 44px;
-  left: calc((var(--dial-index) + 0.5) * 20%);
-  width: 3px;
-  height: 24px;
-  margin-left: -1.5px;
-  background: var(--color-accent-default);
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .nav-dial__needle {
-    transition: left var(--motion-base) var(--ease-standard);
-  }
 }

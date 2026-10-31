@@ -1,22 +1,16 @@
-import type { CSSProperties } from "react";
 import { NavLink } from "react-router";
 import { SHARED_COPY, STATIONS, stationIndex } from "../../content/shared.ts";
 import type { NavKey } from "../../routes.ts";
+import { DialNeedle, dialRootProps, useDialMove } from "../DialNeedle/DialNeedle.tsx";
 import "./TabBar.css";
 
 /** Điều hướng chính trên điện thoại, cố định ở đáy màn hình. Cùng thứ tự với NavDial. */
 export function TabBar({ active }: { active: NavKey | null }) {
-  const index = stationIndex(active);
+  const move = useDialMove(stationIndex(active));
   return (
-    <nav className="tab-bar" aria-label={SHARED_COPY.quickNav}>
-      <span className="tab-bar__ruler" aria-hidden="true" />
-      {index >= 0 ? (
-        <span
-          className="tab-bar__needle"
-          aria-hidden="true"
-          style={{ "--tab-index": index } as CSSProperties}
-        />
-      ) : null}
+    <nav className="tab-bar dial-root" aria-label={SHARED_COPY.quickNav} {...dialRootProps(move)}>
+      <span key={move.seq} className="tab-bar__ruler dial-ruler" aria-hidden="true" />
+      <DialNeedle move={move} />
       <ul className="tab-bar__list">
         {STATIONS.map((station) => (
           <li key={station.key} className="tab-bar__item">
@@ -27,7 +21,7 @@ export function TabBar({ active }: { active: NavKey | null }) {
               aria-label={station.name}
               className={() => (station.key === active ? "tab-bar__tab is-active" : "tab-bar__tab")}
             >
-              <span className="text-label-m" aria-hidden="true">
+              <span className="dial-pop text-label-m" aria-hidden="true">
                 {station.tab}
               </span>
             </NavLink>

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { ART_MAP, artVarName, buildArtCss } from "../scripts/lib/art-map.ts";
+import { ART_MAP, artVarName, buildArtCss, CURSOR_ART } from "../scripts/lib/art-map.ts";
 
 const root = resolve(import.meta.dir, "..");
 
@@ -33,6 +33,18 @@ describe("bảng ảnh trang trí", () => {
     expect(css).not.toContain("og-share");
     expect(css).toContain("--art-frost:");
     expect(css).toContain("--art-blur:");
+  });
+
+  test("có ảnh trỏ chuột thì art.css ghi đè hai token, bộ chọn mạnh hơn :root của theme.css", () => {
+    const css = buildArtCss([CURSOR_ART.web]);
+    expect(css).toContain('--cursor-default: url("/assets/art/cursor.png") 1 1, auto;');
+    expect(css).toContain('--cursor-pointer: url("/assets/art/cursor.png") 1 1, pointer;');
+    // art.css nạp trước global.css, nên :root cùng độ ưu tiên sẽ thua theme.css.
+    expect(css).toMatch(/html:root \{\n {2}--cursor-default/);
+  });
+
+  test("thiếu ảnh trỏ chuột thì art.css không nhắc tới trỏ chuột", () => {
+    expect(buildArtCss(["01-bg-home-hero-desktop.webp"])).not.toContain("cursor");
   });
 
   test("mọi biến --art-* mà src/styles/art.css đọc đều có trong bảng ảnh", () => {
