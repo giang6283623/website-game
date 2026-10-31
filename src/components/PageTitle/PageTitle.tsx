@@ -15,6 +15,7 @@ export function PageTitle({
   lead,
   id,
   compactOnMobile = false,
+  art = "generic",
   className,
 }: {
   crumbs: readonly Crumb[];
@@ -24,10 +25,14 @@ export function PageTitle({
   id?: string;
   /** Tiêu đề dài: điện thoại dùng cỡ chữ vừa (display-m) để vừa một dòng. Máy tính vẫn cỡ lớn. */
   compactOnMobile?: boolean;
+  /** Ảnh nền của dải tiêu đề. Thiếu ảnh (bản clone) thì dải giữ nền phẳng. */
+  art?: "generic" | "news" | "items" | "ranking";
   className?: string;
 }) {
   return (
-    <header className={cn("page-title", "pattern-cross--large", className)}>
+    <header
+      className={cn("page-title", "pattern-cross--large", `page-title--art-${art}`, className)}
+    >
       <Breadcrumbs crumbs={crumbs} label={crumbsLabel} />
       <h1
         id={id}

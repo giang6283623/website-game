@@ -41,6 +41,17 @@ Bốn quy tắc cứng của thiết kế:
 3. Cỡ chữ nhỏ nhất 16 px. Display, Heading và Label luôn in hoa.
 4. Hình game chỉ đặt trên khay tối. Không dùng ảnh nền ConnectScreen. Không dùng màu mè.
 
+Ngoại lệ đã được người dùng duyệt (phiên 15, 31/10/2026) cho quy tắc 2: ảnh nền trang trí do công cụ tạo ảnh vẽ, đặt sau một lớp phủ phẳng một màu (không gradient), kèm hiệu ứng nhẹ. Phạm vi của ngoại lệ:
+
+- Nơi dùng: Hero và CTA trang chủ, tiêu đề các trang, khung tải game, bên trái trang đăng nhập, trang lỗi, ảnh bìa tin, dải số liệu, mép trên chân trang.
+- Họa tiết lặp rất nhạt: bê tông phủ nền trang (độ đậm 7%), thép gỉ phủ nền chân trang (16%), hạt kính trên các tấm kính mờ (30%). Các họa tiết nằm dưới chữ và không đổi màu chữ.
+- Nạp lười: ảnh của khung CTA và chân trang chỉ tải khi phần tử cách khung nhìn dưới 300 px (thuộc tính `data-art-lazy`, mã ở `src/lib/lazy-art.ts`). Nhờ đó ngân sách trang chủ điện thoại tính cho phần trên màn hình đầu vẫn đạt.
+- Kính mờ: ô Locker, bảng yêu cầu máy, ô số liệu và khung chữ CTA điện thoại dùng màu khay trộn 60% và làm mờ 5 px. Chỉ riêng tấm kính này được mờ nền.
+- Hiệu ứng: sương và pháo sáng chỉ đổi độ đậm (chu kỳ 14 giây và 4 giây). Mọi hiệu ứng tắt khi người dùng bật giảm chuyển động.
+- Chữ vẫn phải đạt tương phản ít nhất 4,5:1 (chữ lớn 3:1), đo bằng điểm ảnh thật sau lớp phủ.
+- Nếu thiếu ảnh (bản clone không có thư mục `public/assets/art/`) thì trang trở về thiết kế phẳng cũ, không lỗi và không lệch bố cục.
+- Ảnh không nằm trong git. Dựng bằng `bun run build:art` từ thư mục `art-src` (đường dẫn tới ảnh gốc), mã nguồn ở `scripts/build-art.ts` và `scripts/lib/art-map.ts`, kiểu dáng ở `src/styles/art.css`.
+
 Giọng nói trên giao diện: ngắn, thẳng, tiếng Việt thường ngày. Chỉ có một nơi dùng giọng nhập vai: dòng "TRẠM TRƯỞNG · 88.1 MHz" trong mục Ba bước (chỉ là chữ, không có âm thanh).
 
 Từ dùng trong tài liệu này (chưa phải bảng thuật ngữ chính thức của dự án):

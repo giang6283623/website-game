@@ -1,0 +1,384 @@
+/* Ảnh trang trí "Sau tấm kính". Ảnh nằm sau một lớp phủ phẳng (một màu, có độ trong suốt). Chữ, thẻ và nút vẫn phẳng.
+   Các biến `--art-*` do `bun run build:art` sinh ở public/assets/art/art.css và không nằm trong git.
+   Thiếu tệp đó thì mọi `var(--art-..., none)` rơi về `none` và trang giữ nền phẳng như trước. */
+
+/* Bộ máy chung: ảnh ở lớp -3, lớp phủ ở lớp -2, hiệu ứng ở lớp -1. Nội dung nằm trên cả ba. */
+:where(
+  .home-hero,
+  .page-title,
+  .home-cta__frame,
+  .auth-visual,
+  .center-message,
+  .featured-news__visual,
+  .article-hero,
+  .home-facts,
+  .download-card
+) {
+  position: relative;
+  isolation: isolate;
+}
+
+:where(
+  .home-hero,
+  .page-title,
+  .home-cta__frame,
+  .auth-visual,
+  .center-message,
+  .featured-news__visual,
+  .article-hero,
+  .home-facts,
+  .download-card
+)::before,
+:where(
+  .home-hero,
+  .page-title,
+  .home-cta__frame,
+  .auth-visual,
+  .center-message,
+  .featured-news__visual,
+  .article-hero,
+  .home-facts,
+  .download-card
+)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+:where(
+  .home-hero,
+  .page-title,
+  .home-cta__frame,
+  .auth-visual,
+  .center-message,
+  .featured-news__visual,
+  .article-hero,
+  .home-facts,
+  .download-card
+)::before {
+  z-index: -3;
+  background-image: var(--art-img, none);
+  background-position: var(--art-pos, center);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+:where(
+  .home-hero,
+  .page-title,
+  .home-cta__frame,
+  .auth-visual,
+  .center-message,
+  .featured-news__visual,
+  .article-hero,
+  .home-facts,
+  .download-card
+)::after {
+  z-index: -2;
+  background-color: var(--color-bg-page);
+  opacity: var(--art-scrim, 0.5);
+}
+
+/* Trang chủ: Hero. Điện thoại dùng ảnh dọc, máy tính dùng ảnh ngang. */
+.home-hero {
+  --art-img: var(--art-bg-home-hero-mobile, none);
+  --art-scrim: 0.45;
+  --art-pos: 70% 20%;
+}
+
+/* Thẻ "Túi đồ" là kính mờ: nhìn xuyên thấy ảnh nền, chữ vẫn rõ. */
+.home-hero .locker {
+  background-color: color-mix(in srgb, var(--color-bg-panel) var(--art-frost, 100%), transparent);
+  backdrop-filter: blur(var(--art-blur, 0px));
+}
+
+/* Dải đầu trang con. Ảnh rộng 5:1, điện thoại lệch sang phải để thấy ô cửa. */
+.page-title {
+  --art-scrim: 0.62;
+  --art-pos: 88% center;
+}
+
+.page-title--art-generic {
+  --art-img: var(--art-bg-pagetitle-generic, none);
+}
+
+.page-title--art-news {
+  --art-img: var(--art-bg-pagetitle-news, none);
+}
+
+.page-title--art-items {
+  --art-img: var(--art-bg-pagetitle-items, none);
+}
+
+.page-title--art-ranking {
+  --art-img: var(--art-bg-pagetitle-ranking, none);
+}
+
+/* Lời kêu gọi cuối trang chủ: bàn tay sau kính mờ. */
+.home-cta__frame {
+  --art-img: var(--art-hands-cta-mobile, none);
+  --art-scrim: 0.3;
+}
+
+/* Điện thoại: chữ nằm trên một tấm kính mờ phẳng, vì vùng trời của ảnh sáng. */
+.home-cta__text {
+  padding: var(--space-4);
+  background-color: color-mix(in srgb, var(--color-bg-page) 78%, transparent);
+  backdrop-filter: blur(var(--art-blur, 0px));
+}
+
+/* Khối hình của trang đăng nhập và đăng ký. */
+.auth-visual {
+  --art-img: var(--art-bg-auth-visual, none);
+  --art-scrim: 0.7;
+  --art-pos: center bottom;
+}
+
+/* Trang lỗi. */
+.center-message {
+  --art-scrim: 0.55;
+}
+
+.center-message[data-code="404"] {
+  --art-img: var(--art-hands-404, none);
+}
+
+.center-message[data-code="500"] {
+  --art-img: var(--art-hands-500-cracked, none);
+}
+
+.center-message[data-code="403"] {
+  --art-img: var(--art-hands-overlay-black, none);
+  --art-scrim: 0;
+}
+
+.center-message[data-code="403"]::before {
+  mix-blend-mode: screen;
+}
+
+/* Bìa tin: ảnh theo loại tin nằm sau hình vật phẩm (hình vật phẩm vẫn `contain` ở trên). */
+.featured-news__visual,
+.article-hero {
+  --art-img: var(--art-cover-default, none);
+  --art-scrim: 0.45;
+}
+
+:is(.featured-news__visual, .article-hero)[data-category="tin-tuc"] {
+  --art-img: var(--art-cover-news, none);
+}
+
+:is(.featured-news__visual, .article-hero)[data-category="huong-dan"] {
+  --art-img: var(--art-cover-guide, none);
+}
+
+:is(.featured-news__visual, .article-hero)[data-category="su-kien"] {
+  --art-img: var(--art-cover-event, none);
+}
+
+:is(.featured-news__visual, .article-hero)[data-category="cap-nhat"] {
+  --art-img: var(--art-cover-update, none);
+}
+
+/* Số liệu nhanh: bàn tay sau kính mờ, mỗi ô số liệu là một tấm kính mờ. */
+.home-facts {
+  --art-img: var(--art-hands-band-wide, none);
+  --art-scrim: 0.35;
+  --art-pos: 85% center;
+}
+
+/* Điện thoại và máy tính bảng: lưới có màu nền đặc để vẽ đường kẻ 1px, nên làm mờ cùng độ với ô để thấy ảnh. */
+@media (max-width: 1199px) {
+  .home-facts .home-facts__grid {
+    background-color: color-mix(
+      in srgb,
+      var(--color-border-soft) var(--art-frost, 100%),
+      transparent
+    );
+  }
+}
+
+.home-facts .fact {
+  background-color: color-mix(in srgb, var(--color-bg-inset) var(--art-frost, 100%), transparent);
+  backdrop-filter: blur(var(--art-blur, 0px));
+}
+
+/* Thẻ tải game: ảnh bàn làm việc có chiếc radio. Bảng yêu cầu máy là kính mờ. */
+.download-card {
+  --art-img: var(--art-bg-download-card, none);
+  --art-scrim: 0.45;
+  --art-pos: right center;
+}
+
+.download-card .download-card__panel {
+  background-color: color-mix(in srgb, var(--color-bg-inset) var(--art-frost, 100%), transparent);
+  backdrop-filter: blur(var(--art-blur, 0px));
+}
+
+/* Chân trang. `::before` là dây thép gai (lớp trên) và vệt bẩn ở mép trên, `::after` là họa tiết thép gỉ phủ nền.
+   Cả hai trộn `screen` nên phần nền đen biến mất, và nằm trong chân trang nên không có hộp đen. */
+.footer {
+  position: relative;
+}
+
+.footer::before,
+.footer::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+}
+
+.footer::before {
+  top: -34px;
+  height: 68px;
+  background-image: var(--art-decor-barbed-wire, none), var(--art-divider-smear, none);
+  background-position:
+    center,
+    center 34px;
+  background-size:
+    cover,
+    100% 18px;
+  opacity: 0.6;
+}
+
+.footer::after {
+  top: 0;
+  bottom: 0;
+  background-image: var(--art-tex-rust-steel-tile, none);
+  background-repeat: repeat;
+  background-size: 384px;
+  opacity: 0.16;
+}
+
+/* Hạt kính: họa tiết kính mờ nằm dưới chữ và trên nền kính, nên kính vẫn nhìn xuyên được. */
+:where(.home-hero .locker, .download-card .download-card__panel, .home-facts .fact) {
+  position: relative;
+  isolation: isolate;
+}
+
+:where(.home-hero .locker, .download-card .download-card__panel, .home-facts .fact)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--art-tex-frosted-glass-tile, none);
+  background-size: 256px;
+  opacity: 0.3;
+}
+
+/* Nền trang: họa tiết bê tông rất nhạt ở vùng nền trống giữa các mục. */
+.shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--art-tex-concrete-tile, none);
+  background-size: 384px;
+  opacity: 0.07;
+}
+
+/* Hiệu ứng nhẹ: sương và pháo sáng chỉ đổi độ đậm, không dịch chuyển. Tắt khi bật "giảm chuyển động". */
+.art-fog,
+.art-flare {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+}
+
+.art-fog {
+  inset: 0;
+  background-image: var(--art-decor-chainlink-fog, none);
+  background-position: right bottom;
+  background-size: cover;
+  opacity: 0.3;
+}
+
+.art-flare {
+  right: 2%;
+  bottom: 0;
+  width: 260px;
+  height: 260px;
+  background-image: var(--art-decor-flare-glow, none);
+  background-size: contain;
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .art-fog {
+    animation: art-breathe-fog 14s ease-in-out infinite alternate;
+  }
+
+  .art-flare {
+    animation: art-breathe-flare 4s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes art-breathe-fog {
+  from {
+    opacity: 0.18;
+  }
+
+  to {
+    opacity: 0.42;
+  }
+}
+
+@keyframes art-breathe-flare {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
+/* Từ 1200: ảnh ngang, lớp phủ nhẹ hơn vì vùng chữ của ảnh vốn tối. */
+@media (min-width: 1200px) {
+  .home-hero {
+    --art-img: var(--art-bg-home-hero-desktop, none);
+    --art-scrim: 0.3;
+    --art-pos: center;
+  }
+
+  .page-title {
+    --art-scrim: 0.4;
+    --art-pos: center;
+  }
+
+  .home-cta__text {
+    padding: 0;
+    background-color: transparent;
+    backdrop-filter: none;
+  }
+
+  .home-cta__frame {
+    --art-img: var(--art-hands-cta-desktop, none);
+    --art-scrim: 0.3;
+  }
+}
+
+/* Ảnh dưới màn hình đầu chỉ nạp khi phần tử sắp vào khung nhìn (`src/lib/lazy-art.ts` đặt `data-art-in`).
+   Trước đó các biến ảnh bị tắt nên trình duyệt chưa tải tệp nào. */
+[data-art-lazy]:not([data-art-in]) {
+  --art-img: none;
+}
+
+[data-art-lazy]:not([data-art-in]) .art-flare,
+.footer[data-art-lazy]:not([data-art-in])::before,
+.footer[data-art-lazy]:not([data-art-in])::after {
+  background-image: none;
+}

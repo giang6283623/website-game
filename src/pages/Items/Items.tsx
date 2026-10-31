@@ -109,6 +109,7 @@ export function Items() {
   return (
     <>
       <PageTitle
+        art="items"
         crumbs={[{ label: "Trang chủ", to: "/" }, { label: copy.title }]}
         title={copy.title}
         lead={copy.lead}

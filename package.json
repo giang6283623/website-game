@@ -8,6 +8,7 @@
     "gen-theme": "bun run scripts/gen-theme.ts",
     "build:fonts": "bun run scripts/build-fonts.ts",
     "build:images": "bun run scripts/build-images.ts",
+    "build:art": "bun run scripts/build-art.ts",
     "build": "bun run scripts/build.ts",
     "build:dev": "NODE_ENV=development bun run build",
     "build:prod": "NODE_ENV=production bun run build",

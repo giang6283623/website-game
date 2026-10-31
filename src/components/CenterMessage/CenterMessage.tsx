@@ -18,7 +18,7 @@ export function CenterMessage({
   actionTo?: string;
 }) {
   return (
-    <section className="center-message container">
+    <section className="center-message container" data-code={code}>
       <p className="center-message__code text-display-l">{code}</p>
       <ListState
         kind="error"

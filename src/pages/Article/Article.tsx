@@ -42,10 +42,10 @@ function ArticleHead({ post, minutes }: { post: NewsDetail; minutes: number }) {
   );
 }
 
-function ArticleHero({ imageKey }: { imageKey: string }) {
+function ArticleHero({ imageKey, category }: { imageKey: string; category: string }) {
   const size = assetSize(imageKey);
   return (
-    <div className="article-hero pattern-cross">
+    <div className="article-hero pattern-cross" data-category={category}>
       <img
         className="article-hero__image"
         src={assetUrl(imageKey)}
@@ -90,7 +90,9 @@ export function Article() {
       <ResourceView resource={article} copy={LIST_COPY.news} className="article__state">
         {(data) => (
           <article className="article">
-            {data.coverImageKey ? <ArticleHero imageKey={data.coverImageKey} /> : null}
+            {data.coverImageKey ? (
+              <ArticleHero imageKey={data.coverImageKey} category={data.category} />
+            ) : null}
             <div className="article__reading">
               <Prose html={data.bodyHtml} />
               <RadioLine label={copy.radioLabel}>{copy.radioText}</RadioLine>

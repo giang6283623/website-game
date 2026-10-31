@@ -133,6 +133,24 @@ describe("buildHead", () => {
     expect(find(head, "name", "description")?.attrs.content).toBe(home.description);
   });
 
+  test("ảnh chia sẻ chỉ ghi og:image khi có tên miền, trang được lập chỉ mục và có tệp ảnh", () => {
+    const ogImage = "/assets/art/28-og-share.jpg";
+    const withImage = buildHead(home, { pathname: "/", siteUrl: "https://example.org/", ogImage });
+    expect(find(withImage, "property", "og:image")?.attrs.content).toBe(
+      "https://example.org/assets/art/28-og-share.jpg",
+    );
+    expect(find(withImage, "property", "og:image:width")?.attrs.content).toBe("1200");
+    expect(find(withImage, "name", "twitter:card")?.attrs.content).toBe("summary_large_image");
+    // Thiếu tên miền, bản mock, hoặc thiếu tệp ảnh thì không có og:image (cùng điều kiện với og:url, C-91).
+    for (const input of [
+      { pathname: "/", ogImage },
+      { pathname: "/", siteUrl: "https://example.org", blockIndexing: true, ogImage },
+      { pathname: "/", siteUrl: "https://example.org" },
+    ]) {
+      expect(find(buildHead(home, input), "property", "og:image")).toBeUndefined();
+    }
+  });
+
   test("blockIndexing tắt thì trang công khai vẫn có canonical như trước", () => {
     const head = buildHead(home, {
       pathname: "/",

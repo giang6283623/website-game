@@ -15,6 +15,8 @@ export type HeadInput = {
   siteUrl?: string;
   /** Bản dựng dùng API giả: mọi trang gắn "noindex, nofollow" và không có canonical, og:url (C-91). */
   blockIndexing?: boolean;
+  /** Đường dẫn ảnh chia sẻ (ví dụ "/assets/art/28-og-share.jpg"). Chỉ ghi og:image khi có siteUrl và trang được lập chỉ mục, cùng điều kiện với og:url. */
+  ogImage?: string;
 };
 
 export type Head = { title: string; tags: HeadTag[] };
@@ -71,6 +73,14 @@ export function buildHead(route: RouteMeta, input: HeadInput): Head {
       { tag: "link", attrs: { rel: "canonical", href: url } },
       { tag: "meta", attrs: { property: "og:url", content: url } },
     );
+    if (input.ogImage) {
+      tags.push(
+        { tag: "meta", attrs: { property: "og:image", content: `${base}${input.ogImage}` } },
+        { tag: "meta", attrs: { property: "og:image:width", content: "1200" } },
+        { tag: "meta", attrs: { property: "og:image:height", content: "630" } },
+        { tag: "meta", attrs: { name: "twitter:card", content: "summary_large_image" } },
+      );
+    }
   }
 
   return { title, tags };

@@ -16,6 +16,7 @@ import { PAGE_COPY } from "../../content/pages.ts";
 import { useResource } from "../../hooks/useResource.ts";
 import { useServerStatus } from "../../hooks/useServerStatus.tsx";
 import { formatNumber } from "../../lib/format.ts";
+import { lazyArtRef } from "../../lib/lazy-art.ts";
 import { Locker } from "./Locker.tsx";
 import "./Home.css";
 
@@ -46,6 +47,7 @@ function Hero() {
         <p className="home-hero__note text-label-m">{copy.heroNote}</p>
       </div>
       <Locker />
+      <span className="art-fog" aria-hidden="true" />
     </section>
   );
 }
@@ -265,7 +267,7 @@ function Cta() {
   const cta = copy.cta;
   return (
     <section className="home-cta" aria-labelledby="home-cta-title">
-      <div className="home-cta__frame pattern-cross">
+      <div className="home-cta__frame pattern-cross" data-art-lazy ref={lazyArtRef}>
         <span className="home-cta__ruler pattern-ruler" aria-hidden="true" />
         <div className="home-cta__body">
           <div className="home-cta__text">
@@ -284,6 +286,7 @@ function Cta() {
             </Button>
           </div>
         </div>
+        <span className="art-flare" aria-hidden="true" />
         <CornerMarks length={28} inset={12} />
       </div>
     </section>

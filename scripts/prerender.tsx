@@ -2,6 +2,7 @@
 //   bun --preload ./scripts/runtime-stubs.ts run scripts/prerender.tsx
 // Lấy out/index.html do bộ dựng tạo (đã có thẻ script và css có mã băm) làm khung, rồi với mỗi đường dẫn:
 // thay <!--head-tags-->, <!--app-html--> và <!--noscript-html-->. Ghi thêm 404.html, 200.html, robots.txt và sitemap.xml.
+import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { renderApp } from "../src/entry-server.tsx";
@@ -27,6 +28,19 @@ const NOSCRIPT =
   '<p class="noscript-note">Trang này cần JavaScript để hiện danh sách và đăng nhập. Hãy bật JavaScript rồi tải lại trang.</p>';
 
 /**
+ * Bảng biến ảnh trang trí (bun run build:art). Chỉ gắn khi tệp có trong out/: bản clone không có ảnh vẫn dựng được
+ * và các lớp nền ảnh tự rơi về màu phẳng, vì CSS dùng `var(--art-..., none)`.
+ */
+// Ảnh chia sẻ chỉ được ghi vào thẻ og:image khi tệp có trong out/ (bản clone không có ảnh thì bỏ thẻ).
+const OG_IMAGE = existsSync(resolve(outDir, "assets/art/28-og-share.jpg"))
+  ? "/assets/art/28-og-share.jpg"
+  : undefined;
+
+const ART_TAGS = existsSync(resolve(outDir, "assets/art/art.css"))
+  ? ['<link rel="stylesheet" href="/assets/art/art.css">']
+  : [];
+
+/**
  * Phông nạp sớm, bảng phông và biểu tượng tab. Các tệp này nằm trong public/ nên bộ dựng không tự gắn vào HTML.
  * Không gắn data-head: trình duyệt xóa mọi thẻ data-head khi đổi trang, còn các thẻ này phải ở lại.
  */
@@ -36,6 +50,7 @@ const FONT_TAGS = [
       `<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/${file}" crossorigin>`,
   ),
   '<link rel="stylesheet" href="/assets/fonts/fonts.css">',
+  ...ART_TAGS,
   ...ICON_TAGS,
 ].join("\n    ");
 
@@ -58,7 +73,7 @@ const written: string[] = [];
 for (const path of prerenderPaths()) {
   const route = matchRoute(path);
   const html = page(
-    headToHtml(buildHead(route, { pathname: path, siteUrl, blockIndexing })),
+    headToHtml(buildHead(route, { pathname: path, siteUrl, blockIndexing, ogImage: OG_IMAGE })),
     await renderApp(path),
   );
   const file = path === "/" ? "index.html" : `${path.slice(1)}/index.html`;
@@ -70,7 +85,9 @@ for (const path of prerenderPaths()) {
 await write(
   "404.html",
   page(
-    headToHtml(buildHead(NOT_FOUND_ROUTE, { pathname: "/404", siteUrl, blockIndexing })),
+    headToHtml(
+      buildHead(NOT_FOUND_ROUTE, { pathname: "/404", siteUrl, blockIndexing, ogImage: OG_IMAGE }),
+    ),
     await renderApp("/404"),
   ),
 );

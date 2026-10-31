@@ -55,6 +55,7 @@ export function News() {
   return (
     <>
       <PageTitle
+        art="news"
         crumbs={[{ label: "Trang chủ", to: "/" }, { label: copy.title }]}
         title={copy.title}
         lead={copy.lead}

@@ -30,6 +30,7 @@ Chưa có:
 - Link Discord và YouTube (đang là `#`) và địa chỉ tải bộ cài game.
 - Tên miền chính thức.
 - Hình game. Khi chạy từ bản clone, mọi hình trong `public/assets/game/` bị thiếu. Chúng nằm ở trang chủ, tin tức, kho đồ, xếp hạng, tải game, đăng nhập và đăng ký. Mã ẩn các hình hỏng, nên ô hình chỉ hiện khung nền. Tên, nhãn loại và chỉ số vẫn hiện như khi có hình.
+- Ảnh trang trí. Khi chạy từ bản clone, thư mục `public/assets/art/` bị thiếu vì ảnh nằm ngoài git. Trang vẫn dựng được và giữ thiết kế phẳng, không lỗi và không lệch bố cục.
 
 ## Cần có
 
@@ -65,6 +66,7 @@ Mở http://127.0.0.1:4173/ trong trình duyệt.
 | `bun run gen-theme` | Sinh `src/styles/theme.css` từ `docs/design-handoff/design-values.json`. |
 | `bun run build:fonts` | Tạo phông woff2 trong `public/assets/fonts/`. |
 | `bun run build:images` | Chuyển hình game sang WebP. Cần thư mục hình nguồn mà kho này không có (đặt bằng biến `GAME_ASSETS_DIR`) và lệnh `cwebp`. |
+| `bun run build:art` | Dựng ảnh trang trí (nền, họa tiết) vào `public/assets/art/` từ thư mục ảnh nguồn `art-src` (đặt bằng biến `ART_ASSETS_DIR`). Cần lệnh `cwebp` và `magick`. Thiếu ảnh thì trang giữ thiết kế phẳng. |
 
 ## Cấu hình
 

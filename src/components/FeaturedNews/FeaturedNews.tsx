@@ -22,7 +22,7 @@ export function FeaturedNews({ post }: { post: NewsSummary }) {
   return (
     <article className="featured-news" aria-label={copy.featuredLabel}>
       {post.coverImageKey ? (
-        <div className="featured-news__visual pattern-cross">
+        <div className="featured-news__visual pattern-cross" data-category={post.category}>
           <img
             className="featured-news__image"
             src={assetUrl(post.coverImageKey)}

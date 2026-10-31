@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { SHARED_COPY, STATIONS } from "../../content/shared.ts";
 import { COMMUNITY_LINKS, CONTACT_LINK, type SiteLink } from "../../content/site-links.ts";
+import { lazyArtRef } from "../../lib/lazy-art.ts";
 import { Wordmark } from "../Wordmark/Wordmark.tsx";
 import "./Footer.css";
 
@@ -26,7 +27,11 @@ export function Footer({ introOnMobile = false }: { introOnMobile?: boolean }) {
   const community = COMMUNITY_LINKS.filter((link) => link.url);
   const [firstCommunity] = community;
   return (
-    <footer className={introOnMobile ? "footer footer--intro-mobile" : "footer"}>
+    <footer
+      className={introOnMobile ? "footer footer--intro-mobile" : "footer"}
+      data-art-lazy
+      ref={lazyArtRef}
+    >
       <div className="footer__top">
         <div className="footer__brand">
           <Wordmark size="l" />

@@ -1,4 +1,5 @@
 @import "./theme.css";
+@import "./art.css";
 
 /* Lề ngang của trang theo dải màn hình (DESIGN-SPEC mục 5.2).
    Dưới 1200 dùng bố cục điện thoại: nội dung tối đa 720 và căn giữa. Từ 1440 nội dung tối đa 1312 và căn giữa. */
