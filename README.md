@@ -30,7 +30,6 @@ Chưa có:
 - Link Discord và YouTube (đang là `#`) và địa chỉ tải bộ cài game.
 - Tên miền chính thức.
 - Hình game. Khi chạy từ bản clone, mọi hình trong `public/assets/game/` bị thiếu. Chúng nằm ở trang chủ, tin tức, kho đồ, xếp hạng, tải game, đăng nhập và đăng ký. Mã ẩn các hình hỏng, nên ô hình chỉ hiện khung nền. Tên, nhãn loại và chỉ số vẫn hiện như khi có hình.
-- Ảnh trang trí. Khi chạy từ bản clone, thư mục `public/assets/art/` bị thiếu vì ảnh nằm ngoài git. Trang vẫn dựng được và giữ thiết kế phẳng, không lỗi và không lệch bố cục.
 
 ## Cần có
 

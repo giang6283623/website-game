@@ -1,6 +1,6 @@
 // Chuyển ảnh trang trí sang WebP đúng cỡ theo scripts/lib/art-map.ts.
 // Nguồn: thư mục ảnh trang trí, mặc định art-src/ (không nằm trong git), đổi bằng biến ART_ASSETS_DIR.
-// Đích: public/assets/art/ (không commit). Cần lệnh `cwebp` và `magick` (brew install webp imagemagick).
+// Đích: public/assets/art/ (có trong git). Cần lệnh `cwebp` và `magick` (brew install webp imagemagick).
 // Thiếu ảnh nguồn thì bỏ qua, không làm hỏng build. Quá trần dung lượng thì thoát với mã 1.
 import { existsSync } from "node:fs";
 import { copyFile, mkdir, stat, writeFile } from "node:fs/promises";

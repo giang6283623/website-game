@@ -49,8 +49,8 @@ Ngoại lệ đã được người dùng duyệt (phiên 15, 31/10/2026) cho qu
 - Kính mờ: ô Locker, bảng yêu cầu máy, ô số liệu và khung chữ CTA điện thoại dùng màu khay trộn 60% và làm mờ 5 px. Chỉ riêng tấm kính này được mờ nền.
 - Hiệu ứng: sương và pháo sáng chỉ đổi độ đậm (chu kỳ 14 giây và 4 giây). Mọi hiệu ứng tắt khi người dùng bật giảm chuyển động.
 - Chữ vẫn phải đạt tương phản ít nhất 4,5:1 (chữ lớn 3:1), đo bằng điểm ảnh thật sau lớp phủ.
-- Nếu thiếu ảnh (bản clone không có thư mục `public/assets/art/`) thì trang trở về thiết kế phẳng cũ, không lỗi và không lệch bố cục.
-- Ảnh không nằm trong git. Dựng bằng `bun run build:art` từ thư mục `art-src` (đường dẫn tới ảnh gốc), mã nguồn ở `scripts/build-art.ts` và `scripts/lib/art-map.ts`, kiểu dáng ở `src/styles/art.css`.
+- Nếu thiếu thư mục `public/assets/art/` thì trang trở về thiết kế phẳng cũ, không lỗi và không lệch bố cục.
+- Ảnh đã dựng nằm trong git, ảnh gốc `art-src` thì không. Dựng lại bằng `bun run build:art` từ thư mục `art-src` (đường dẫn tới ảnh gốc), mã nguồn ở `scripts/build-art.ts` và `scripts/lib/art-map.ts`, kiểu dáng ở `src/styles/art.css`.
 
 Ngoại lệ thứ hai đã được người dùng duyệt (phiên 16, 31/10/2026) cho chuyển động: hoạt ảnh "Tín hiệu yếu" (thư viện Motion, bản `motion/mini`) và cửa sổ chi tiết vật phẩm. Phạm vi của ngoại lệ:
 
