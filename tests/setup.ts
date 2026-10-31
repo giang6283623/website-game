@@ -19,8 +19,16 @@ if (!("document" in globalThis)) {
 
 // Dọn cây DOM sau mỗi bài để các bài không ảnh hưởng nhau.
 const { cleanup } = await import("@testing-library/react");
+const { queryClient } = await import("../src/lib/query-client.ts");
+const { useAuthStore } = await import("../src/auth/auth-store.ts");
+const { notifyManager } = await import("@tanstack/react-query");
+// TanStack Query báo thay đổi bằng setTimeout, rơi ra ngoài act() của kiểm thử. Dùng microtask để nằm trong act().
+notifyManager.setScheduler(queueMicrotask);
 afterEach(() => {
   cleanup();
+  // Dữ liệu đã nhớ và trạng thái đăng nhập là của cả tiến trình, nên phải dọn giữa các bài.
+  queryClient.clear();
+  useAuthStore.setState(useAuthStore.getInitialState(), true);
   document.head.querySelectorAll("[data-head]").forEach((node) => {
     node.remove();
   });

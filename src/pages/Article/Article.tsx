@@ -62,7 +62,7 @@ function ArticleHero({ imageKey, category }: { imageKey: string; category: strin
 /** Chi tiết bài viết (E1-S4). Bài không có, đang nháp hoặc chưa đến giờ đăng thì hiện trang 404. */
 export function Article() {
   const { slug = "" } = useParams();
-  const article = useResource((signal) => getNewsDetail(slug, { signal }), [slug]);
+  const article = useResource("article", (signal) => getNewsDetail(slug, { signal }), [slug]);
   const post = article.status === "success" ? article.data : null;
 
   usePageMeta({

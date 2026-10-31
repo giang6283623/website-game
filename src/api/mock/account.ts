@@ -1,23 +1,38 @@
 // Bộ xử lý của API giả cho tài khoản (ROUTES-AND-DATA.md mục 8.2): đăng nhập, đăng ký, quên và đặt lại mật khẩu, đổi mật khẩu.
-// Quy tắc theo CONTENT-COPY.md mục 6. Giới hạn đăng nhập: sai 5 lần thì lần sau trả 429.
+// Quy tắc theo CONTENT-COPY.md mục 6. Giới hạn đăng nhập: sai 5 lần thì khóa 15 phút, trong lúc đó trả 429.
 import { foldText } from "../../lib/slug.ts";
 import type { MockConfig } from "./config.ts";
 import { db } from "./db.ts";
 import { fail, noContent, ok, type Reply, SERVER_ERROR, UNAUTHORIZED } from "./reply.ts";
 import {
   accountFor,
-  currentSession,
   DEMO_RESET_TOKEN,
   maskEmail,
   newAccount,
+  type Session,
+  sessionOf,
   state,
   USER_EMAIL,
 } from "./session.ts";
 
 const MAX_FAILED_LOGINS = 5;
-const LOCK_SECONDS = 15 * 60;
+const LOCK_MS = 15 * 60 * 1000;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const NAME_PATTERN = /^[A-Za-z0-9]{3,16}$/;
+
+export type PasswordHasher = {
+  hash: (password: string) => string | Promise<string>;
+  verify: (password: string, hash: string) => boolean | Promise<boolean>;
+};
+
+/** Thứ lõi cần từ bên ngoài. Trình duyệt và máy chủ giả truyền bản riêng. */
+export type CoreDeps = {
+  passwords: PasswordHasher;
+  /** Giờ máy, để tính thời gian khóa đăng nhập. */
+  now: () => number;
+  /** Giờ đóng dấu bản ghi mới và mốc xét bài đã đăng. Bản trình duyệt giữ giờ mẫu, máy chủ giả dùng giờ thật. */
+  stamp: () => string;
+};
 
 type Body = Record<string, unknown>;
 const text = (value: unknown): string => (typeof value === "string" ? value : "");
@@ -27,36 +42,43 @@ function takenNames(): Set<string> {
     db.account.displayName,
     ...db.adminUsers.map((user) => user.displayName),
     ...db.players.map((row) => row.playerName),
-    ...(state.registered ? [state.registered.displayName] : []),
+    ...[...state.accounts.values()].map((record) => record.account?.displayName ?? ""),
   ];
   return new Set(names.map((name) => foldText(name)));
 }
 
-function takenEmails(): Set<string> {
-  return new Set([...state.passwords.keys(), ...state.extraEmails]);
+function isLocked(accountId: number | undefined): boolean {
+  return db.adminUsers.some((user) => user.id === accountId && user.status === "banned");
 }
 
-export function login(body: Body, config: MockConfig): Reply {
+export async function login(body: Body, config: MockConfig, deps: CoreDeps): Promise<Reply> {
   if (config.mode === "error") return SERVER_ERROR();
   const email = text(body.email).trim().toLowerCase();
   const password = text(body.password);
-  if ((state.failedLogins.get(email) ?? 0) >= MAX_FAILED_LOGINS) {
+  const now = deps.now();
+  const failed = state.failedLogins.get(email);
+  if (failed && now - failed.lastAt >= LOCK_MS) state.failedLogins.delete(email);
+  else if (failed && failed.count >= MAX_FAILED_LOGINS) {
+    const waitSeconds = Math.ceil((LOCK_MS - (now - failed.lastAt)) / 1000);
     return fail(429, "rate_limited", "Bạn thử quá nhiều lần. Chờ 15 phút rồi thử lại.", undefined, {
-      "retry-after": String(LOCK_SECONDS),
+      "retry-after": String(waitSeconds),
     });
   }
-  const known = state.passwords.get(email);
-  if (known === undefined || known !== password) {
-    state.failedLogins.set(email, (state.failedLogins.get(email) ?? 0) + 1);
+  const record = state.accounts.get(email);
+  if (!record || !(await deps.passwords.verify(password, record.passwordHash))) {
+    const count = (state.failedLogins.get(email)?.count ?? 0) + 1;
+    state.failedLogins.set(email, { count, lastAt: now });
     return fail(401, "unauthorized", "Email hoặc mật khẩu chưa đúng. Kiểm tra lại rồi thử tiếp.");
   }
   state.failedLogins.delete(email);
-  state.loggedOut = false;
-  state.session = email === USER_EMAIL ? "user" : email === "admin@email.com" ? "admin" : "new";
-  return ok(accountFor(state.session));
+  if (isLocked(record.account?.id)) {
+    return fail(403, "forbidden", "Tài khoản này đang bị khóa.");
+  }
+  const session = sessionOf(email);
+  return { ...ok(accountFor(session)), effect: { type: "sign-in", session } };
 }
 
-export function register(body: Body, config: MockConfig): Reply {
+export async function register(body: Body, config: MockConfig, deps: CoreDeps): Promise<Reply> {
   if (config.mode === "error") return SERVER_ERROR();
   const email = text(body.email).trim().toLowerCase();
   const displayName = text(body.displayName).trim();
@@ -77,7 +99,7 @@ export function register(body: Body, config: MockConfig): Reply {
     return fail(422, "validation_failed", "Kiểm tra lại các ô được đánh dấu.", fields);
   }
   const conflicts: Record<string, string> = {};
-  if (takenEmails().has(email)) {
+  if (state.accounts.has(email)) {
     conflicts.email = "Email này đã có tài khoản. Hãy đăng nhập hoặc dùng email khác.";
   }
   if (takenNames().has(foldText(displayName))) {
@@ -86,12 +108,21 @@ export function register(body: Body, config: MockConfig): Reply {
   if (Object.keys(conflicts).length > 0) {
     return fail(409, "conflict", "Kiểm tra lại các ô được đánh dấu.", conflicts);
   }
-  state.extraEmails.add(email);
-  state.passwords.set(email, password);
-  state.registered = newAccount(email, displayName);
-  state.loggedOut = false;
-  state.session = "new";
-  return { status: 201, data: state.registered };
+  const account = newAccount(email, displayName, deps.stamp().slice(0, 10));
+  state.accounts.set(email, {
+    email,
+    passwordHash: await deps.passwords.hash(password),
+    account,
+  });
+  db.adminUsers.unshift({
+    id: account.id,
+    displayName,
+    emailMasked: account.emailMasked,
+    role: account.role,
+    status: account.status,
+    createdAt: account.createdAt,
+  });
+  return { status: 201, data: account, effect: { type: "sign-in", session: sessionOf(email) } };
 }
 
 /** Luôn trả 202 dù email có tài khoản hay không (không lộ email nào có tài khoản). */
@@ -118,7 +149,7 @@ export function resetCheck(token: string): Reply {
   return ok({ emailMasked: maskEmail(USER_EMAIL) });
 }
 
-export function reset(body: Body, config: MockConfig): Reply {
+export async function reset(body: Body, config: MockConfig, deps: CoreDeps): Promise<Reply> {
   if (config.mode === "error") return SERVER_ERROR();
   const token = text(body.token);
   if (!tokenUsable(token)) {
@@ -133,22 +164,25 @@ export function reset(body: Body, config: MockConfig): Reply {
   if (Object.keys(fields).length > 0) {
     return fail(422, "validation_failed", "Kiểm tra lại các ô được đánh dấu.", fields);
   }
+  const record = state.accounts.get(USER_EMAIL);
+  if (record) record.passwordHash = await deps.passwords.hash(password);
   state.usedResetTokens.add(token);
-  state.passwords.set(USER_EMAIL, password);
   state.failedLogins.clear();
-  return noContent();
+  return { ...noContent(), effect: { type: "revoke", email: USER_EMAIL } };
 }
 
-export function changePassword(body: Body, config: MockConfig): Reply {
-  const session = currentSession(config);
+export async function changePassword(
+  body: Body,
+  config: MockConfig,
+  session: Session | null,
+  deps: CoreDeps,
+): Promise<Reply> {
   if (!session) return UNAUTHORIZED();
   if (config.mode === "error") return SERVER_ERROR();
-  const email = session === "user" ? USER_EMAIL : session === "admin" ? "admin@email.com" : "";
+  const record = state.accounts.get(session.email);
   const current = text(body.currentPassword);
   const next = text(body.newPassword);
-  const registeredEmail = [...state.extraEmails][0] ?? "";
-  const key = email || registeredEmail;
-  if (state.passwords.get(key) !== current) {
+  if (!record || !(await deps.passwords.verify(current, record.passwordHash))) {
     return fail(403, "forbidden", "Mật khẩu hiện tại chưa đúng.", {
       currentPassword: "Mật khẩu hiện tại chưa đúng.",
     });
@@ -162,6 +196,6 @@ export function changePassword(body: Body, config: MockConfig): Reply {
   if (Object.keys(fields).length > 0) {
     return fail(422, "validation_failed", "Kiểm tra lại các ô được đánh dấu.", fields);
   }
-  state.passwords.set(key, next);
-  return noContent();
+  record.passwordHash = await deps.passwords.hash(next);
+  return { ...noContent(), effect: { type: "rotate" } };
 }

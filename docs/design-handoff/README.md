@@ -4,7 +4,7 @@
 
 Website là máy chủ Infestation bản tiếng Việt. Có trang chủ, tin tức, kho đồ, xếp hạng, tải game, quy tắc cộng đồng, đăng nhập, đăng ký, quên và đổi mật khẩu, hồ sơ người chơi, tạo nhân vật và khu quản trị (bài viết, vật phẩm, banner, người dùng, nhật ký). Mục tiêu chính (PRD): người mới hiểu game và tải được trong vài phút, không cần đăng nhập để xem tin và hướng dẫn.
 
-Công nghệ giao diện đã chọn (29/10/2026): **Bun, React, TypeScript, Zod, Axios, build tĩnh**. Máy chủ API chưa chọn (D-12).
+Công nghệ giao diện đã chọn (29/10/2026): **Bun, React, TypeScript, Zod, Axios, Zustand, TanStack Query, build tĩnh**. Máy chủ API chưa chọn (D-12).
 
 ## 1. Danh mục tài liệu
 

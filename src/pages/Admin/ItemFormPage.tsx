@@ -64,9 +64,14 @@ function suggestedRows(group: ItemGroupKey | null, nextKey: () => number): StatR
 export function ItemFormPage() {
   const { id } = useParams();
   const editingId = id !== undefined && /^\d{1,9}$/.test(id) ? Number(id) : null;
-  const resource = useResource((signal) => getAdminItem(editingId ?? 0, { signal }), [editingId], {
-    enabled: editingId !== null,
-  });
+  const resource = useResource(
+    "admin/item",
+    (signal) => getAdminItem(editingId ?? 0, { signal }),
+    [editingId],
+    {
+      enabled: editingId !== null,
+    },
+  );
 
   if (id !== undefined && editingId === null) return <MissingItem />;
   if (editingId === null) return <ItemForm key="new" item={null} />;
@@ -153,7 +158,11 @@ function ItemForm({ item }: { item: Item | null }) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Số vật phẩm nổi bật lấy từ danh sách. Con số hiển thị đã tính cả lựa chọn đang sửa.
-  const summary = useResource((signal) => getAdminItems({ limit: 1 }, { signal }), []);
+  const summary = useResource(
+    "admin/items/summary",
+    (signal) => getAdminItems({ limit: 1 }, { signal }),
+    [],
+  );
   const featuredNote =
     summary.status === "success"
       ? copy.featuredNote(

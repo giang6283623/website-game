@@ -50,6 +50,27 @@ bun run serve
 
 Mở http://127.0.0.1:4173/ trong trình duyệt.
 
+## Chạy thử có lưu dữ liệu
+
+Lệnh này dựng website rồi bật máy chủ giả trên máy bạn. Dữ liệu lưu thành tệp JSON trong `.mock-data/`, nên tải lại trang hay tắt máy chủ vẫn còn.
+
+```sh
+bun run mock
+```
+
+Mở địa chỉ mà lệnh in ra.
+
+| Vai | Email | Mật khẩu |
+| --- | --- | --- |
+| Người chơi | `nguoisongsot@email.com` | `matkhau123` |
+| Quản trị | `admin@email.com` | `matkhau123` |
+
+Đây là mật khẩu mẫu công khai, không phải bí mật thật.
+
+Cảnh báo: máy chủ giả chỉ dùng trên máy của bạn. Không đưa lên mạng và không lưu dữ liệu thật vào đó.
+
+Sau lệnh này, `out/` là bản dành cho máy chủ giả. Muốn dùng lại `bun run serve` thì chạy lại `bun run build`.
+
 ## Lệnh
 
 | Lệnh | Việc làm |
@@ -58,11 +79,13 @@ Mở http://127.0.0.1:4173/ trong trình duyệt.
 | `bun run serve` | Máy chủ thử cho `out/`, cổng 4173. |
 | `bun run build:prod` | Dựng bản phát hành bằng `.env.production`. |
 | `bun run serve:prod` | Máy chủ thử cho bản phát hành, cổng 4174. |
+| `bun run mock` | Dựng website rồi bật máy chủ giả, cổng 4175. |
+| `bun run mock:reset` | Đưa dữ liệu máy chủ giả về ban đầu, có câu xác nhận. Tắt máy chủ giả trước khi chạy. |
 | `bun run typecheck` | Kiểm tra kiểu TypeScript. |
 | `bun run lint` | Kiểm tra định dạng và lỗi bằng Biome. |
 | `bun run test` | Chạy kiểm thử. |
 | `bun run validate` | Chạy kiểm tra kiểu, Biome, kiểm thử và dựng, theo thứ tự. |
-| `bun run measure` | Đo JavaScript tải đầu của `out/`. Ngân sách là 150 KB nén. |
+| `bun run measure` | Đo JavaScript tải đầu của `out/`. Ngân sách là 165 KB nén. |
 | `bun run gen-theme` | Sinh `src/styles/theme.css` từ `docs/design-handoff/design-values.json`. |
 | `bun run build:fonts` | Tạo phông woff2 trong `public/assets/fonts/`. |
 | `bun run build:images` | Chuyển hình game sang WebP. Cần thư mục hình nguồn mà kho này không có (đặt bằng biến `GAME_ASSETS_DIR`) và lệnh `cwebp`. |
@@ -74,11 +97,11 @@ Hai tệp `.env.development` và `.env.production` nằm trong kho. Giá trị �
 
 | Biến | Ý nghĩa |
 | --- | --- |
-| `API_MODE` | `mock` dùng dữ liệu mẫu trong `docs/design-handoff/sample-data.json`. `real` gọi `/api/v1` trên máy chủ thật. |
+| `API_MODE` | `mock` dùng dữ liệu mẫu trong `docs/design-handoff/sample-data.json`. `mock-server` gọi `/api/v1` trên máy chủ giả. `real` gọi `/api/v1` trên máy chủ thật. |
 | `SITE_URL` | Địa chỉ công khai của site, dạng `https://ten-mien.com`. Dùng cho `canonical`, `og:url` và `sitemap.xml`. |
 | `PORT` | Cổng của máy chủ thử. Chỉ ảnh hưởng lệnh `serve`. |
 
-Khi `API_MODE=mock`, bản dựng chặn công cụ tìm kiếm: `robots.txt` chỉ có `Disallow: /`, mọi trang có thẻ `noindex, nofollow`, và không có `sitemap.xml`.
+Khi `API_MODE` là `mock` hoặc `mock-server`, bản dựng chặn công cụ tìm kiếm: `robots.txt` chỉ có `Disallow: /`, mọi trang có thẻ `noindex, nofollow`, và không có `sitemap.xml`.
 
 ## Cấu trúc thư mục
 

@@ -39,6 +39,7 @@ export function AuditPage() {
     `${PATH}${buildQuery(params, changes, { loc: "tat-ca", trang: "1" })}`;
 
   const resource = useResource(
+    "admin/audit",
     (signal) => getAudit({ "doi-tuong": TARGET_OF[filter], trang: page }, { signal }),
     [filter, page],
     { isEmpty: (data) => data.entries.length === 0 },

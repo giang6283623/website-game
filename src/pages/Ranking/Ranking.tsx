@@ -69,6 +69,7 @@ export function Ranking() {
   };
 
   const resource = useResource(
+    "ranking",
     (signal) =>
       getRanking({ bang: board, q: query || undefined, trang: page, limit: PAGE_SIZE }, { signal }),
     [board, query, page],

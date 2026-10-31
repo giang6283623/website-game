@@ -15,7 +15,7 @@ import {
   type NewsPost,
 } from "../schemas.ts";
 import type { MockConfig } from "./config.ts";
-import { db, MOCK_NOW, mockToday } from "./db.ts";
+import { db, mockToday } from "./db.ts";
 import {
   created,
   FORBIDDEN,
@@ -28,7 +28,7 @@ import {
   SERVER_ERROR,
   UNAUTHORIZED,
 } from "./reply.ts";
-import { adminAccount, type SessionKind } from "./session.ts";
+import { adminAccount, type Session, state } from "./session.ts";
 
 const PAGE_SIZE = 20;
 const FEATURED_MAX = 4;
@@ -53,6 +53,7 @@ function pageOf<T>(list: readonly T[], query: Query) {
 }
 
 function audit(
+  at: string,
   action: string,
   actionLabel: string,
   targetType: AuditEntry["targetType"],
@@ -61,7 +62,7 @@ function audit(
   const next = db.auditLog.reduce((max, entry) => Math.max(max, entry.id), 0) + 1;
   db.auditLog.unshift({
     id: next,
-    at: MOCK_NOW,
+    at,
     actorName: adminAccount().displayName,
     action,
     actionLabel,
@@ -121,7 +122,7 @@ function excerptOf(html: string): string {
   return text.length > 200 ? `${text.slice(0, 197)}...` : text;
 }
 
-function applyNews(post: NewsPost, data: Body): void {
+function applyNews(post: NewsPost, data: Body, at: string): void {
   if (typeof data.title === "string") post.title = data.title.trim();
   if (typeof data.category === "string") post.category = data.category as NewsPost["category"];
   if (typeof data.bodyHtml === "string") {
@@ -131,10 +132,10 @@ function applyNews(post: NewsPost, data: Body): void {
   if ("coverImageKey" in data) post.coverImageKey = (data.coverImageKey as string | null) ?? null;
   if (typeof data.pinned === "boolean") post.pinned = data.pinned;
   if (typeof data.notifyInGame === "boolean") post.notifyInGame = data.notifyInGame;
-  post.updatedAt = MOCK_NOW;
+  post.updatedAt = at;
 }
 
-function createNews(data: Body): Reply {
+function createNews(data: Body, at: string): Reply {
   const errors = validateNews(data, data.status === "published");
   if (errors) return fail(422, "validation_failed", "Dữ liệu chưa hợp lệ.", errors);
   const posts = allNews();
@@ -151,22 +152,22 @@ function createNews(data: Body): Reply {
     status: data.status === "published" ? "published" : "draft",
     pinned: false,
     notifyInGame: false,
-    publishedAt: data.status === "published" ? MOCK_NOW : null,
+    publishedAt: data.status === "published" ? at : null,
     authorName: "Ban quản trị",
     excerpt: null,
     coverImageKey: null,
     bodyHtml: null,
-    createdAt: MOCK_NOW,
-    updatedAt: MOCK_NOW,
+    createdAt: at,
+    updatedAt: at,
   };
-  applyNews(post, data);
+  applyNews(post, data, at);
   db.news.unshift(post);
-  if (post.status === "published") audit("news.publish", "ĐĂNG BÀI", "news", post.title);
-  else audit("news.draft", "LƯU NHÁP", "news", post.title);
+  if (post.status === "published") audit(at, "news.publish", "ĐĂNG BÀI", "news", post.title);
+  else audit(at, "news.draft", "LƯU NHÁP", "news", post.title);
   return created(post);
 }
 
-function updateNews(id: number, data: Body): Reply {
+function updateNews(id: number, data: Body, at: string): Reply {
   const post = allNews().find((item) => item.id === id);
   if (!post) return NOT_FOUND("Không tìm thấy bài viết.");
   const nextStatus =
@@ -181,16 +182,16 @@ function updateNews(id: number, data: Body): Reply {
   );
   if (errors) return fail(422, "validation_failed", "Dữ liệu chưa hợp lệ.", errors);
   const before = post.status;
-  applyNews(post, data);
+  applyNews(post, data, at);
   if (data.status === "published" || data.status === "draft") {
     post.status = data.status;
-    if (data.status === "published" && !post.publishedAt) post.publishedAt = MOCK_NOW;
+    if (data.status === "published" && !post.publishedAt) post.publishedAt = at;
   }
   if (before === "draft" && post.status === "published")
-    audit("news.publish", "ĐĂNG BÀI", "news", post.title);
+    audit(at, "news.publish", "ĐĂNG BÀI", "news", post.title);
   else if (before === "published" && post.status === "draft")
-    audit("news.hide", "ẨN BÀI", "news", post.title);
-  else audit("news.update", "SỬA BÀI", "news", post.title);
+    audit(at, "news.hide", "ẨN BÀI", "news", post.title);
+  else audit(at, "news.update", "SỬA BÀI", "news", post.title);
   return ok(post);
 }
 
@@ -344,7 +345,7 @@ function featuredFull(): boolean {
 
 const FEATURED_FULL_MESSAGE = `Chọn tối đa ${FEATURED_MAX} vật phẩm nổi bật.`;
 
-function createItem(data: Body): Reply {
+function createItem(data: Body, at: string): Reply {
   const { errors, value } = readItemFields(data, true);
   const featured = data.featured === true;
   if (featured && featuredFull()) errors.featured = FEATURED_FULL_MESSAGE;
@@ -363,13 +364,13 @@ function createItem(data: Body): Reply {
     hudKey: null,
     description: value.description ?? null,
     stats,
-    publishedAt: MOCK_NOW,
+    publishedAt: at,
     featured,
     visible: data.visible !== false,
     gameItemId: value.gameItemId ?? null,
   };
   db.items.unshift(item);
-  audit("item.create", "THÊM VẬT PHẨM", "item", `Vật phẩm ${item.name}`);
+  audit(at, "item.create", "THÊM VẬT PHẨM", "item", `Vật phẩm ${item.name}`);
   return created(item);
 }
 
@@ -384,7 +385,7 @@ const ITEM_CONTENT_KEYS = [
   "gameItemId",
 ] as const;
 
-function patchItem(id: number, data: Body): Reply {
+function patchItem(id: number, data: Body, at: string): Reply {
   const item: Item | undefined = db.items.find((candidate) => candidate.id === id);
   if (!item) return NOT_FOUND("Không tìm thấy vật phẩm.");
   const { errors, value } = readItemFields(data, false);
@@ -405,10 +406,11 @@ function patchItem(id: number, data: Body): Reply {
     (key) => key in value && JSON.stringify(value[key]) !== JSON.stringify(item[key]),
   );
   Object.assign(item, value);
-  if (changed) audit("item.update", "SỬA VẬT PHẨM", "item", `Vật phẩm ${item.name}`);
+  if (changed) audit(at, "item.update", "SỬA VẬT PHẨM", "item", `Vật phẩm ${item.name}`);
   if (typeof data.featured === "boolean" && data.featured !== item.featured) {
     item.featured = data.featured;
     audit(
+      at,
       data.featured ? "item.feature" : "item.unfeature",
       data.featured ? "BẬT NỔI BẬT" : "TẮT NỔI BẬT",
       "item",
@@ -418,6 +420,7 @@ function patchItem(id: number, data: Body): Reply {
   if (typeof data.visible === "boolean" && data.visible !== item.visible) {
     item.visible = data.visible;
     audit(
+      at,
       data.visible ? "item.show" : "item.hide",
       data.visible ? "HIỆN VẬT PHẨM" : "ẨN VẬT PHẨM",
       "item",
@@ -470,7 +473,7 @@ function switchOthersOff(keep: Banner) {
   }
 }
 
-function createBanner(data: Body): Reply {
+function createBanner(data: Body, at: string): Reply {
   const errors = validateBanner(data, false);
   if (errors) return fail(422, "validation_failed", "Dữ liệu chưa hợp lệ.", errors);
   const id = db.banners.reduce((max, banner) => Math.max(max, banner.id), 0) + 1;
@@ -481,15 +484,15 @@ function createBanner(data: Body): Reply {
     startsAt: String(data.startsAt),
     endsAt: String(data.endsAt),
     enabled: data.enabled === true,
-    createdAt: MOCK_NOW,
+    createdAt: at,
   };
   db.banners.unshift(banner);
   if (banner.enabled) switchOthersOff(banner);
-  audit("banner.create", "THÊM BANNER", "banner", banner.message);
+  audit(at, "banner.create", "THÊM BANNER", "banner", banner.message);
   return created(bannerRow(banner));
 }
 
-function patchBanner(id: number, data: Body): Reply {
+function patchBanner(id: number, data: Body, at: string): Reply {
   const banner = db.banners.find((candidate) => candidate.id === id);
   if (!banner) return NOT_FOUND("Không tìm thấy banner.");
   const errors = validateBanner(data, true, banner);
@@ -504,6 +507,7 @@ function patchBanner(id: number, data: Body): Reply {
   if (banner.enabled) switchOthersOff(banner);
   const toggled = typeof data.enabled === "boolean" && data.enabled !== wasEnabled;
   audit(
+    at,
     toggled ? (banner.enabled ? "banner.enable" : "banner.disable") : "banner.update",
     toggled ? (banner.enabled ? "BẬT BANNER" : "TẮT BANNER") : "SỬA BANNER",
     "banner",
@@ -557,7 +561,7 @@ function userDetail(id: number): Reply {
   return ok({ ...user, ranking, characters, history });
 }
 
-function setLock(id: number, lock: boolean): Reply {
+function setLock(id: number, lock: boolean, at: string): Reply {
   const user: AdminUser | undefined = db.adminUsers.find((candidate) => candidate.id === id);
   if (!user) return NOT_FOUND("Không tìm thấy người dùng.");
   if (lock && user.displayName === adminAccount().displayName) {
@@ -566,12 +570,17 @@ function setLock(id: number, lock: boolean): Reply {
   }
   user.status = lock ? "banned" : "active";
   audit(
+    at,
     lock ? "user.lock" : "user.unlock",
     lock ? "KHÓA NGƯỜI DÙNG" : "MỞ KHÓA NGƯỜI DÙNG",
     "user",
     user.displayName,
   );
-  return ok(user);
+  const owner = [...state.accounts.values()].find((record) => record.account?.id === id);
+  return {
+    ...ok(user),
+    ...(lock && owner ? { effect: { type: "revoke", email: owner.email } } : {}),
+  };
 }
 
 function auditList(query: Query): Reply {
@@ -590,10 +599,11 @@ export function handleAdmin(
   query: Query,
   body: unknown,
   config: MockConfig,
-  session: SessionKind | null,
+  session: Session | null,
+  at: string,
 ): Reply {
   if (!session) return UNAUTHORIZED();
-  if (session !== "admin") return FORBIDDEN();
+  if (session.kind !== "admin") return FORBIDDEN();
   if (config.mode === "error") return SERVER_ERROR();
 
   const data = (body && typeof body === "object" ? body : {}) as Body;
@@ -620,13 +630,13 @@ export function handleAdmin(
         const post = allNews().find((item) => item.id === id);
         return post ? ok(post) : NOT_FOUND("Không tìm thấy bài viết.");
       }
-      if (method === "post" && id === null) return createNews(data);
-      if (method === "put" && id !== null) return updateNews(id, data);
+      if (method === "post" && id === null) return createNews(data, at);
+      if (method === "put" && id !== null) return updateNews(id, data, at);
       if (method === "delete" && id !== null) {
         const index = db.news.findIndex((item) => item.id === id);
         if (index < 0) return NOT_FOUND("Không tìm thấy bài viết.");
         const [removed] = db.news.splice(index, 1);
-        audit("news.delete", "XÓA BÀI", "news", removed?.title ?? "");
+        audit(at, "news.delete", "XÓA BÀI", "news", removed?.title ?? "");
         return noContent();
       }
       break;
@@ -639,18 +649,18 @@ export function handleAdmin(
         const item = db.items.find((candidate) => candidate.id === id);
         return item ? ok(item) : NOT_FOUND("Không tìm thấy vật phẩm.");
       }
-      if (method === "post" && id === null) return createItem(data);
-      if (method === "patch" && id !== null) return patchItem(id, data);
+      if (method === "post" && id === null) return createItem(data, at);
+      if (method === "patch" && id !== null) return patchItem(id, data, at);
       break;
     case "banners":
       if (method === "get" && id === null) return ok({ banners: db.banners.map(bannerRow) });
-      if (method === "post" && id === null) return createBanner(data);
-      if (method === "patch" && id !== null) return patchBanner(id, data);
+      if (method === "post" && id === null) return createBanner(data, at);
+      if (method === "patch" && id !== null) return patchBanner(id, data, at);
       if (method === "delete" && id !== null) {
         const index = db.banners.findIndex((item) => item.id === id);
         if (index < 0) return NOT_FOUND("Không tìm thấy banner.");
         const [removed] = db.banners.splice(index, 1);
-        audit("banner.delete", "XÓA BANNER", "banner", removed?.message ?? "");
+        audit(at, "banner.delete", "XÓA BANNER", "banner", removed?.message ?? "");
         return noContent();
       }
       break;
@@ -658,7 +668,7 @@ export function handleAdmin(
       if (method === "get" && id === null) return userList(query);
       if (method === "get" && id !== null && !action) return userDetail(id);
       if (method === "post" && id !== null && (action === "lock" || action === "unlock")) {
-        return setLock(id, action === "lock");
+        return setLock(id, action === "lock", at);
       }
       break;
     case "audit":

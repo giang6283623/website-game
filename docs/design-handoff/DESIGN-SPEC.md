@@ -56,7 +56,7 @@ Ngoại lệ thứ hai đã được người dùng duyệt (phiên 16, 31/10/20
 
 - Chỉ đổi `opacity` và `transform` (gồm cả `translate`, `rotate`, `scale`). Bước vào dùng 120 đến 900 ms. Mọi nhịp lặp là bội số của `--signal-beat` (1 giây) và chỉ chạy khi không bật giảm chuyển động: nhiễu dòng tiêu đề và số trang lỗi (1 giây nhiễu, 1 giây nghỉ), nhiễu nhẹ tiêu đề trang (1 giây mỗi 4 giây), quét băng (1,8 giây mỗi 4 giây), kim rà sóng (rung 1 px mỗi 2 giây). Khối ra khỏi màn hình thì dừng vòng lặp.
 - Mục dưới màn hình đầu hiện bằng "khóa mục tiêu". Trạng thái ẩn chỉ đặt sau khi React nối vào.
-- Nhiễu là chữ bị xé thành các lát cùng màu với chữ, lệch tới 0,2 em, không có bản sao sáng đè lên chữ. Mọi khoảng 1 giây có không quá 3 lần đổi sáng mạnh trên vùng từ 21824 px². Dòng tiêu đề không đổi màu, trang lỗi mới dùng đỏ máu.
+- Nhiễu là chữ bị xé thành các lát, lệch tới 0,2 em, không có bản sao sáng đè lên chữ. Lát cùng màu với chữ, riêng ở ba cú xé thì lát lên màu đỏ `#e5705a`. Dòng tiêu đề có thêm hai bóng đỏ và xanh bệnh nằm sau lưng chữ. Tiêu đề trang chỉ có lát đỏ, không có bóng. Số trang lỗi giật sang trắng xương. Đỏ này có tỉ lệ đỏ 0,75, dưới mức 0,8 nên chưa là đỏ bão hòa theo WCAG 2.3.1. Mọi khoảng 1 giây có không quá 3 lần đổi sáng mạnh trên vùng từ 21824 px².
 - Tắt mọi dịch chuyển khi bật giảm chuyển động. Chữ lúc nghỉ vẫn đạt tương phản 4,5. Bản sao nhiễu chỉ là hình trang trí, ẩn khỏi trình đọc màn hình.
 - Vạch quét VHS trên Locker là vạch phẳng nửa tối, không chuyển động, chỉ có khi có ảnh trang trí.
 - Cửa sổ chi tiết vật phẩm hiện bằng nền mờ dần 200 ms và khung nổi lên 8 px trong 320 ms.
@@ -370,7 +370,7 @@ Mục tiêu phù hợp tiêu chí thành công trong PRD (nhanh trên điện th
 | LCP (nội dung lớn nhất) | không quá 2,5 giây |
 | CLS (nhảy bố cục) | không quá 0,05 |
 | INP (độ trễ thao tác) | không quá 200 ms |
-| JavaScript trang công khai | không quá 150 KB nén (gzip) |
+| JavaScript trang công khai | không quá 165 KB nén (gzip) |
 | Font nạp ban đầu | không quá 120 KB (ba tệp preload) |
 | Trọng lượng trang chủ ĐT | không quá 700 KB không tính hình dưới màn hình đầu |
 

@@ -67,6 +67,7 @@ export function Items() {
   };
 
   const resource = useResource(
+    "items",
     (signal) =>
       getItemList(
         { loai: group, q: query || undefined, "sap-xep": sort, trang: page, limit: PAGE_SIZE },

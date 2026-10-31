@@ -1,5 +1,5 @@
 // Nội dung robots.txt cho bước dựng sẵn (scripts/prerender.tsx).
-// Bản dựng dùng API giả (API_MODE=mock) chặn mọi bot, để dữ liệu mẫu không vào kết quả tìm kiếm (C-91).
+// Bản dựng dùng API giả (API_MODE khác real) chặn mọi bot, để dữ liệu mẫu không vào kết quả tìm kiếm (C-91).
 
 export type RobotsOptions = {
   /** Gốc địa chỉ công khai, ví dụ "https://example.org". Có thì ghi dòng Sitemap. */

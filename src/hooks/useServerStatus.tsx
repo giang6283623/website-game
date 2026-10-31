@@ -1,6 +1,8 @@
-import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { createContext, type ReactNode, useContext, useMemo } from "react";
 import { getServerStatus } from "../api/endpoints.ts";
 import type { ServerStatus } from "../api/schemas.ts";
+import { queryClient } from "../lib/query-client.ts";
 
 export type ServerStatusState =
   | { phase: "loading" }
@@ -16,29 +18,19 @@ const ServerStatusContext = createContext<ServerStatusState>({ phase: "loading" 
  * Nếu lấy lỗi thì giữ số liệu cũ. Chưa có số liệu nào thì ẩn cụm thay vì hiện số sai.
  */
 export function ServerStatusProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<ServerStatusState>({ phase: "loading" });
-
-  useEffect(() => {
-    const controller = new AbortController();
-    let active = true;
-    const load = () => {
-      getServerStatus({ signal: controller.signal })
-        .then((status) => {
-          if (active) setState({ phase: "ready", status });
-        })
-        .catch(() => {
-          if (active)
-            setState((current) => (current.phase === "ready" ? current : { phase: "unknown" }));
-        });
-    };
-    load();
-    const timer = setInterval(load, REFRESH_MS);
-    return () => {
-      active = false;
-      controller.abort();
-      clearInterval(timer);
-    };
-  }, []);
+  const query = useQuery(
+    {
+      queryKey: ["server/status"],
+      queryFn: ({ signal }) => getServerStatus({ signal }),
+      refetchInterval: REFRESH_MS,
+    },
+    queryClient,
+  );
+  const { data, isError } = query;
+  const state = useMemo<ServerStatusState>(() => {
+    if (data) return { phase: "ready", status: data };
+    return isError ? { phase: "unknown" } : { phase: "loading" };
+  }, [data, isError]);
 
   return <ServerStatusContext.Provider value={state}>{children}</ServerStatusContext.Provider>;
 }

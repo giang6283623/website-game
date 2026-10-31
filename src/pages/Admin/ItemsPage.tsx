@@ -32,6 +32,7 @@ export function ItemsPage() {
     `${PATH}${buildQuery(params, changes, { trang: "1" })}`;
 
   const resource = useResource(
+    "admin/items",
     (signal) => getAdminItems({ loai: group, q: query || undefined, trang: page }, { signal }),
     [group, query, page],
     { isEmpty: (data) => data.items.length === 0 },

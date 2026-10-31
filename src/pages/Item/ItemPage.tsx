@@ -21,7 +21,7 @@ const OTHERS = 4;
 /** Chi tiết vật phẩm (E1-S5). Vật phẩm không có hoặc bị ẩn thì hiện trang 404. */
 export function ItemPage() {
   const { slug = "" } = useParams();
-  const item = useResource((signal) => getItem(slug, { signal }), [slug]);
+  const item = useResource("item", (signal) => getItem(slug, { signal }), [slug]);
   const found = item.status === "success" ? item.data : null;
 
   usePageMeta({ title: found ? copy.pageTitle(found.name) : undefined });
@@ -29,6 +29,7 @@ export function ItemPage() {
   // Vật phẩm cùng nhóm. Lấy thêm một món để còn đủ bốn khi bỏ chính vật phẩm đang xem.
   const group = found?.group;
   const others = useResource(
+    "item/others",
     (signal) => getItemList({ loai: group, limit: OTHERS + 1 }, { signal }),
     [group],
     { enabled: group !== undefined },

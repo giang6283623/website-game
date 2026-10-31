@@ -66,7 +66,7 @@ function stepAction(step: (typeof copy.guide.steps)[number], info: DownloadInfo 
 /** Tải game và Hướng dẫn (E1-S6). Phiên bản, dung lượng, ngày và yêu cầu máy lấy từ API, các bước và hỏi đáp là nội dung tĩnh. */
 export function Download() {
   // Bộ cài chưa sẵn sàng (available = false) thì coi như rỗng: ẩn khung tải, chỉ giữ hướng dẫn.
-  const info = useResource((signal) => getDownloadInfo({ signal }), [], {
+  const info = useResource("download", (signal) => getDownloadInfo({ signal }), [], {
     isEmpty: (value) => !value.available,
   });
   const data = info.status === "success" || info.status === "empty" ? info.data : null;

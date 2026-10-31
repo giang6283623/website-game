@@ -88,7 +88,7 @@ function validate(values: FormValues): { errors: FormErrors; draft: BannerDraft 
 
 /** Quản trị banner (E4-S7): danh sách, công tắc, xem trước và khung sửa. Bật một banner thì máy chủ tắt banner đang hiện. */
 export function BannersPage() {
-  const resource = useResource((signal) => getAdminBanners({ signal }), [], {
+  const resource = useResource("admin/banners", (signal) => getAdminBanners({ signal }), [], {
     isEmpty: (data) => data.banners.length === 0,
   });
   const banners = resource.status === "success" ? resource.data.banners : null;

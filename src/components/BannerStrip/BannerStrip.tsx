@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Link } from "react-router";
 import { getBanner } from "../../api/endpoints.ts";
-import type { Banner } from "../../api/schemas.ts";
 import { SHARED_COPY } from "../../content/shared.ts";
+import { queryClient } from "../../lib/query-client.ts";
 import "./BannerStrip.css";
 
 const CLOSED_KEY = "issvn.banner.closed";
@@ -37,20 +38,15 @@ function linkKind(url: string | null): "internal" | "external" | null {
  * Người dùng đóng được trong phiên (lưu mã banner đã đóng ở `sessionStorage`). Lỗi API thì ẩn dải, không báo lỗi.
  */
 export function BannerStrip() {
-  const [banner, setBanner] = useState<Banner | null>(null);
+  const { data } = useQuery(
+    { queryKey: ["banner"], queryFn: ({ signal }) => getBanner({ signal }) },
+    queryClient,
+  );
+  const [closedId, setClosedId] = useState<number | null>(null);
   const copy = SHARED_COPY.banner;
+  const banner = data?.banner ?? null;
 
-  useEffect(() => {
-    const controller = new AbortController();
-    getBanner({ signal: controller.signal })
-      .then((data) => {
-        if (data.banner && readClosedId() !== data.banner.id) setBanner(data.banner);
-      })
-      .catch(() => {});
-    return () => controller.abort();
-  }, []);
-
-  if (!banner) return null;
+  if (!banner || banner.id === closedId || banner.id === readClosedId()) return null;
 
   const kind = linkKind(banner.linkUrl);
   const href = banner.linkUrl ?? "";
@@ -77,7 +73,7 @@ export function BannerStrip() {
         aria-label={copy.close}
         onClick={() => {
           writeClosedId(banner.id);
-          setBanner(null);
+          setClosedId(banner.id);
         }}
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">

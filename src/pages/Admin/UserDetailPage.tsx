@@ -22,9 +22,14 @@ const detail = copy.detail;
 export function UserDetailPage() {
   const { id } = useParams();
   const userId = id !== undefined && /^\d{1,9}$/.test(id) ? Number(id) : null;
-  const resource = useResource((signal) => getAdminUser(userId ?? 0, { signal }), [userId], {
-    enabled: userId !== null,
-  });
+  const resource = useResource(
+    "admin/user",
+    (signal) => getAdminUser(userId ?? 0, { signal }),
+    [userId],
+    {
+      enabled: userId !== null,
+    },
+  );
 
   if (userId === null) return <MissingUser />;
   return (

@@ -19,9 +19,14 @@ export function Profile() {
   const copy = PROFILE_COPY;
   const auth = useAuth();
   const account = auth.account;
-  const characters = useResource((signal) => getMyCharacters({ signal }), [account?.id], {
-    enabled: account !== null,
-  });
+  const characters = useResource(
+    "me/characters",
+    (signal) => getMyCharacters({ signal }),
+    [account?.id],
+    {
+      enabled: account !== null,
+    },
+  );
   if (!account) return null;
 
   return (

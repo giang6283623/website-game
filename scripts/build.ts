@@ -5,10 +5,11 @@ import { basename, resolve } from "node:path";
 
 const root = resolve(import.meta.dir, "..");
 const outDir = resolve(root, "out");
+const apiMode = process.env.API_MODE ?? "mock";
 
 // In các giá trị đang dùng để thấy file .env nào đã được nạp (Bun chọn file theo NODE_ENV).
 console.log(
-  `build: NODE_ENV=${process.env.NODE_ENV ?? "(chưa đặt)"} API_MODE=${process.env.API_MODE ?? "mock"} SITE_URL=${process.env.SITE_URL || "(trống)"}`,
+  `build: NODE_ENV=${process.env.NODE_ENV ?? "(chưa đặt)"} API_MODE=${apiMode} SITE_URL=${process.env.SITE_URL || "(trống)"}`,
 );
 
 // Dọn out/ bằng trash (luật xóa an toàn của dự án). Không dùng rm.
@@ -40,8 +41,9 @@ const result = await Bun.build({
   publicPath: "/",
   define: {
     "process.env.NODE_ENV": JSON.stringify("production"),
-    // API giả đọc sample-data.json. Đặt API_MODE=real khi đã có máy chủ API thật (sau quyết định D-12).
-    "process.env.API_MODE": JSON.stringify(process.env.API_MODE ?? "mock"),
+    // mock: API giả chạy trong trình duyệt. mock-server: gọi mạng tới scripts/mock-server.ts.
+    // Đặt API_MODE=real khi đã có máy chủ API thật (sau quyết định D-12).
+    "process.env.API_MODE": JSON.stringify(apiMode),
     // Gốc địa chỉ công khai cho canonical và og:url. Để trống khi chưa chọn tên miền (D-08).
     "process.env.SITE_URL": JSON.stringify(process.env.SITE_URL ?? ""),
   },

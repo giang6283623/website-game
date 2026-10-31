@@ -367,6 +367,22 @@ Câu trong `message` và `fields` là câu tiếng Việt ở `CONTENT-COPY.md`,
 
 Bộ nhớ đệm: dữ liệu công khai gửi `Cache-Control: public, s-maxage=60, stale-while-revalidate=300` (xếp hạng: `s-maxage=120`). Dữ liệu cá nhân (`/me`, `/admin`) gửi `Cache-Control: private, no-store`.
 
+### 8.5 Xác thực ở bản giả và khi nối API thật
+
+Cookie an toàn ở đây là của máy chủ giả, chỉ để trải nghiệm. Khi có API thật, API thật quyết định cách xác thực, không giữ cookie của bản giả.
+
+Máy chủ giả (`bun run mock`) đặt cookie phiên `HttpOnly; SameSite=Lax; Path=/`, hết hạn sau 14 ngày không dùng. Máy chủ giả cũng đặt cookie đọc được `csrf_token` cho cả khách, vì đăng nhập và đăng ký cũng là yêu cầu ghi. `Secure` và tiền tố `__Host-`: đã đo trên Chrome, trình duyệt nhận cả trên `http://localhost` và `http://127.0.0.1`, nên máy chủ giả bật sẵn và cookie phiên tên là `__Host-issvn_session`. Trình duyệt không nhận: chưa đo Safari và Firefox. Nếu đăng nhập xong vẫn là khách, chạy `MOCK_SECURE_COOKIE=0 bun run mock` để tắt hai cờ này.
+
+Khi có phiên, máy chủ giả đặt thêm cookie đọc được `issvn_signed_in=1`, cùng thời hạn với cookie phiên, để giao diện chỉ hỏi `GET /api/v1/me` khi có cookie này. Cookie này chỉ là gợi ý, không cấp quyền gì, và chỉ có ở bản giả. Bản nối API thật luôn hỏi `GET /api/v1/me`. Bài, vật phẩm, banner, dòng nhật ký và tài khoản tạo mới ở máy chủ giả ghi giờ Việt Nam thật, không lùi dưới `meta.mockNow`. Dữ liệu mẫu và trạng thái banner vẫn theo `meta.mockNow`.
+
+Khi nối API thật, chỉ cần sửa `src/api/auth-transport.ts`:
+
+| API thật cung cấp | Website làm gì |
+| --- | --- |
+| Access token và refresh token | Theo API thật. Access token chỉ giữ trong bộ nhớ, không `localStorage`. Refresh theo đúng cách API đưa ra, ưu tiên cookie `HttpOnly` do máy chủ đặt. Khi 401 thì refresh một lần rồi gửi lại, nhiều yêu cầu cùng lúc chỉ refresh một lần |
+| Không có token, có cookie phiên riêng (như `ci_session`) | Theo API thật: giữ `withCredentials`, dùng tên cookie, thời hạn và cách chống CSRF của API đó. Đề nghị đội backend thêm `Secure` vì `ci_session` hiện thiếu cờ này |
+| Chỉ có mã trong thân yêu cầu (như `s_id`, `s_key`) | Theo API thật, nhưng qua máy chủ trung gian giữ mã phía server, không đưa xuống trình duyệt |
+
 ## 9. Quy tắc kiểm tra dữ liệu
 
 Kiểm tra ở cả hai nơi. Phía người dùng cho nhanh, phía máy chủ là bắt buộc.
@@ -453,7 +469,7 @@ Các quyết định đang chặn việc code:
 | D-08 | Tên miền: dùng lại `infestation.vn` (tức thay site cũ) hay tên miền mới? Hạ tầng đặt ở đâu? | Chuyển hướng, triển khai | Chưa triển khai được. Mục 6 chỉ cần khi thay site cũ |
 | D-09 | Quyền dùng hình lấy từ client game (A-20) | Mọi trang có hình | Rủi ro pháp lý khi mở công khai |
 | D-10 | "THÔNG BÁO TRONG GAME" gửi bằng kênh nào? | Quản trị bài viết | Ẩn mục này hoặc chỉ lưu cờ |
-| D-11 | Công nghệ dựng giao diện website | Mọi phần giao diện | Đã quyết ngày 29/10/2026: Bun, React, TypeScript, Zod, Axios, build tĩnh (`IMPLEMENTATION-PLAN.md` mục 2) |
+| D-11 | Công nghệ dựng giao diện website | Mọi phần giao diện | Đã quyết ngày 29/10/2026: Bun, React, TypeScript, Zod, Axios, Zustand, TanStack Query, build tĩnh (`IMPLEMENTATION-PLAN.md` mục 2) |
 | D-12 | Máy chủ API dùng công nghệ nào, đặt ở đâu, và có cùng site với giao diện không (cần cho cookie phiên)? | Mọi trang cần dữ liệu thật, đăng nhập, quản trị | Giao diện chạy với API giả đọc từ `sample-data.json`. Chưa có đăng nhập thật và dữ liệu thật |
 | D-13 | Chi tiết kỹ thuật giao diện do trợ lý tự chọn tạm: bộ dựng của Bun, React 19, React Router (chế độ thư viện), dựng sẵn HTML cho trang công khai bằng `react-dom/server`, API giả bằng bộ chuyển đổi của Axios, Bun làm trình quản lý gói và chạy kiểm thử (`bun test`) | Khung dự án, SEO, kiểm thử | Làm theo mặc định này. Nếu bước thử E0 thất bại thì dùng Vite chạy bằng Bun. Chủ dự án xem lại ở cuối phiên sau |
 

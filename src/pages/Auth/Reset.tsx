@@ -17,7 +17,7 @@ export function Reset() {
   const copy = AUTH_COPY.reset;
   const [params] = useSearchParams();
   const token = params.get("ma") ?? "";
-  const check = useResource((signal) => getResetCheck(token, { signal }), [token], {
+  const check = useResource("auth/reset", (signal) => getResetCheck(token, { signal }), [token], {
     enabled: token !== "",
   });
   const form = useForm({ password: "", passwordConfirm: "" });

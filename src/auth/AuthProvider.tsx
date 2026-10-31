@@ -1,55 +1,41 @@
-import {
-  createContext,
-  type ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { type ReactNode, useCallback, useEffect, useMemo } from "react";
+import { mayHaveSession } from "../api/auth-transport.ts";
 import { onApiEvent } from "../api/client.ts";
 import { getMe, postLogout } from "../api/endpoints.ts";
 import type { Account } from "../api/schemas.ts";
+import { type AuthState, setAuth, useAuthStore } from "./auth-store.ts";
 
-export type AuthStatus = "loading" | "guest" | "user";
+export type { AuthStatus } from "./auth-store.ts";
 
-export type AuthValue = {
-  status: AuthStatus;
-  account: Account | null;
+export type AuthValue = AuthState & {
   isAdmin: boolean;
-  /** Đúng khi người dùng vừa tự đăng xuất. Cổng trang riêng tư dùng cờ này để về trang chủ thay vì tới đăng nhập. */
-  signedOut: boolean;
   /** Gọi sau khi đăng nhập thành công để lưu tài khoản. */
   setAccount: (account: Account) => void;
   signOut: () => Promise<void>;
 };
 
-const AuthContext = createContext<AuthValue | null>(null);
-
 /**
- * Giữ trạng thái đăng nhập của cả ứng dụng. Chỉ hỏi /me trên trình duyệt (không hỏi lúc dựng sẵn HTML).
- * Trong lúc chờ, giao diện coi như khách để HTML dựng sẵn và lần vẽ đầu giống nhau.
+ * Hỏi /me khi ứng dụng chạy trên trình duyệt (không hỏi lúc dựng sẵn HTML) và theo dõi sự kiện 401.
+ * Trạng thái nằm ở auth-store.ts. Trong lúc chờ, giao diện coi như khách để HTML dựng sẵn và lần vẽ đầu giống nhau.
  * Quyền thật luôn do API kiểm tra. Ở đây chỉ để chọn đầu trang và cổng điều hướng.
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<{
-    status: AuthStatus;
-    account: Account | null;
-    signedOut: boolean;
-  }>({ status: "loading", account: null, signedOut: false });
-
   useEffect(() => {
     let active = true;
-    getMe()
-      .then((account) => {
-        if (active) setState({ status: "user", account, signedOut: false });
-      })
-      .catch(() => {
-        if (active) setState({ status: "guest", account: null, signedOut: false });
-      });
+    if (mayHaveSession()) {
+      getMe()
+        .then((account) => {
+          if (active) setAuth({ status: "user", account, signedOut: false });
+        })
+        .catch(() => {
+          if (active) setAuth({ status: "guest", account: null, signedOut: false });
+        });
+    } else {
+      setAuth({ status: "guest", account: null, signedOut: false });
+    }
     const off = onApiEvent((event) => {
       if (event.type === "unauthorized") {
-        setState({ status: "guest", account: null, signedOut: false });
+        setAuth({ status: "guest", account: null, signedOut: false });
       }
     });
     return () => {
@@ -58,8 +44,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  return children;
+}
+
+export function useAuth(): AuthValue {
+  const state = useAuthStore();
+
   const setAccount = useCallback(
-    (account: Account) => setState({ status: "user", account, signedOut: false }),
+    (account: Account) => setAuth({ status: "user", account, signedOut: false }),
     [],
   );
 
@@ -67,27 +59,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await postLogout();
     } finally {
-      setState({ status: "guest", account: null, signedOut: true });
+      setAuth({ status: "guest", account: null, signedOut: true });
     }
   }, []);
 
-  const value = useMemo<AuthValue>(
-    () => ({
-      status: state.status,
-      account: state.account,
-      isAdmin: state.account?.role === "admin",
-      signedOut: state.signedOut,
-      setAccount,
-      signOut,
-    }),
+  return useMemo<AuthValue>(
+    () => ({ ...state, isAdmin: state.account?.role === "admin", setAccount, signOut }),
     [state, setAccount, signOut],
   );
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth(): AuthValue {
-  const value = useContext(AuthContext);
-  if (!value) throw new Error("useAuth phải nằm trong AuthProvider.");
-  return value;
 }

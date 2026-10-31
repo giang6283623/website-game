@@ -10,6 +10,7 @@ import {
 } from "react";
 import { useLocation } from "react-router";
 import { SHARED_COPY } from "../../content/shared.ts";
+import { blocksIndexing } from "../../lib/api-mode.ts";
 import { type Chrome, matchRoute } from "../../routes.ts";
 import { applyHead, buildHead } from "../../seo.ts";
 import { BannerStrip } from "../BannerStrip/BannerStrip.tsx";
@@ -37,7 +38,7 @@ export function usePageMeta(meta: { title?: string; description?: string; chrome
 
 const SITE_URL: string | undefined = process.env.SITE_URL || undefined;
 /** Bản dựng dùng API giả chặn lập chỉ mục, cùng quy tắc với scripts/prerender.tsx (C-91). */
-const BLOCK_INDEXING = process.env.API_MODE === "mock";
+const BLOCK_INDEXING = blocksIndexing(process.env.API_MODE);
 
 /**
  * Khung chung của mọi trang: liên kết bỏ qua, thanh trạng thái, đầu trang, nội dung, chân trang và TabBar.

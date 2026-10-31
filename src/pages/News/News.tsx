@@ -36,6 +36,7 @@ export function News() {
   });
 
   const resource = useResource(
+    "news",
     (signal) => getNewsList({ loai: category || null, trang: page, limit: PAGE_SIZE }, { signal }),
     [category, page],
     { isEmpty: (data) => data.items.length === 0 && data.featured === null },

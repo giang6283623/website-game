@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildRobotsTxt } from "../scripts/lib/robots.ts";
+import { blocksIndexing } from "../src/lib/api-mode.ts";
 import {
   matchRoute,
   NOT_FOUND_ROUTE,
@@ -230,5 +231,15 @@ describe("headToHtml và applyHead", () => {
     expect(metas[0]?.getAttribute("content")).toBe("b");
     expect(document.head.contains(keep)).toBe(true);
     keep.remove();
+  });
+});
+
+describe("API_MODE và chặn lập chỉ mục", () => {
+  test("mock và mock-server đều chặn, giá trị lạ cũng chặn, chỉ real mới cho phép", () => {
+    expect(blocksIndexing("mock")).toBe(true);
+    expect(blocksIndexing("mock-server")).toBe(true);
+    expect(blocksIndexing("mock_server")).toBe(true);
+    expect(blocksIndexing(undefined)).toBe(true);
+    expect(blocksIndexing("real")).toBe(false);
   });
 });

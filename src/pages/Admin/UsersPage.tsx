@@ -48,6 +48,7 @@ export function UsersPage() {
     `${PATH}${buildQuery(params, changes, { loc: "tat-ca", trang: "1" })}`;
 
   const resource = useResource(
+    "admin/users",
     (signal) =>
       getAdminUsers({ ...PARAMS_OF[filter], q: query || undefined, trang: page }, { signal }),
     [filter, query, page],

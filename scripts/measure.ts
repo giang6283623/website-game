@@ -1,9 +1,9 @@
-// Đo dung lượng gói tải ban đầu của out/ (E0-S1). Ngân sách: JavaScript tải ban đầu 150 KB nén gzip.
+// Đo dung lượng gói tải ban đầu của out/ (E0-S1). Ngân sách: JavaScript tải ban đầu 165 KB nén gzip.
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const root = resolve(import.meta.dir, "..", "out");
-const BUDGET_JS_GZIP = 150 * 1024;
+const BUDGET_JS_GZIP = 165 * 1024;
 const kb = (bytes: number) => `${(bytes / 1024).toFixed(1)} KB`;
 
 if (!existsSync(join(root, "index.html"))) {

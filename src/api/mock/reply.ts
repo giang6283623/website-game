@@ -1,6 +1,23 @@
 // Kiểu và hàm dựng phản hồi dùng chung cho các bộ xử lý của API giả.
+import type { Session } from "./session.ts";
+
 export type Query = Record<string, string | undefined>;
-export type Reply = { status: number; data: unknown; headers?: Record<string, string> };
+
+/** Việc bên gọi lõi phải làm với phiên. Lõi không tự giữ phiên. */
+export type SessionEffect =
+  | { type: "sign-in"; session: Session }
+  | { type: "sign-out" }
+  /** Hủy mọi phiên của người đang gọi rồi cấp phiên mới cho chính họ (đổi mật khẩu). */
+  | { type: "rotate" }
+  /** Hủy mọi phiên của một tài khoản (đặt lại mật khẩu, khóa tài khoản). */
+  | { type: "revoke"; email: string };
+
+export type Reply = {
+  status: number;
+  data: unknown;
+  headers?: Record<string, string>;
+  effect?: SessionEffect;
+};
 
 export const ok = (data: unknown): Reply => ({ status: 200, data });
 export const created = (data: unknown): Reply => ({ status: 201, data });

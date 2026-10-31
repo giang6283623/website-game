@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { normalizeError, REQUEST_TIMEOUT_MS } from "../api/client.ts";
 import { ApiError } from "../api/errors.ts";
+import { queryClient } from "../lib/query-client.ts";
 
 export type ResourceState<T> =
   | { status: "loading"; data: undefined; error: undefined }
@@ -21,63 +23,53 @@ type Options<T> = {
 
 const LOADING: ResourceState<never> = { status: "loading", data: undefined, error: undefined };
 
+/** Gọi `fetcher`, quá `timeoutMs` thì hủy và báo lỗi timeout. Mọi lỗi được chuẩn hóa thành ApiError. */
+function fetchWithTimeout<T>(
+  fetcher: (signal: AbortSignal) => Promise<T>,
+  signal: AbortSignal,
+  timeoutMs: number,
+): Promise<T> {
+  const controller = new AbortController();
+  signal.addEventListener("abort", () => controller.abort());
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      controller.abort();
+      reject(new ApiError({ status: 0, code: "timeout", message: "Quá thời gian chờ." }));
+    }, timeoutMs);
+    fetcher(controller.signal)
+      .then(resolve, (error: unknown) => reject(normalizeError(error)))
+      .finally(() => clearTimeout(timer));
+  });
+}
+
 /**
- * Lấy dữ liệu qua Axios và Zod, trả đủ ba trạng thái của ListState: đang tải, rỗng, lỗi (và thành công).
+ * Lấy dữ liệu qua Axios, Zod và TanStack Query, trả đủ ba trạng thái của ListState: đang tải, rỗng, lỗi (và thành công).
+ * `name` đặt tên cho loại dữ liệu. Cùng tên và cùng `deps` thì dùng chung dữ liệu đã nhớ.
  * `deps` là các giá trị làm dữ liệu đổi (bộ lọc, trang). Bộ lọc được giữ nguyên khi bấm "thử lại".
  */
 export function useResource<T>(
+  name: string,
   fetcher: (signal: AbortSignal) => Promise<T>,
   deps: readonly unknown[],
   options: Options<T> = {},
 ): Resource<T> {
   const { isEmpty, enabled = true, timeoutMs = REQUEST_TIMEOUT_MS } = options;
-  const [state, setState] = useState<ResourceState<T>>(LOADING);
-  const [attempt, setAttempt] = useState(0);
+  const query = useQuery<T, ApiError>(
+    {
+      queryKey: [name, ...deps],
+      queryFn: ({ signal }) => fetchWithTimeout(fetcher, signal, timeoutMs),
+      enabled,
+    },
+    queryClient,
+  );
+  const { refetch } = query;
+  const reload = useCallback(() => {
+    void refetch();
+  }, [refetch]);
 
-  const reload = useCallback(() => setAttempt((value) => value + 1), []);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: deps do người gọi chọn, fetcher luôn lấy bản mới nhất ở lần chạy này
-  useEffect(() => {
-    if (!enabled) return;
-    const controller = new AbortController();
-    let active = true;
-    setState(LOADING);
-
-    const timer = setTimeout(() => {
-      if (!active) return;
-      active = false;
-      controller.abort();
-      setState({
-        status: "error",
-        data: undefined,
-        error: new ApiError({ status: 0, code: "timeout", message: "Quá thời gian chờ." }),
-      });
-    }, timeoutMs);
-
-    fetcher(controller.signal)
-      .then((data) => {
-        if (!active) return;
-        active = false;
-        clearTimeout(timer);
-        setState(
-          isEmpty?.(data)
-            ? { status: "empty", data, error: undefined }
-            : { status: "success", data, error: undefined },
-        );
-      })
-      .catch((error: unknown) => {
-        if (!active) return;
-        active = false;
-        clearTimeout(timer);
-        setState({ status: "error", data: undefined, error: normalizeError(error) });
-      });
-
-    return () => {
-      active = false;
-      clearTimeout(timer);
-      controller.abort();
-    };
-  }, [...deps, attempt, enabled, timeoutMs]);
-
-  return { ...state, reload } as Resource<T>;
+  // Đang thử lại sau lỗi thì hiện Đang tải như lần đầu.
+  if (query.isPending || (query.isError && query.isFetching)) return { ...LOADING, reload };
+  if (query.isError) return { status: "error", data: undefined, error: query.error, reload };
+  const status = isEmpty?.(query.data) ? "empty" : "success";
+  return { status, data: query.data, error: undefined, reload };
 }

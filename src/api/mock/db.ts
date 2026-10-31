@@ -56,4 +56,15 @@ export function mockToday(): string {
   return MOCK_NOW.slice(0, 10);
 }
 
+const VIETNAM_OFFSET_MS = 7 * 60 * 60 * 1000;
+
+/**
+ * Giờ đóng dấu bản ghi mới ở máy chủ giả: giờ Việt Nam, cùng dạng với dữ liệu mẫu nên so và sắp theo chữ vẫn đúng.
+ * Không lùi dưới giờ mẫu, để bản ghi mới không nằm dưới dữ liệu mẫu khi đồng hồ máy chạy sai.
+ */
+export function stampAt(ms: number): string {
+  const text = `${new Date(ms + VIETNAM_OFFSET_MS).toISOString().slice(0, 19)}+07:00`;
+  return text > MOCK_NOW ? text : MOCK_NOW;
+}
+
 export type MockDb = typeof db;

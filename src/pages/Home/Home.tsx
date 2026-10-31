@@ -158,6 +158,7 @@ function Steps() {
 
 function LatestNews() {
   const resource = useResource(
+    "home/news",
     async (signal) => {
       const list = await getNewsList({ trang: 1, limit: 5 }, { signal });
       return [...(list.featured ? [list.featured] : []), ...list.items].slice(0, 5);
@@ -191,6 +192,7 @@ function LatestNews() {
 
 function TopPlayers() {
   const resource = useResource(
+    "home/ranking",
     async (signal) => {
       const ranking = await getRanking({ bang: "gamedollar", limit: 5 }, { signal });
       return ranking.rows.filter((row): row is PlayerRow => "playerName" in row);
@@ -224,6 +226,7 @@ function TopPlayers() {
 
 function FeaturedItems() {
   const resource = useResource(
+    "home/items",
     async (signal) => {
       const results = await Promise.allSettled(
         copy.items.slugs.map((slug) => getItem(slug, { signal })),

@@ -6,6 +6,7 @@ import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { renderApp } from "../src/entry-server.tsx";
+import { blocksIndexing } from "../src/lib/api-mode.ts";
 import { matchRoute, NOT_FOUND_ROUTE, prerenderPaths, SITE_NAME } from "../src/routes.ts";
 import { buildHead, escapeText, headToHtml } from "../src/seo.ts";
 import { BROKEN_IMAGE_TAG } from "./lib/broken-image-script.ts";
@@ -17,8 +18,9 @@ import { buildRobotsTxt } from "./lib/robots.ts";
 const root = resolve(import.meta.dir, "..");
 const outDir = resolve(root, "out");
 const siteUrl = process.env.SITE_URL || undefined;
-// Cùng mặc định với scripts/build.ts: không đặt API_MODE thì là "mock". Bản mock chặn lập chỉ mục (C-91).
-const blockIndexing = (process.env.API_MODE ?? "mock") === "mock";
+// Cùng mặc định với scripts/build.ts: không đặt API_MODE thì là "mock". Bản giả chặn lập chỉ mục (C-91).
+const apiMode = process.env.API_MODE ?? "mock";
+const blockIndexing = blocksIndexing(apiMode);
 
 const template = await Bun.file(resolve(outDir, "index.html")).text();
 for (const marker of ["<!--head-tags-->", "<!--app-html-->", "<!--noscript-html-->"]) {
@@ -113,7 +115,7 @@ written.push("robots.txt");
 
 if (blockIndexing) {
   console.log(
-    "prerender: API_MODE=mock nên chặn lập chỉ mục (robots.txt, thẻ noindex) và bỏ sitemap.xml, canonical, og:url (C-91).",
+    `prerender: API_MODE=${apiMode} nên chặn lập chỉ mục (robots.txt, thẻ noindex) và bỏ sitemap.xml, canonical, og:url (C-91).`,
   );
 } else if (siteUrl) {
   const base = siteUrl.replace(/\/+$/, "");

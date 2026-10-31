@@ -2,6 +2,7 @@
 .DS_Store
 node_modules/
 out/
+.mock-data/
 # Ghi đè riêng từng máy. Bun nạp .env.local sau .env.development và .env.production
 .env.local
 .env.*.local

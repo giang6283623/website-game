@@ -1,7 +1,14 @@
-// Khách Axios dùng chung (E0-S7). baseURL /api/v1, gửi cookie, gắn X-CSRF-Token cho yêu cầu ghi,
-// chuẩn hóa lỗi và báo các mã 401, 403, 429 qua một kênh sự kiện.
-import axios, { type AxiosAdapter, type AxiosError, type AxiosInstance } from "axios";
+// Khách Axios dùng chung (E0-S7). baseURL /api/v1. Cách xác thực nằm ở auth-transport.ts.
+// Chuẩn hóa lỗi và báo các mã 401, 403, 429 qua một kênh sự kiện.
+import axios, {
+  type AxiosAdapter,
+  type AxiosError,
+  type AxiosInstance,
+  type AxiosResponse,
+} from "axios";
 import type { ZodType } from "zod";
+import { dropInactiveQueries } from "../lib/query-client.ts";
+import { AUTH_REQUEST_CONFIG, attachAuth, isWriteMethod } from "./auth-transport.ts";
 import { ApiError, type ApiErrorCode, codeForStatus } from "./errors.ts";
 import { apiErrorBodySchema } from "./schemas.ts";
 
@@ -27,15 +34,6 @@ export function onApiEvent(listener: (event: ApiEvent) => void): () => void {
 function emit(event: ApiEvent): void {
   for (const listener of listeners) listener(event);
 }
-
-/** Mã CSRF do máy chủ đặt trong cookie đọc được (không phải cookie phiên). */
-export function readCsrf(): string | null {
-  if (typeof document === "undefined") return null;
-  const match = /(?:^|;\s*)csrf_token=([^;]+)/.exec(document.cookie);
-  return match?.[1] ? decodeURIComponent(match[1]) : null;
-}
-
-const SAFE_METHODS = new Set(["get", "head", "options"]);
 
 export function normalizeError(error: unknown): ApiError {
   if (error instanceof ApiError) return error;
@@ -71,22 +69,20 @@ export function normalizeError(error: unknown): ApiError {
 export function createApiClient(options: { adapter?: AxiosAdapter } = {}): AxiosInstance {
   const client = axios.create({
     baseURL: API_BASE_URL,
-    withCredentials: true,
+    ...AUTH_REQUEST_CONFIG,
     timeout: REQUEST_TIMEOUT_MS,
     headers: { Accept: "application/json" },
     ...(options.adapter ? { adapter: options.adapter } : {}),
   });
 
-  client.interceptors.request.use((config) => {
-    const method = (config.method ?? "get").toLowerCase();
-    if (!SAFE_METHODS.has(method)) {
-      const csrf = readCsrf();
-      if (csrf) config.headers.set("X-CSRF-Token", csrf);
-    }
-    return config;
-  });
+  client.interceptors.request.use(attachAuth);
 
-  client.interceptors.response.use(undefined, (error: unknown) => {
+  const onSuccess = (response: AxiosResponse) => {
+    if (isWriteMethod(response.config.method)) dropInactiveQueries();
+    return response;
+  };
+
+  client.interceptors.response.use(onSuccess, (error: unknown) => {
     const apiError = normalizeError(error);
     if (apiError.status === 401) emit({ type: "unauthorized" });
     else if (apiError.status === 403) emit({ type: "forbidden" });
@@ -98,7 +94,7 @@ export function createApiClient(options: { adapter?: AxiosAdapter } = {}): Axios
   return client;
 }
 
-/** API giả chỉ nạp khi API_MODE là "mock". Gói API giả nằm riêng, không vào gói tải ban đầu. */
+/** API giả chạy trong trình duyệt chỉ nạp khi API_MODE là "mock". Gói này nằm riêng, không vào gói tải ban đầu. */
 const mockAdapter: AxiosAdapter = async (config) => {
   const { handleMockRequest } = await import("./mock/adapter.ts");
   return handleMockRequest(config);

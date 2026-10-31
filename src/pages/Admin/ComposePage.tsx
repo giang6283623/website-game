@@ -52,6 +52,7 @@ export function ComposePage() {
   const editingId = id !== undefined && /^\d{1,9}$/.test(id) ? Number(id) : null;
   const invalid = id !== undefined && editingId === null;
   const resource = useResource(
+    "admin/news/post",
     (signal) => getAdminNewsPost(editingId ?? 0, { signal }),
     [editingId],
     {
@@ -127,6 +128,7 @@ function ComposeForm({ post }: { post: NewsPost | null }) {
   useUnsavedGuard(dirty && !saving, text.leave);
 
   const recent = useResource(
+    "admin/news/recent",
     (signal) => getAdminNews({ status: "published", limit: 5 }, { signal }),
     [],
   );

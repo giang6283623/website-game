@@ -51,6 +51,7 @@ export function PostsPage() {
     `${PATH}${buildQuery(params, changes, { loc: "tat-ca", trang: "1" })}`;
 
   const resource = useResource(
+    "admin/news",
     (signal) =>
       getAdminNews({ status: STATUS_OF[filter], q: query || undefined, trang: page }, { signal }),
     [filter, query, page],

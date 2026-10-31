@@ -2,7 +2,7 @@
 
 Tệp này là kế hoạch để một phiên làm việc sau này bắt đầu code ngay, không phải hỏi lại những điều đã có trong thiết kế. Phần giao diện đã được code theo kế hoạch này và chạy bằng API giả. Chưa có máy chủ API thật (hạng mục E6).
 
-Chủ dự án đã chọn công nghệ giao diện ngày 29/10/2026: Bun, React, TypeScript, Zod, Axios và build tĩnh (D-11). Phần máy chủ API (D-12) và các chi tiết kỹ thuật tạm do trợ lý chọn (D-13) còn chờ chủ dự án xem lại ở mục 11. Mọi thứ khác trong tệp là **đề xuất**.
+Chủ dự án đã chọn công nghệ giao diện ngày 29/10/2026: Bun, React, TypeScript, Zod, Axios, Zustand, TanStack Query và build tĩnh (D-11). Phần máy chủ API (D-12) và các chi tiết kỹ thuật tạm do trợ lý chọn (D-13) còn chờ chủ dự án xem lại ở mục 11. Mọi thứ khác trong tệp là **đề xuất**.
 
 ## 1. Cách dùng tài liệu bàn giao
 
@@ -47,7 +47,7 @@ Dù chọn gì, phải giữ:
 - Trang công khai đọc được khi **không có JavaScript**: tiêu đề, đoạn chữ chính và liên kết nằm trong HTML dựng sẵn. Với danh sách lấy dữ liệu lúc chạy (Tin tức, Kho đồ, Xếp hạng), mục tiêu này chỉ đạt đủ khi API cho phép dựng sẵn dữ liệu trang đầu (D-12). Trước đó, trang hiện khung đang tải và một dòng `noscript` (chữ do chủ dự án duyệt khi code).
 - Hợp đồng dữ liệu ở `ROUTES-AND-DATA.md`.
 - Token từ `design-values.json` được chuyển thành biến CSS bằng một bước tự động, không chép tay.
-- Mã quản trị tải lười (lazy) để không nằm trong gói JavaScript của trang công khai (ngân sách 150 KB ở mục 7).
+- Mã quản trị tải lười (lazy) để không nằm trong gói JavaScript của trang công khai (ngân sách 165 KB ở mục 7).
 - Không đặt bí mật nào trong mã giao diện. Mọi tệp tĩnh đều công khai.
 
 ## 3. Cấu trúc thư mục đề xuất
@@ -199,7 +199,7 @@ Ngân sách (lấy từ `DESIGN-SPEC.md` mục 10):
 | LCP (điện thoại, mạng chậm) | 2,5 giây hoặc ít hơn |
 | CLS | 0,05 hoặc ít hơn |
 | INP | 200 ms hoặc ít hơn |
-| JavaScript tải ban đầu (nén) | 150 KB hoặc ít hơn |
+| JavaScript tải ban đầu (nén) | 165 KB hoặc ít hơn |
 | Phông chữ | 120 KB hoặc ít hơn |
 | Tổng trang chủ trên điện thoại | 700 KB hoặc ít hơn |
 
@@ -244,7 +244,7 @@ Không để giá trị thật trong mã nguồn hay trong tài liệu. Có tệ
 | API khác tên miền với giao diện | Vừa | Cookie phiên và CSRF không chạy | Đặt API cùng site (cùng tên miền gốc, ví dụ đường dẫn `/api` qua máy chủ trung gian). Ghi vào D-12 |
 | Bộ dựng gốc của Bun chưa đủ cho dựng sẵn HTML | Vừa | Mất thời gian ở E0 | Làm bước thử ở E0-S1. Phương án dự phòng là Vite chạy bằng Bun |
 | SEO yếu ở danh sách lấy dữ liệu lúc chạy | Vừa | Công cụ tìm kiếm thấy khung trống | Dựng sẵn dữ liệu trang đầu khi có API. Dựng sẵn đủ chữ cho trang chi tiết |
-| Gói JavaScript vượt 150 KB | Vừa | Chậm trên điện thoại | Tải lười mã quản trị, đo ở E0-S1 và E5-S2 |
+| Gói JavaScript vượt 165 KB | Vừa | Chậm trên điện thoại | Tải lười mã quản trị, đo ở E0-S1 và E5-S2 |
 | Tài khoản website tách khỏi game | Vừa | Người chơi phải có hai tài khoản | Quyết định D-01 sớm. Nếu tách, nói rõ trên giao diện |
 | Quyền dùng hình game chưa rõ | Vừa | Có thể phải gỡ hình | Xác nhận trước khi mở công khai. Giữ `ASSET-MAP.md` để thay hình nhanh |
 | Phông chữ hiển thị sai dấu tiếng Việt | Thấp | Chữ xấu hoặc rơi sang phông khác | Kiểm tra bộ ký tự ở E0-S3 |
