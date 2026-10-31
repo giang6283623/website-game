@@ -1,12 +1,17 @@
 // Máy chủ thử cho out/ (E0-S1). Chạy có giới hạn thời gian và bộ nhớ, không bao giờ chạy trần.
 // Quy tắc giống một máy chủ web tĩnh thật: tệp có thật thì trả tệp, thư mục thì trả index.html,
 // đường dẫn của ứng dụng chưa dựng sẵn (trang riêng tư, trang chi tiết) trả 200.html mã 200, còn lại trả 404.html mã 404.
+// Khi API_SOURCE=game, ba đường dẫn đọc của /api/v1/server/status và /api/v1/source/* do máy chủ này trả,
+// lấy dữ liệu công khai từ máy chủ game cũ (xem src/api/source/handler.ts). Phần còn lại của /api/v1 chưa có.
 import { existsSync, statSync } from "node:fs";
 import { extname, join, normalize, resolve, sep } from "node:path";
+import { handleSourceRequest } from "../src/api/source/handler.ts";
 import { matchRoute, NOT_FOUND_ROUTE } from "../src/routes.ts";
 
 const root = resolve(import.meta.dir, "..", "out");
 const port = Number(process.env.PORT ?? 4173);
+/** "mock" (mặc định): không có API thật. "game": bật phần đọc nguồn game. */
+const apiSource = process.env.API_SOURCE ?? "mock";
 
 if (!existsSync(join(root, "index.html"))) {
   console.error("serve: chưa có out/. Chạy bun run build trước.");
@@ -53,8 +58,13 @@ function send(file: string, status = 200): Response {
 const server = Bun.serve({
   hostname: "127.0.0.1",
   port,
-  fetch(request) {
+  async fetch(request) {
     const { pathname } = new URL(request.url);
+    // Phần đọc nguồn game (chỉ đọc, không phiên). Tắt khi API_SOURCE không phải "game".
+    if (apiSource === "game") {
+      const source = await handleSourceRequest(request.method, pathname);
+      if (source) return source;
+    }
     const file = fileFor(pathname);
     if (file) return send(file);
     // Có đuôi tệp mà không thấy tệp thì là 404 thật (hình, phông, script).
@@ -65,4 +75,6 @@ const server = Bun.serve({
   },
 });
 
-console.log(`serve: http://127.0.0.1:${server.port}/ (thư mục out/). Dừng bằng Ctrl+C.`);
+console.log(
+  `serve: http://127.0.0.1:${server.port}/ (thư mục out/). API_SOURCE=${apiSource}. Dừng bằng Ctrl+C.`,
+);
